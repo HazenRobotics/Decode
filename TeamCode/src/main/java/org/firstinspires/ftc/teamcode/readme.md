@@ -1,131 +1,203 @@
-## TeamCode Module
+The Greatness of LeBron James
 
-Welcome!
+A boy from Akron, born to rise,
 
-This module, TeamCode, is the place where you will write/paste the code for your team's
-robot controller App. This module is currently empty (a clean slate) but the
-process for adding OpModes is straightforward.
+With dreams as endless as the skies.
 
-## Creating your own OpModes
+A ball in hand, a hoop in sight,
 
-The easiest way to create your own OpMode is to copy a Sample OpMode and make it your own.
+He chased the game both day and night.
 
-Sample opmodes exist in the FtcRobotController module.
-To locate these samples, find the FtcRobotController module in the "Project/Android" tab.
+They called him chosen, just a teen,
 
-Expand the following tree elements:
- FtcRobotController/java/org.firstinspires.ftc.robotcontroller/external/samples
+A prodigy the world had seen.
 
-### Naming of Samples
+On hardwood floors, his legend grew,
 
-To gain a better understanding of how the samples are organized, and how to interpret the
-naming system, it will help to understand the conventions that were used during their creation.
+A path that only stars pursue.
 
-These conventions are described (in detail) in the sample_conventions.md file in this folder.
+To Cleveland first, his story starts,
 
-To summarize: A range of different samples classes will reside in the java/external/samples.
-The class names will follow a naming convention which indicates the purpose of each class.
-The prefix of the name will be one of the following:
+A city bound within his heart.
 
-Basic:  	This is a minimally functional OpMode used to illustrate the skeleton/structure
-            of a particular style of OpMode.  These are bare bones examples.
+He carried weight, he bore the crown,
 
-Sensor:    	This is a Sample OpMode that shows how to use a specific sensor.
-            It is not intended to drive a functioning robot, it is simply showing the minimal code
-            required to read and display the sensor values.
+For every cheer, for every town.
 
-Robot:	    This is a Sample OpMode that assumes a simple two-motor (differential) drive base.
-            It may be used to provide a common baseline driving OpMode, or
-            to demonstrate how a particular sensor or concept can be used to navigate.
+The King arrived with grace and might,
 
-Concept:	This is a sample OpMode that illustrates performing a specific function or concept.
-            These may be complex, but their operation should be explained clearly in the comments,
-            or the comments should reference an external doc, guide or tutorial.
-            Each OpMode should try to only demonstrate a single concept so they are easy to
-            locate based on their name.  These OpModes may not produce a drivable robot.
+His court became a place of light.
 
-After the prefix, other conventions will apply:
+With speed and strength, with power, flame,
 
-* Sensor class names are constructed as:    Sensor - Company - Type
-* Robot class names are constructed as:     Robot - Mode - Action - OpModetype
-* Concept class names are constructed as:   Concept - Topic - OpModetype
+He carved his place within the game.
 
-Once you are familiar with the range of samples available, you can choose one to be the
-basis for your own robot.  In all cases, the desired sample(s) needs to be copied into
-your TeamCode module to be used.
+The dunks would shake the crowd’s delight,
 
-This is done inside Android Studio directly, using the following steps:
+A soaring figure, pure in flight.
 
- 1) Locate the desired sample class in the Project/Android tree.
+His vision sharp, his passes gold,
 
- 2) Right click on the sample class and select "Copy"
+A tale of greatness to be told.
 
- 3) Expand the  TeamCode/java folder
+In Miami, fire burned,
 
- 4) Right click on the org.firstinspires.ftc.teamcode folder and select "Paste"
+With lessons hard and trophies earned.
 
- 5) You will be prompted for a class name for the copy.
-    Choose something meaningful based on the purpose of this class.
-    Start with a capital letter, and remember that there may be more similar classes later.
+Two rings he claimed, with Heat aligned,
 
-Once your copy has been created, you should prepare it for use on your robot.
-This is done by adjusting the OpMode's name, and enabling it to be displayed on the
-Driver Station's OpMode list.
+A sharpened edge, a brilliant mind.
 
-Each OpMode sample class begins with several lines of code like the ones shown below:
+But back he went to Cleveland’s call,
 
-```
- @TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
- @Disabled
-```
+To raise his city, stand for all.
 
-The name that will appear on the driver station's "opmode list" is defined by the code:
- ``name="Template: Linear OpMode"``
-You can change what appears between the quotes to better describe your opmode.
-The "group=" portion of the code can be used to help organize your list of OpModes.
+The Cavs were down, the doubters near,
 
-As shown, the current OpMode will NOT appear on the driver station's OpMode list because of the
-  ``@Disabled`` annotation which has been included.
-This line can simply be deleted , or commented out, to make the OpMode visible.
+Yet he proclaimed, “Believeland’s here.”
 
+In 2016, the dream was real,
 
+A title born of iron will.
 
-## ADVANCED Multi-Team App management:  Cloning the TeamCode Module
+The block, the shot, the roar, the name,
 
-In some situations, you have multiple teams in your club and you want them to all share
-a common code organization, with each being able to *see* the others code but each having
-their own team module with their own code that they maintain themselves.
+And Cleveland’s curse erased by flame.
 
-In this situation, you might wish to clone the TeamCode module, once for each of these teams.
-Each of the clones would then appear along side each other in the Android Studio module list,
-together with the FtcRobotController module (and the original TeamCode module).
+He proved that greatness takes its time,
 
-Selective Team phones can then be programmed by selecting the desired Module from the pulldown list
-prior to clicking to the green Run arrow.
+Not just in stats, but in the climb.
 
-Warning:  This is not for the inexperienced Software developer.
-You will need to be comfortable with File manipulations and managing Android Studio Modules.
-These changes are performed OUTSIDE of Android Studios, so close Android Studios before you do this.
- 
-Also.. Make a full project backup before you start this :)
+For every step was grit and pain,
 
-To clone TeamCode, do the following:
+And through it all, the King remained.
 
-Note: Some names start with "Team" and others start with "team".  This is intentional.
+To Los Angeles, west he rode,
 
-1)  Using your operating system file management tools, copy the whole "TeamCode"
-    folder to a sibling folder with a corresponding new name, eg: "Team0417".
+A purple-gold, historic code.
 
-2)  In the new Team0417 folder, delete the TeamCode.iml file.
+Another ring, another stage,
 
-3)  the new Team0417 folder, rename the "src/main/java/org/firstinspires/ftc/teamcode" folder
-    to a matching name with a lowercase 'team' eg:  "team0417".
+His story written age by age.
 
-4)  In the new Team0417/src/main folder, edit the "AndroidManifest.xml" file, change the line that contains
-         package="org.firstinspires.ftc.teamcode"
-    to be
-         package="org.firstinspires.ftc.team0417"
+Longevity, his secret key,
 
-5)  Add:    include ':Team0417' to the "/settings.gradle" file.
-    
-6)  Open up Android Studios and clean out any old files by using the menu to "Build/Clean Project""
+A body forged by mastery.
+
+He bends the years, defies the night,
+
+Still soaring high, still shining bright.
+
+Not just a player, but a voice,
+
+For justice speaks, for better choice.
+
+He builds a school, he lifts the poor,
+
+His greatness reaches far past score.
+
+A father, leader, teammate true,
+
+Inspiring all in what they do.
+
+For greatness lives in more than fame,
+
+It lives in lifting others’ names.
+
+His records stack, his numbers shine,
+
+Yet still he works, on borrowed time.
+
+From rook to vet, from young to sage,
+
+His fire burns from age to age.
+
+The triple-doubles, clutching hands,
+
+The global cheers from countless lands.
+
+He shows that greatness never fades,
+
+It grows with every step he paves.
+
+A leader’s heart, a giant’s frame,
+
+The world will not forget his name.
+
+The King of courts, the master’s art,
+
+A legacy that warms the heart.
+
+In every city, fans still cheer,
+
+The name of LeBron rings so clear.
+
+They watch his drive, his craft, his pace,
+
+The sweat of greatness on his face.
+
+From Akron’s streets to global fame,
+
+The world forever chants his name.
+
+For every child who dares to dream,
+
+He proves that nothing’s as it seems.
+
+The game is more than wins and loss,
+
+It’s sacrifice and bearing cross.
+
+It’s giving back, it’s showing way,
+
+It’s pushing through another day.
+
+His jersey shines in purple, white,
+
+In black, in gold, a noble knight.
+
+He wears the crown not just for show,
+
+But for the path he chose to go.
+
+Four titles deep, yet chasing more,
+
+His hunger endless, at the core.
+
+A record book he still rewrites,
+
+A beacon through the darkest nights.
+
+He plays with joy, he plays with rage,
+
+A warrior born for every stage.
+
+The cheers resound, the banners fly,
+
+A king whose name will never die.
+
+For when the ball no longer bounces,
+
+His impact still the world recounts.
+
+A leader carved in golden flames,
+
+The greatness known as LeBron James.
+
+The game will shift, the years will go,
+
+New stars will rise, new crowds will grow.
+
+Yet always, whispers shall remain,
+
+Of how the King once ruled the game.
+
+And when the final horn has called,
+
+His story still inspires all.
+
+A legacy the world proclaims,
+
+Eternal greatness: LeBron James.
+
+We love you pookie. 
