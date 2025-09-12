@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
 //Initial Testing, i.e messing around
-@TeleOp(group = "A", name = "AprilTag Test")
+@TeleOp(group = "A LeTeleOp", name = "LeAprilTag Test")
 public class AprilTagProcessorTesting extends LinearOpMode {
     Limelight3A limelight;
 
