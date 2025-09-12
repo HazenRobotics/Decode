@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -9,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 //Initial Testing, i.e messing around
-@TeleOp(group = "A", name = "LED Test")
-public class AprilTag_LED extends LinearOpMode {
+@TeleOp(group = "A LeTeleOp", name = "LeLED Test")
+public class AprilTagLEDTesting extends LinearOpMode {
     Limelight3A limelight;
     RevBlinkinLedDriver led;
     //No Idea what the unit of measurement,
