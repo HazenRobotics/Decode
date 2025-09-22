@@ -21,7 +21,7 @@ public class StarterRobot {
 
     public void drive()
     {
-        drive.drive(controller1.left_stick_y, controller1.left_stick_x);
+        drive.drive(controller1.left_stick_y, -controller1.right_stick_x);
     }
 
     public void shoot()
