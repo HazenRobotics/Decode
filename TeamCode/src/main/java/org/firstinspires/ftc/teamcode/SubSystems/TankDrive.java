@@ -29,7 +29,7 @@ public class TankDrive{
 
         //Issue with rotating
        left.setPower(forward + rotate);
-       right.setPower(forward + rotate);
+       right.setPower(forward - rotate);
 
 
     }

@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.robot.Robot;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot.StarterRobot;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
@@ -23,6 +24,11 @@ public class StarterRobotTeleOP extends LinearOpMode {
             robot.shoot();
             controller1.update();
             controller2.update();
+
+            telemetry.addLine("Use Left Joystick Y for movement, Right Joystick " +
+                    "X for rotation");
+            telemetry.addLine("Use Triggers for powering launcher");
+            telemetry.update();
 
         }
     }
