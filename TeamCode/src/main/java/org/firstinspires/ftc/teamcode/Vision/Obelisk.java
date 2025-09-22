@@ -61,21 +61,38 @@ public class Obelisk {
         {
                 initialize(allianceSide);
                 //method to check within range of goal. maybe calculate power(later)?
-                withinRange();
-
+                checkValidShoot();
         }
 
-        public void withinRange()
+        //Check if the robot is in Shooting Range
+        public void checkValidShoot()
         {
                 LLResult result = limelight.getLatestResult();
                 if (result != null && result.isValid()) {
                         double tx = result.getTx(); // How far left or right the target is (degrees)
                         double ty = result.getTy(); // How far up or down the target is (degrees)
-
+                        //Replace with check
                         if(Math.hypot(tx, ty) >= limit)
                         {
                                 led.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
                         }
                 }
+        }
+
+        public void shoot()
+        {
+                //Read Limelight x, y, and angle
+
+                LLResult result = limelight.getLatestResult();
+                if (result != null && result.isValid()) {
+                        double tx = result.getTx(); // How far left or right the target is (degrees)
+                        double ty = result.getTy(); // How far up or down the target is (degrees)
+
+                        //Use Projectile Motion formula
+                        //Assume the 435 rpm motor is used
+
+                }
+
+
         }
 }

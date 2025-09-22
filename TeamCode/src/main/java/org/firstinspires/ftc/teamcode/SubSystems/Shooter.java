@@ -10,9 +10,11 @@ public class Shooter {
     //Designers may test multiple motors
     //this class must be as modular as possible
     DcMotorEx leftMotor, rightMotor;
-    private String lmName = "leftMotor", rmName = "rightMotor";
+    private String lmName = "leftShooter", rmName = "rightShooter";
     private double defaultPower = 0.7;
     private boolean twoMotors = false;
+
+    //Add Two Servos for controlling the pushing of the ball
     public Shooter(HardwareMap hw)
     {
         leftMotor = hw.get(DcMotorEx.class, lmName);
