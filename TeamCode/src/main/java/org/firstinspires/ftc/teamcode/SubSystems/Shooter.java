@@ -14,6 +14,7 @@ public class Shooter {
     private double defaultPower = 0.7;
     private boolean twoMotors = false;
 
+
     //Add Two Servos for controlling the pushing of the ball
     public Shooter(HardwareMap hw)
     {
@@ -37,15 +38,29 @@ public class Shooter {
         twoMotors = true;
     }
 
-    public void shoot()
-    {
+    public void shoot() {
         if(!twoMotors)
         {
 
             leftMotor.setPower(defaultPower);
+
         }else {
             leftMotor.setPower(defaultPower);
             rightMotor.setPower(defaultPower);
+
+        }
+    }
+
+    public void reset() {
+        if(!twoMotors)
+        {
+
+            leftMotor.setPower(0);
+
+        }else {
+            leftMotor.setPower(0);
+            rightMotor.setPower(0);
+
         }
     }
 

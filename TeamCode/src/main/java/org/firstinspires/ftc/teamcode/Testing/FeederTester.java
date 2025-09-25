@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robot.StarterRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
-@TeleOp(name = "Feeder Test")
+@TeleOp(group = "A LeTeleOp", name = "LeFeeder Test")
 public class FeederTester extends LinearOpMode {
 
         Feeder feeder;
@@ -20,19 +20,12 @@ public class FeederTester extends LinearOpMode {
             waitForStart();
             while(opModeIsActive())
             {
-               if(controller1.left_bumper.onPress())
-               {
-                   feeder.feed();
-               }
-                if(controller1.right_bumper.onPress())
-                {
-                    feeder.reset();
-                }
+               feeder.feed(controller1.left_trigger.getTriggerValue() - controller1.right_trigger.getTriggerValue());
                 controller1.update();
                 controller2.update();
 
                telemetry.addLine(feeder.getData());
-                telemetry.addLine("Left Bumper and Right Bumper to Alternate Pos");
+                telemetry.addLine("Left and Right Triggers to control feeder");
                 telemetry.update();
 
             }
