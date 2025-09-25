@@ -41,6 +41,7 @@ public class Shooter {
     {
         if(!twoMotors)
         {
+
             leftMotor.setPower(defaultPower);
         }else {
             leftMotor.setPower(defaultPower);

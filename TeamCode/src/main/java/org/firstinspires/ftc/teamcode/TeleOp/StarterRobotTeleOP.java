@@ -8,10 +8,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot.StarterRobot;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
-@TeleOp(group = "A", name = "Starter Robot TeleOP" )
+@TeleOp(group = "A", name = "LeStarter Robot TeleOP" )
 public class StarterRobotTeleOP extends LinearOpMode {
     StarterRobot robot;
     GamepadEvents controller1, controller2;
+
     @Override
     public void runOpMode() throws InterruptedException {
         controller1 = new GamepadEvents(gamepad1);
@@ -27,7 +28,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
 
             telemetry.addLine("Use Left Joystick Y for movement, Right Joystick " +
                     "X for rotation");
-            telemetry.addLine("Use Triggers for powering launcher");
+            telemetry.addLine("Use Bumpers for launching ball");
             telemetry.update();
 
         }

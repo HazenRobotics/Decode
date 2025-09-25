@@ -12,6 +12,7 @@ public class StarterRobot {
     Shooter launcher;
     GamepadEvents controller1, controller2;
     Feeder feeder;
+    final long FEED_TIME_MILISECONDS = 2000;
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new TankDrive(hw);
@@ -27,12 +28,14 @@ public class StarterRobot {
         drive.drive(controller1.left_stick_y, -controller1.right_stick_x);
     }
 
-    public void shoot()
-    {
-        if(Math.abs(controller1.left_trigger.getTriggerValue()-controller1.right_trigger.getTriggerValue())>0) {
-            feeder.feed();
-            launcher.shoot(controller1.left_trigger.getTriggerValue() -controller1.right_trigger.getTriggerValue());
-        }
+    public void shoot() throws InterruptedException {
+        feeder.feed();
+//        if(controller1.left_bumper.onPress())
+//        {
+//            feeder.feed();
+//            Thread.sleep(FEED_TIME_MILISECONDS);
+////            launcher.shoot();
+//        }
 
 
     }
