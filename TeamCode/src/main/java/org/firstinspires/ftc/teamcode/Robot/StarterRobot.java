@@ -23,7 +23,6 @@ public class StarterRobot {
         feeder = new Feeder(hw);
 
     }
-
     public void drive()
     {
         drive.drive(controller1.left_stick_y, -controller1.right_stick_x);
