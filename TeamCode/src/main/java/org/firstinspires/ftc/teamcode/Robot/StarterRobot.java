@@ -3,19 +3,20 @@ package org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
+import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
 public class StarterRobot {
-    TankDrive drive;
+    MecanumDrive drive;
     Shooter launcher;
     GamepadEvents controller1, controller2;
     Feeder feeder;
     final long FEED_TIME_MILISECONDS = 400,  LAUNCHER_TIME_MILLISECONDS = 500;
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
-        drive = new TankDrive(hw);
+        drive = new MecanumDrive(hw);
         //drive = new MecanumDrive(hw);
         launcher = new Shooter(hw, "leftShooter");
         this.controller1 = controller1;
@@ -24,16 +25,16 @@ public class StarterRobot {
 
     }
     //comment out
-    public void drive()
-    {
-        drive.drive(controller1.left_stick_y, -controller1.right_stick_x);
-    }
-    //Mech Drive drive + imu reset method
 //    public void drive()
 //    {
-//        drive.drive(controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
+//        drive.drive(controller1.left_stick_y, -controller1.right_stick_x);
 //    }
-//
+    //Mech Drive drive + imu reset method
+    public void drive()
+    {
+        drive.drive(controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
+    }
+
 //    public void resetHeading()
 //    {
 //        drive.resetHeading();
