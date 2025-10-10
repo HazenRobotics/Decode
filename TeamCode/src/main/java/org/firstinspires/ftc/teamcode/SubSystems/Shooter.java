@@ -22,7 +22,7 @@ public class Shooter {
     {
         leftMotor = hw.get(DcMotorEx.class, lmName);
         rightMotor = hw.get(DcMotorEx.class, rmName);
-        limelight = hw.get(Limelight3A.class, limelightName);
+//        limelight = hw.get(Limelight3A.class, limelightName);
         twoMotors = true;
 
     }
@@ -30,7 +30,7 @@ public class Shooter {
     public Shooter(HardwareMap hw, String lmName)
     {
         leftMotor = hw.get(DcMotorEx.class, lmName);
-        limelight = hw.get(Limelight3A.class, limelightName);
+//        limelight = hw.get(Limelight3A.class, limelightName);
     }
 
     public Shooter(HardwareMap hw, String lmName, String rmName)
@@ -38,7 +38,7 @@ public class Shooter {
         leftMotor = hw.get(DcMotorEx.class, lmName);
         rightMotor = hw.get(DcMotorEx.class, rmName);
         rightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        limelight = hw.get(Limelight3A.class, limelightName);
+//        limelight = hw.get(Limelight3A.class, limelightName);
         twoMotors = true;
     }
 
@@ -85,7 +85,15 @@ public class Shooter {
 
     }
 
+//    public void getRPM()
+//    {
+//        leftMotor.getVelocity();
+//    }
 
+    public void setRPM(double rpm)
+    {
+        leftMotor.setPower(rpm/6000);
+    }
 
 
 }

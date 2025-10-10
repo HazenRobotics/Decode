@@ -12,7 +12,7 @@ public class testShooterProtoype extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Shooter shooter = new Shooter(hardwareMap,"leftMotor", "rightMotor");
+        Shooter shooter = new Shooter(hardwareMap,"shooter");
         GamepadEvents controller = new GamepadEvents(gamepad1);
         boolean flag = true;
 //        Shooter shooter = new Shooter();
