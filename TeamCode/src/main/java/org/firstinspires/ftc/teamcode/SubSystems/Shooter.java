@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,7 +11,8 @@ public class Shooter {
     //Designers may test multiple motors
     //this class must be as modular as possible
     DcMotorEx leftMotor, rightMotor;
-    private String lmName = "leftShooter", rmName = "rightShooter";
+    Limelight3A limelight;
+    private String lmName = "leftShooter", rmName = "rightShooter", limelightName = "limelight";
     private double defaultPower = 0.7;
     private boolean twoMotors = false;
 
@@ -20,6 +22,7 @@ public class Shooter {
     {
         leftMotor = hw.get(DcMotorEx.class, lmName);
         rightMotor = hw.get(DcMotorEx.class, rmName);
+        limelight = hw.get(Limelight3A.class, limelightName);
         twoMotors = true;
 
     }
@@ -27,7 +30,7 @@ public class Shooter {
     public Shooter(HardwareMap hw, String lmName)
     {
         leftMotor = hw.get(DcMotorEx.class, lmName);
-
+        limelight = hw.get(Limelight3A.class, limelightName);
     }
 
     public Shooter(HardwareMap hw, String lmName, String rmName)
@@ -35,6 +38,7 @@ public class Shooter {
         leftMotor = hw.get(DcMotorEx.class, lmName);
         rightMotor = hw.get(DcMotorEx.class, rmName);
         rightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        limelight = hw.get(Limelight3A.class, limelightName);
         twoMotors = true;
     }
 
@@ -80,6 +84,7 @@ public class Shooter {
            return leftMotor.getPower();
 
     }
+
 
 
 
