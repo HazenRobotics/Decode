@@ -11,8 +11,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class MecanumDrive {
     DcMotorEx leftTop, leftBottom, rightTop, rightBottom;
     IMU imu;
-    String leftTopName = "leftTopDrive", leftBottomName = "leftBottomDrive",
-            rightTopName = "rightTopDrive", rightBottomName = "rightBottomDrive", imuName = "imu";
+    String leftTopName = "FLM", leftBottomName = "BLM",
+            rightTopName = "FRM", rightBottomName = "BRM", imuName = "imu";
 
     public MecanumDrive(HardwareMap hw) {
         leftTop = hw.get(DcMotorEx.class, leftTopName);
@@ -23,11 +23,11 @@ public class MecanumDrive {
         leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        imu = hw.get(IMU.class, imuName);
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
-        imu.initialize(parameters);
+//        imu = hw.get(IMU.class, imuName);
+//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+//                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+//                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+//        imu.initialize(parameters);
     }
 
     public MecanumDrive(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
