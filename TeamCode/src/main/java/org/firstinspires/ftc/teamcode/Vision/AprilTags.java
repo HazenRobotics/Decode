@@ -6,7 +6,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
-public class Obelisk {
+public class AprilTags {
 
         String limelightName = "limelight";
         String ledName = "led";
@@ -14,7 +14,7 @@ public class Obelisk {
         Limelight3A limelight;
         RevBlinkinLedDriver led;
         //Need to calculate this
-        final double limit = 10.0;
+        final double limit = 0.0;
 
         //Read AprilTag, return a pattern:
         //20: Blue Goal
@@ -22,10 +22,10 @@ public class Obelisk {
         //22: Purple, Green, Purple
         //23: Purple, Purple, Green
         //24: Red Goal
-        public Obelisk(String side)
+        public AprilTags(String side)
         {
                 limelight = hardwareMap.get(Limelight3A.class, limelightName);
-                led = hardwareMap.get(RevBlinkinLedDriver.class, ledName);
+//                led = hardwareMap.get(RevBlinkinLedDriver.class, ledName);
 
                 if(side.equalsIgnoreCase("blue"))
                 {
@@ -74,7 +74,8 @@ public class Obelisk {
                         //Replace with check
                         if(Math.hypot(tx, ty) >= limit)
                         {
-                                led.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
+//                                led.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
+                                   //print some result
                         }
                 }
         }
