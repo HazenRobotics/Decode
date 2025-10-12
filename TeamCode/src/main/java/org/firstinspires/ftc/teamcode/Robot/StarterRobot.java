@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
+import org.firstinspires.ftc.teamcode.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
@@ -13,6 +14,8 @@ public class StarterRobot {
     Shooter launcher;
     GamepadEvents controller1, controller2;
     Feeder feeder;
+    Intake intake;
+    private final double RPM = 4000, INTAKE_SPEED = 0.8;
     final long FEED_TIME_MILISECONDS = 400,  LAUNCHER_TIME_MILLISECONDS = 500;
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
@@ -22,6 +25,7 @@ public class StarterRobot {
         this.controller1 = controller1;
         this.controller2 = controller2;
         feeder = new Feeder(hw);
+        intake = new Intake(hw);
 
     }
     //comment out
@@ -39,14 +43,25 @@ public class StarterRobot {
 //    {
 //        drive.resetHeading();
 //    }
+    public void intake()
+    {
 
+        intake.setPower(INTAKE_SPEED);
+    }
+    public void intakeAndShoot() throws InterruptedException {
+        if(controller1.left_bumper.onPress()) {
+            intake();
+            Thread.sleep(FEED_TIME_MILISECONDS);
+            shoot();
+        }
+
+    }
     public void shoot() throws InterruptedException {
 
-        if(controller1.left_bumper.onPress())
-        {
             //try threads to allow multiple functions running at same time
             Thread thread = new Thread(() -> {
-                launcher.shoot();
+//                launcher.shoot();
+                launcher.setRPM(RPM);
 
                 try {
 
@@ -76,7 +91,7 @@ public class StarterRobot {
                 throw new RuntimeException(e);
             }
 
-        }
+
         }
 
 

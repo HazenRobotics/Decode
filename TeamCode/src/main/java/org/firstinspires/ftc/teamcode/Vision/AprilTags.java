@@ -25,7 +25,7 @@ public class AprilTags {
         public AprilTags(String side)
         {
                 limelight = hardwareMap.get(Limelight3A.class, limelightName);
-                led = hardwareMap.get(RevBlinkinLedDriver.class, ledName);
+//                led = hardwareMap.get(RevBlinkinLedDriver.class, ledName);
 
                 if(side.equalsIgnoreCase("blue"))
                 {
