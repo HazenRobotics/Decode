@@ -27,4 +27,8 @@ public class Intake {
     {
         return intake.getPower();
     }
+    public String getData() {
+        return "Intake power: " + intake.getPower();
+    }
+
 }
