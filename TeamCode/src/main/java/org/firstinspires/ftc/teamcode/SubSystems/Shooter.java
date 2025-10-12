@@ -94,6 +94,13 @@ public class Shooter {
     {
         leftMotor.setPower(rpm/6000);
     }
+    public String getData() {
+        if (twoMotors) {
+            return "Left Shooter: " + leftMotor.getPower() + "\nRight Shooter: " + rightMotor.getPower();
+        } else {
+            return "Left Shooter: " + leftMotor.getPower();
+        }
+    }
 
 
 }

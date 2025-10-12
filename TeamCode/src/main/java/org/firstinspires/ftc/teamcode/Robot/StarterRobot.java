@@ -17,10 +17,35 @@ public class StarterRobot {
     Intake intake;
     private final double RPM = 4000, INTAKE_SPEED = 0.8;
     final long FEED_TIME_MILISECONDS = 400,  LAUNCHER_TIME_MILLISECONDS = 500;
+
+    public enum RobotStates
+    {
+        IDLE, AUTO, SCORING, END_GAME;
+
+        public enum IdleStates
+        {
+
+        }
+
+        public enum AutoStates
+        {
+
+        }
+
+        public enum SCORING
+        {
+
+        }
+
+        public enum END_GAME
+        {
+
+        }
+    }
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new MecanumDrive(hw);
-        //drive = new MecanumDrive(hw);
+        //drive = new TankDrive(hw);
         launcher = new Shooter(hw, "leftShooter");
         this.controller1 = controller1;
         this.controller2 = controller2;
@@ -49,14 +74,14 @@ public class StarterRobot {
         intake.setPower(INTAKE_SPEED);
     }
     public void intakeAndShoot() throws InterruptedException {
-        if(controller1.left_bumper.onPress()) {
             intake();
             Thread.sleep(FEED_TIME_MILISECONDS);
             shoot();
-        }
+
 
     }
     public void shoot() throws InterruptedException {
+
 
             //try threads to allow multiple functions running at same time
             Thread thread = new Thread(() -> {
@@ -93,6 +118,13 @@ public class StarterRobot {
 
 
         }
+
+    public String getData() {
+        return "FEEDER\n" + feeder.getData() + "\n" +
+                "INTAKE\n" + intake.getData() + "\n" +
+                "SHOOTER\n" + launcher.getData() + "\n";
+    }
+
 
 
 
