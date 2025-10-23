@@ -17,8 +17,8 @@ public class MecanumDrive {
     private double INCHES_PER_ROTATION = (WHEEL_DIAMETER * CM_2_INCHES * Math.PI) / 10; //Distance in inches per rotation
     private double TICKS_PER_INCH = (TICKS_PER_ROT / INCHES_PER_ROTATION); //# of Ticks per Inch of distance
     IMU imu;
-    String leftTopName = "leftTopDrive", leftBottomName = "leftBottomDrive",
-            rightTopName = "rightTopDrive", rightBottomName = "rightBottomDrive", imuName = "imu";
+    String leftTopName = "FLM", leftBottomName = "BLM",
+            rightTopName = "FRM", rightBottomName = "BRM", imuName = "imu";
 
 
     public MecanumDrive(HardwareMap hw) {
@@ -30,11 +30,11 @@ public class MecanumDrive {
         leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        imu = hw.get(IMU.class, imuName);
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
-        imu.initialize(parameters);
+//        imu = hw.get(IMU.class, imuName);
+//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+//                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+//                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+//        imu.initialize(parameters);
     }
 
     public MecanumDrive(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
