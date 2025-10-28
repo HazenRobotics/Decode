@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Feeder {
     CRServo leftFeeder, rightFeeder;
-    double speed = 0.7 ;
+    double speed = 1;
     public Feeder(HardwareMap hw){
         leftFeeder = hw.get(CRServo.class,"leftFeeder");
         rightFeeder = hw.get(CRServo.class,"rightFeeder");
@@ -23,8 +23,8 @@ public class Feeder {
     }
 
     public void reset(){
-        leftFeeder.setPower(-speed);
-        rightFeeder.setPower(-speed);
+        leftFeeder.setPower(0);
+        rightFeeder.setPower(0);
     }
 
     public void feed(double speed){

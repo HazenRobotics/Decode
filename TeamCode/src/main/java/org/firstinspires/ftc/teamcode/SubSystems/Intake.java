@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Intake {
     private String name = "intake";
     DcMotorEx intake;
+    private double intakePow;
     public Intake(HardwareMap hw)
     {
         intake = hw.get(DcMotorEx.class, name);
@@ -28,6 +29,10 @@ public class Intake {
     public void setPower(double power)
     {
         intake.setPower(power);
+    }
+    public void intakeToggle(double power){
+        intakePow = (intakePow == power) ? 0: power;
+        intake.setPower(intakePow);
     }
 
     public void setPowerWithTime(double power, int time) throws InterruptedException {

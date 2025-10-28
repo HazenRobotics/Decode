@@ -21,28 +21,28 @@ public class testShooterProtoype extends LinearOpMode {
         telemetry.addLine("Left Stick Y to power motors");
         while(opModeIsActive())
         {
-//            shooter.shoot(Math.abs(controller.left_stick_y));
+            shooter.shoot(controller.left_stick_y);
 //            telemetry.addData("RB power",shooter.getPower());
 
 
 
-            if(controller.right_bumper.onPress())
-            {
-                flag = !flag;
-                telemetry.addLine("Mode changed");
-            }
-
-            if(controller.left_bumper.onPress())
-            {
-                shooter.shoot();
-                telemetry.addData("LB power",shooter.getPower());
-            }
-
-            if(flag)
-            {
-                shooter.shoot(Math.abs(controller.left_stick_y));
-                telemetry.addData("RB power",shooter.getPower());
-            }
+//            if(controller.right_bumper.onPress())
+//            {
+//                flag = !flag;
+//                telemetry.addLine("Mode changed");
+//            }
+//
+//            if(controller.left_bumper.onPress())
+//            {
+//                shooter.shoot();
+//                telemetry.addData("LB power",shooter.getPower());
+//            }
+//
+//            if(flag)
+//            {
+//                shooter.shoot(Math.abs(controller.left_stick_y));
+//                telemetry.addData("RB power",shooter.getPower());
+//            }
 
             controller.update();
             telemetry.update();
