@@ -44,8 +44,8 @@ public class MecanumDrive {
         leftBottom = hw.get(DcMotorEx.class, rightTopName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
-        leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBottom.setDirection(DcMotorSimple.Direction.REVERSE);
 
         resetEncoders();
 

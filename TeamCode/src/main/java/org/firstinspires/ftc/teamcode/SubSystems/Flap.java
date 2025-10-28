@@ -9,7 +9,7 @@ public class Flap {
     private double position;
     private double frontPosition;
     private double backPosition;
-    private double backStop = 0.4535;
+    private double backStop = 0.37;
     private double backDown = 0.2258;
     private double frontStop = 0.2642;
     private double frontGo = 0.7839;

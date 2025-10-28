@@ -80,7 +80,7 @@ public class Robot {
     }
 
     //Transfer
-    public void startTransfer() {
+    public void transfer() {
         isTransfering = true;
         stateTimer.reset();
 
@@ -109,3 +109,4 @@ public class Robot {
     }
 
 }
+

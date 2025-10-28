@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.SubSystems.Flap;
@@ -14,38 +15,25 @@ import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 public class StarterRobot {
     MecanumDrive drive;
     Shooter launcher;
-    GamepadEvents controller1, controller2;
     Feeder feeder;
     Intake intake;
     Flap flap;
     Transfer transfer;
-    private final double RPM = 4000, INTAKE_SPEED = 0.8;
-    final long FEED_TIME_MILISECONDS = 600,  LAUNCHER_TIME_MILLISECONDS = 600;
+    GamepadEvents controller1, controller2;
 
-    public enum RobotStates
-    {
-        IDLE, AUTO, SCORING, END_GAME;
+    //constants
+    private final double RPM = 6000, INTAKE_SPEED = 0.8;
+    private final double FEED_DELAY = 2, LAUNCHER_DELAY = 1; //seconds
+    private final double TRANSFER_DELAY = 3;
 
-        public enum IdleStates
-        {
+    //timer
+    private ElapsedTime timePassed = new ElapsedTime();
+    private double shootTime = 0;
+    private double transferTime = 0;
 
-        }
+    private boolean isTransfering = false;
+    private boolean isShooting = false;
 
-        public enum AutoStates
-        {
-
-        }
-
-        public enum SCORING
-        {
-
-        }
-
-        public enum END_GAME
-        {
-
-        }
-    }
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new MecanumDrive(hw);
@@ -57,120 +45,73 @@ public class StarterRobot {
         transfer = new Transfer(hw);
         feeder = new Feeder(hw);
         intake = new Intake(hw);
-
     }
-    //comment out
-//    public void drive()
-//    {
-//        drive.drive(controller1.left_stick_y, -controller1.right_stick_x);
-//    }
-    //Mech Drive drive + imu reset method
-    public void drive()
-    {
+
+    public void drive() {
         drive.drive(controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
     }
 
-//    public void resetHeading()
-//    {
-//        drive.resetHeading();
-//    }
-    public void intake()
-    {
+    //intake
+    public void intake() {
         flap.backBlock();
-        intake.setPower(INTAKE_SPEED);
+        intake.intakeToggle(INTAKE_SPEED);
     }
-    public void intakeAndShoot() throws InterruptedException {
-        intake();
-        Thread.sleep(FEED_TIME_MILISECONDS);
-        shoot();
+
+    //shooting
+    public void shoot() {
+        isShooting = true;
+        shootTime = timePassed.seconds();
+
+        flap.frontGo();
+        flap.backBlock();
+        launcher.setRPM(RPM);
     }
-    public void intakeAndTransfer() throws InterruptedException {
-        intake();
-        Thread.sleep(FEED_TIME_MILISECONDS);
-        transfer();
-    }
-    public void shoot() throws InterruptedException {
-            //try threads to allow multiple functions running at same time
-            Thread thread = new Thread(() -> {
-//                launcher.shoot();
-                flap.frontGo();
-                flap.backBlock();
-                launcher.setRPM(RPM);
-                try {
-                    Thread.sleep(LAUNCHER_TIME_MILLISECONDS);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-                feeder.feed();
-
-                try {
-
-                    Thread.sleep(FEED_TIME_MILISECONDS);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                feeder.reset();
-                launcher.reset();
-
-            });
-
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
 
 
-        }
-    public void transfer() throws InterruptedException {
-        Thread thread = new Thread(() -> {
-            transfer.setMotor(1);
-            transfer.setServo(-1);
-            launcher.setRPM(RPM);
-            flap.frontBlock();
-            try {
-                Thread.sleep(LAUNCHER_TIME_MILLISECONDS);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+    public void updateShooting() {
+        if (!isShooting) return;
 
+        double elapsed = timePassed.seconds() - shootTime;
 
+        if (elapsed > LAUNCHER_DELAY) {
             feeder.feed();
+        }
 
-            try {
-                Thread.sleep(FEED_TIME_MILISECONDS);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            transfer.setMotor(0);
-            transfer.setServo(0);
+        if (elapsed > LAUNCHER_DELAY + FEED_DELAY) {
             feeder.reset();
             launcher.reset();
-        });
+            isShooting = false;
+        }
+    }
 
-        thread.start();
+    //Transfer
+    public void transfer() {
+        isTransfering = true;
+        transferTime = timePassed.seconds();
 
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        transfer.setMotor(1);
+        transfer.setServo(-1);
+        launcher.setRPM(RPM);
+        flap.frontBlock();
+    }
+
+    public void updateTransfer() {
+        if (!isTransfering) return;
+
+        double elapsed = timePassed.seconds() - transferTime;
+
+        if (elapsed > LAUNCHER_DELAY){
+            feeder.feed();
         }
 
-
+        if (elapsed > LAUNCHER_DELAY + FEED_DELAY) {
+            feeder.reset();
+            launcher.reset();
+        }
+        if(elapsed > LAUNCHER_DELAY + FEED_DELAY + TRANSFER_DELAY){
+            transfer.setMotor(0);
+            transfer.setServo(0);
+            isTransfering = false;
+        }
     }
-
-
-    public String getData() {
-        return "FEEDER\n" + feeder.getData() + "\n" +
-                "INTAKE\n" + intake.getData() + "\n" +
-                "SHOOTER\n" + launcher.getData() + "\n";
-    }
-
-
-
-
-
-
 }
