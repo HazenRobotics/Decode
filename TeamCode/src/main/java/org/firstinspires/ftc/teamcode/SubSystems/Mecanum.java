@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class MecanumDrive {
+public class Mecanum {
     DcMotorEx leftTop, leftBottom, rightTop, rightBottom;
     IMU imu;
     String leftTopName = "FLM", leftBottomName = "BLM",
             rightTopName = "FRM", rightBottomName = "BRM", imuName = "imu";
 
-    public MecanumDrive(HardwareMap hw) {
+    public Mecanum(HardwareMap hw) {
         leftTop = hw.get(DcMotorEx.class, leftTopName);
         rightTop = hw.get(DcMotorEx.class, rightTopName);
         leftBottom = hw.get(DcMotorEx.class, leftBottomName);
@@ -30,8 +30,8 @@ public class MecanumDrive {
 //        imu.initialize(parameters);
     }
 
-    public MecanumDrive(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
-                        String rightBottomName, String imuName) {
+    public Mecanum(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
+                   String rightBottomName, String imuName) {
         leftTop = hw.get(DcMotorEx.class,  leftTopName);
         rightTop = hw.get(DcMotorEx.class, leftBottomName);
         leftBottom = hw.get(DcMotorEx.class, rightTopName);

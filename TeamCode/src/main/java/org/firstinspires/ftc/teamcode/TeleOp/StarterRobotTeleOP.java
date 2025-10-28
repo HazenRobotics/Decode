@@ -29,7 +29,6 @@ public class StarterRobotTeleOP extends LinearOpMode {
             if (controller1.right_bumper.onPress()) {
                 robot.shoot();
             }
-            robot.intakeAndShoot();
             controller1.update();
             controller2.update();
 

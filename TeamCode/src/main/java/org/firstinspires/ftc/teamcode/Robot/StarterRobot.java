@@ -4,19 +4,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.SubSystems.Intake;
-import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.Mecanum;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
 public class StarterRobot {
-    MecanumDrive drive;
+    Mecanum drive;
     Shooter launcher;
     GamepadEvents controller1, controller2;
     Feeder feeder;
     Intake intake;
-    private final double RPM = 4000, INTAKE_SPEED = 0.8;
-    final long FEED_TIME_MILISECONDS = 400,  LAUNCHER_TIME_MILLISECONDS = 500;
+    private final double RPM = 6000, INTAKE_SPEED = 0.8, defaultRPM = 2000;
+    final long FEED_TIME_MILISECONDS = 800,  LAUNCHER_TIME_MILLISECONDS = 2000;
 
     public enum RobotStates
     {
@@ -44,8 +43,8 @@ public class StarterRobot {
     }
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
-        drive = new MecanumDrive(hw);
-        //drive = new TankDrive(hw);
+        drive = new Mecanum(hw);
+        //drive = new MecanumDrive(hw);
         launcher = new Shooter(hw, "leftShooter");
         this.controller1 = controller1;
         this.controller2 = controller2;
@@ -74,14 +73,12 @@ public class StarterRobot {
         intake.setPower(INTAKE_SPEED);
     }
     public void intakeAndShoot() throws InterruptedException {
-            intake();
-            Thread.sleep(FEED_TIME_MILISECONDS);
-            shoot();
-
+        intake();
+        Thread.sleep(FEED_TIME_MILISECONDS);
+        shoot();
 
     }
     public void shoot() throws InterruptedException {
-
 
             //try threads to allow multiple functions running at same time
             Thread thread = new Thread(() -> {
@@ -105,7 +102,22 @@ public class StarterRobot {
                 }
 
                 feeder.reset();
-                launcher.reset();
+                try {
+
+                    Thread.sleep(FEED_TIME_MILISECONDS);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                feeder.feed();
+
+                try {
+
+                    Thread.sleep(FEED_TIME_MILISECONDS);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                launcher.setRPM(defaultRPM);
             });
 
             thread.start();
