@@ -19,6 +19,13 @@ public class Intake {
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
+//    public Intake(HardwareMap hw, String name1, String name2)
+//    {
+//        intake = hw.get(DcMotorEx.class, name1);
+//        intake = hw.get(DcMotorEx.class, name2);
+//        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+//    }
+
     public void setPower(double power)
     {
         intake.setPower(power);
@@ -26,6 +33,11 @@ public class Intake {
     public void intakeToggle(double power){
         intakePow = (intakePow == power) ? 0: power;
         intake.setPower(intakePow);
+    }
+
+    public void setPowerWithTime(double power, int time) throws InterruptedException {
+        intake.setPower(power);
+        Thread.sleep(time);
     }
 
     public double getPower()
