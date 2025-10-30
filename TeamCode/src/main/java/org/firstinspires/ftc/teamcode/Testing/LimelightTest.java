@@ -16,7 +16,7 @@ public class LimelightTest extends LinearOpMode {
             while(opModeIsActive())
             {
 
-                camera.readGoal();
+                camera.getPosFromTag();
                telemetry.addLine(camera.toString());
                telemetry.addData("Distance to Target",camera.getPosFromTag());
                telemetry.update();

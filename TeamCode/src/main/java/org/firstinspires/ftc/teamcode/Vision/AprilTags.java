@@ -92,18 +92,17 @@ public class AprilTags {
                 //           / tan(camera angle + target angle)
 
                 LLResult result = limelight.getLatestResult();
-                double tx;
                 double ty;
                 double value = Math.PI;
                 //I think I need to localize the robot to know where it is
                 if (result != null && result.isValid())
                 {
-                        tx = result.getTx(); // How far left or right the target is (degrees)
+
                         ty = result.getTy(); // How far up or down the target is (degrees)
 
                         //Use Projectile Motion formula
                         //Assume the 435 rpm motor is used
-                        value = (motifHeight - limelightElevation) / Math.tan(limelightAngle + (double) tx);
+                        value = (motifHeight - limelightElevation) / Math.tan(Math.toRadians(limelightAngle + (double) ty));
                 }
 
                 return value;

@@ -2,16 +2,16 @@ package org.firstinspires.ftc.teamcode.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.Mecanum;
 
 public class FieldCentricDriveTester extends LinearOpMode {
-    private MecanumDrive driveTrain;
+    private Mecanum driveTrain;
     private double applyDeadzone(double v, double d) {
         return Math.abs(v) > d ? v : 0.0;
     }
     @Override
     public void runOpMode() {
-        driveTrain = new MecanumDrive(hardwareMap);
+        driveTrain = new Mecanum(hardwareMap);
 
         final double DEADZONE = 0.05;
         final double SPEED_SCALE = 0.9;

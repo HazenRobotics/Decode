@@ -1,37 +1,33 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robots.StarterRobot;
+import org.firstinspires.ftc.teamcode.Robots.V2;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
-@TeleOp(group = "A", name = "LeStarter Robot TeleOP" )
-public class StarterRobotTeleOP extends LinearOpMode {
-    StarterRobot robot;
+public class V2TeleOP extends LinearOpMode {
+    V2 robot;
     GamepadEvents controller1, controller2;
-
     @Override
     public void runOpMode() throws InterruptedException {
         controller1 = new GamepadEvents(gamepad1);
         controller2 = new GamepadEvents(gamepad2);
-        robot = new StarterRobot(hardwareMap, controller1, controller2);
+        robot = new V2(hardwareMap, controller1, controller2);
         waitForStart();
         while(opModeIsActive())
         {
-            robot.drive();
-            if (controller1.left_bumper.onPress()) {
-                robot.intake();
+//            robot.drive();
+            if (controller1.left_bumper.onPress())
+            {
+                robot.intakeAndShoot();
             }
 
-            if (controller1.right_bumper.onPress()) {
+            if(controller1.b.onPress())
+            {
                 robot.shoot();
             }
-            if(controller1.b.onPress()) {
-                robot.transfer();
-            }
-            robot.updateShooting();
-            robot.updateTransfer();
+
             controller1.update();
             controller2.update();
 
@@ -39,9 +35,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
                     "X for rotation");
             telemetry.addLine("Left bumper: intake + shoot");
             telemetry.addLine("Right bumper: shoot only");
-//            telemetry.addLine(robot.getData());
             telemetry.update();
-
         }
     }
 }
