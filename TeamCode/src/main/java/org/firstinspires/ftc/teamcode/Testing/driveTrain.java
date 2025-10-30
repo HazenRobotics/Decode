@@ -3,17 +3,17 @@ package org.firstinspires.ftc.teamcode.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.Mecanum;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
 @TeleOp(group = "A LeTeleOp", name = "LeDrive Test")
 public class driveTrain extends LinearOpMode {
-    MecanumDrive driveTrain;
+    Mecanum driveTrain;
     GamepadEvents controller1;
 
     @Override
     public void runOpMode(){
-        driveTrain = new MecanumDrive(hardwareMap, "FLM", "BLM", "FRM", "BRM", "imu");
+        driveTrain = new Mecanum(hardwareMap, "FLM", "BLM", "FRM", "BRM", "imu");
         controller1 = new GamepadEvents(gamepad1);
         waitForStart();
         while(opModeIsActive()) {

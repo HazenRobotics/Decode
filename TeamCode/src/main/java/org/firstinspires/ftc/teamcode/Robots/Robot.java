@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Robot;
+package org.firstinspires.ftc.teamcode.Robots;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -6,14 +6,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.SubSystems.Flap;
 import org.firstinspires.ftc.teamcode.SubSystems.Intake;
-import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.Mecanum;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Transfer;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
-public class StarterRobot {
-    MecanumDrive drive;
+public class Robot {
+    Mecanum drive;
     Shooter launcher;
     Feeder feeder;
     Intake intake;
@@ -22,21 +21,17 @@ public class StarterRobot {
     GamepadEvents controller1, controller2;
 
     //constants
-    private final double RPM = 6000, INTAKE_SPEED = 0.8;
-    private final double FEED_DELAY = 2, LAUNCHER_DELAY = 1; //seconds
-    private final double TRANSFER_DELAY = 3;
+    private final double RPM = 4000, INTAKE_SPEED = 0.8;
+    private final double FEED_DELAY = 0.6, LAUNCHER_DELAY = 0.6; //seconds
 
     //timer
-    private ElapsedTime timePassed = new ElapsedTime();
-    private double shootTime = 0;
-    private double transferTime = 0;
-
+    private ElapsedTime stateTimer = new ElapsedTime();
     private boolean isTransfering = false;
     private boolean isShooting = false;
 
-    public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
+    public Robot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
-        drive = new MecanumDrive(hw);
+        drive = new Mecanum(hw);
         //drive = new TankDrive(hw);
         launcher = new Shooter(hw, "leftShooter");
         this.controller1 = controller1;
@@ -57,27 +52,27 @@ public class StarterRobot {
         intake.intakeToggle(INTAKE_SPEED);
     }
 
-    //shooting
+    //shooting sequence in seconds
     public void shoot() {
-        isShooting = true;
-        shootTime = timePassed.seconds();
+        isTransfering = true;
+        stateTimer.reset();
 
         flap.frontGo();
         flap.backBlock();
         launcher.setRPM(RPM);
     }
 
-
+    //transfer sequence in seconds
     public void updateShooting() {
         if (!isShooting) return;
 
-        double elapsed = timePassed.seconds() - shootTime;
+        double t = stateTimer.seconds();
 
-        if (elapsed > LAUNCHER_DELAY) {
+        if (t > LAUNCHER_DELAY) {
             feeder.feed();
         }
 
-        if (elapsed > LAUNCHER_DELAY + FEED_DELAY) {
+        if (t > LAUNCHER_DELAY + FEED_DELAY) {
             feeder.reset();
             launcher.reset();
             isShooting = false;
@@ -87,7 +82,7 @@ public class StarterRobot {
     //Transfer
     public void transfer() {
         isTransfering = true;
-        transferTime = timePassed.seconds();
+        stateTimer.reset();
 
         transfer.setMotor(1);
         transfer.setServo(-1);
@@ -98,20 +93,20 @@ public class StarterRobot {
     public void updateTransfer() {
         if (!isTransfering) return;
 
-        double elapsed = timePassed.seconds() - transferTime;
+        double t = stateTimer.seconds();
 
-        if (elapsed > LAUNCHER_DELAY){
+        if (t > LAUNCHER_DELAY) {
             feeder.feed();
         }
 
-        if (elapsed > LAUNCHER_DELAY + FEED_DELAY) {
-            feeder.reset();
-            launcher.reset();
-        }
-        if(elapsed > LAUNCHER_DELAY + FEED_DELAY + TRANSFER_DELAY){
+        if (t > LAUNCHER_DELAY + FEED_DELAY) {
             transfer.setMotor(0);
             transfer.setServo(0);
+            feeder.reset();
+            launcher.reset();
             isTransfering = false;
         }
     }
+
 }
+
