@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robots.StarterRobot;
 import org.firstinspires.ftc.teamcode.Robots.V2;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
-
+@TeleOp(group = "A", name = "LeV2 TeleOP" )
 public class V2TeleOP extends LinearOpMode {
     V2 robot;
     GamepadEvents controller1, controller2;
@@ -17,7 +18,7 @@ public class V2TeleOP extends LinearOpMode {
         waitForStart();
         while(opModeIsActive())
         {
-//            robot.drive();
+            robot.drive();
             if (controller1.left_bumper.onPress())
             {
                 robot.intakeAndShoot();

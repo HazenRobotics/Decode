@@ -28,17 +28,17 @@ public class V2 {
     private boolean isShooting = false;
     public V2(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
-//        drive = new Mecanum(hw);
+        drive = new Mecanum(hw);
         shooter = new Shooter(hw, "shooter");
         this.controller1 = controller1;
         this.controller2 = controller2;
         this.intake = new Intake(hw, "left", "right");
     }
 
-//    public void drive()
-//    {
-//        drive.drive(controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
-//    }
+    public void drive()
+    {
+        drive.drive(controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
+    }
 
     public void intake()
     {
