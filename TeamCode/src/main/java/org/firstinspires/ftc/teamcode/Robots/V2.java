@@ -13,19 +13,17 @@ import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 public class V2 {
     Mecanum drive;
     Intake intake;
-    private final double RPM = 6000, INTAKE_SPEED = 0.8;
-    Feeder feeder;
+    private final double RPM = 6000, DEFAULT_SET = 2000, INTAKE_SPEED = 0.5, REVERSE_INTAKE = -0.2;
     Shooter shooter;
+    Feeder feeder;
     GamepadEvents controller1, controller2;
 
     //Timer
     private ElapsedTime timePassed = new ElapsedTime();
-    private double shootTime = 0;
-    private final double LAUNCHER_DELAY = 2; //seconds
-    private double transferTime = 2;
+    private final double LAUNCHER_DELAY = 4, FEED_DELAY = 1, TRANSFER_DELAY = 2; //seconds
+    private double shootTime = 0, intakeTime = 0;
 
-    private boolean isTransfering = false;
-    private boolean isShooting = false;
+    private boolean isShooting = false, isTransfered = false;
     public V2(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new Mecanum(hw);
@@ -33,6 +31,7 @@ public class V2 {
         this.controller1 = controller1;
         this.controller2 = controller2;
         this.intake = new Intake(hw, "left", "right");
+        feeder = new Feeder(hw, "leftFeeder", "rightFeeder");
     }
 
     public void drive()
@@ -42,31 +41,60 @@ public class V2 {
 
     public void intake()
     {
+
+        feeder.reverseFeed();
         intake.intakeToggle(INTAKE_SPEED);
+
     }
 
     public void shoot()
     {
-        shooter.setRPM(RPM);
-    }
+        isShooting = true;
 
-    public void intakeAndShoot()
-    {
-        intake();
         double elapsed = timePassed.seconds();
 
-        if(elapsed >= transferTime)
+        if(controller1.right_bumper.onPress())
         {
-            shoot();
-            intake.intakeToggle(INTAKE_SPEED);
-
+            isTransfered = !isTransfered;
         }
 
-        if(elapsed >= transferTime + LAUNCHER_DELAY)
+        shootTime = timePassed.seconds();
+        if(isTransfered)
         {
-            shooter.setRPM(0);
+            shooter.setRPM(RPM);
+            //sleep
+            if(elapsed > FEED_DELAY)
+            {
+                feeder.feed();
+            }
+
+
+        }else {
+            shooter.setRPM(-RPM/10);
+            timePassed.reset();
         }
 
+
+
+
+    }
+
+    public void updateShooting()
+    {
+        if (!isShooting) return;
+
+        double elapsed = timePassed.seconds() - shootTime;
+
+        if (elapsed > LAUNCHER_DELAY)
+        {
+            feeder.feed();
+        }
+
+        if (elapsed > LAUNCHER_DELAY + FEED_DELAY) {
+            feeder.reset();
+            shooter.reset();
+            isShooting = false;
+        }
     }
 
 

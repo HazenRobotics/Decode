@@ -24,8 +24,8 @@ public class Intake {
     {
         intake = hw.get(DcMotorEx.class, leftName);
         otherIntake = hw.get(DcMotorEx.class, rightName);
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
-        otherIntake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        otherIntake.setDirection(DcMotorSimple.Direction.FORWARD);
         twoMotors = true;
     }
 

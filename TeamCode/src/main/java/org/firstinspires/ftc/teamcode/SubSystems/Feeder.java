@@ -17,9 +17,23 @@ public class Feeder {
         rightFeeder.setDirection(CRServo.Direction.REVERSE);
 
     }
+
+    public Feeder(HardwareMap hw, String leftName, String rightName){
+        leftFeeder = hw.get(CRServo.class,leftName);
+        rightFeeder = hw.get(CRServo.class,rightName);
+
+        //Setting Direction has had no effect
+//        leftFeeder.setDirection(Servo.Direction.FORWARD);
+        rightFeeder.setDirection(CRServo.Direction.FORWARD);
+
+    }
     public void feed(){
         leftFeeder.setPower(speed);
         rightFeeder.setPower(speed);
+    }
+    public void reverseFeed(){
+        leftFeeder.setPower(-speed);
+        rightFeeder.setPower(-speed);
     }
 
     public void reset(){
