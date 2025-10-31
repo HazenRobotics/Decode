@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robots.StarterRobot;
 import org.firstinspires.ftc.teamcode.Robots.V2;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
-@TeleOp(group = "A", name = "LeV2 TeleOP" )
+@TeleOp(group = "A", name = "A LeV2 TeleOP" )
 public class V2TeleOP extends LinearOpMode {
     V2 robot;
     GamepadEvents controller1, controller2;
@@ -21,20 +21,17 @@ public class V2TeleOP extends LinearOpMode {
             robot.drive();
             if (controller1.left_bumper.onPress())
             {
-                robot.intakeAndShoot();
+                robot.intake();
             }
 
-            if(controller1.b.onPress())
-            {
-                robot.shoot();
-            }
-
+            robot.shoot();
+            robot.updateShooting();
             controller1.update();
             controller2.update();
 
             telemetry.addLine("Use Left Joystick Y for movement, Right Joystick " +
                     "X for rotation");
-            telemetry.addLine("Left bumper: intake + shoot");
+            telemetry.addLine("Left bumper: intake");
             telemetry.addLine("Right bumper: shoot only");
             telemetry.update();
         }
