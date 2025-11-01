@@ -23,6 +23,15 @@ public class V2TeleOP extends LinearOpMode {
             {
                 robot.intake();
             }
+//            if (controller2.left_bumper.onPress())
+//            {
+//                robot.intake();
+//            }
+//            if(controller2.b.onPress())
+//            {
+//                robot.toggleFeed();
+//            }
+
 
             robot.shoot();
             robot.updateShooting();
@@ -33,6 +42,7 @@ public class V2TeleOP extends LinearOpMode {
                     "X for rotation");
             telemetry.addLine("Left bumper: intake");
             telemetry.addLine("Right bumper: shoot only");
+//            telemetry.addLine("Driver 2\nLeft_Bumper: intake");
             telemetry.update();
         }
     }

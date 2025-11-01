@@ -47,7 +47,8 @@ public class Intake {
         }
 
     }
-    public void intakeToggle(double power){
+    public void intakeToggle(double power)
+    {
         if(twoMotors)
         {
             intakePow = (intakePow == power) ? 0: power;

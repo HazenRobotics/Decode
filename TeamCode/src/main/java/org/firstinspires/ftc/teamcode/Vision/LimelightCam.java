@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Vision;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import androidx.annotation.NonNull;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -9,9 +7,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-
-public class AprilTags {
+public class LimelightCam {
 
         String limelightName = "limelight";
         String ledName = "led";
@@ -28,7 +24,7 @@ public class AprilTags {
         //22: Purple, Green, Purple
         //23: Purple, Purple, Green
         //24: Red Goal
-        public AprilTags(HardwareMap hw, String side)
+        public LimelightCam(HardwareMap hw, String side)
         {
                 limelight = hw.get(Limelight3A.class, limelightName);
 //                led = hardwareMap.get(RevBlinkinLedDriver.class, ledName);
@@ -85,6 +81,7 @@ public class AprilTags {
 
                 }
         }
+        //attempt 2
 
         public double getPosFromTag()
         {

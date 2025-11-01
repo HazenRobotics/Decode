@@ -3,15 +3,14 @@ package org.firstinspires.ftc.teamcode.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Vision.AprilTags;
+import org.firstinspires.ftc.teamcode.Vision.LimelightCam;
 
 @TeleOp(group = "A", name = "LimelightTest")
 public class LimelightTest extends LinearOpMode {
-    AprilTags camera;
+    LimelightCam camera;
     @Override
     public void runOpMode() throws InterruptedException {
-            camera = new AprilTags(hardwareMap,"i");
+            camera = new LimelightCam(hardwareMap,"i");
             waitForStart();
             while(opModeIsActive())
             {

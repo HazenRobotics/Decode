@@ -15,6 +15,10 @@ public class Shooter {
     private String lmName = "leftShooter", rmName = "rightShooter", limelightName = "limelight";
     private double defaultPower = 0.7;
     private boolean twoMotors = false;
+    public enum ShootingStates
+    {
+        Far, near
+    }
 
 
     //Add Two Servos for controlling the pushing of the ball
@@ -24,6 +28,7 @@ public class Shooter {
         rightMotor = hw.get(DcMotorEx.class, rmName);
 //        limelight = hw.get(Limelight3A.class, limelightName);
         twoMotors = true;
+
 
     }
 
@@ -54,6 +59,8 @@ public class Shooter {
 
         }
     }
+
+
 
     public void reset() {
         if(!twoMotors)
