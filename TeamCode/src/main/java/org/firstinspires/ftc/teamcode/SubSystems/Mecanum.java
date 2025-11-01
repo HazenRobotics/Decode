@@ -27,9 +27,8 @@ public class Mecanum {
         leftBottom = hw.get(DcMotorEx.class, leftBottomName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
-        rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBottom.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
 //        imu = hw.get(IMU.class, imuName);
 //        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
 //                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
@@ -40,13 +39,12 @@ public class Mecanum {
     public Mecanum(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
                    String rightBottomName, String imuName) {
         leftTop = hw.get(DcMotorEx.class,  leftTopName);
-        rightTop = hw.get(DcMotorEx.class, rightBottomName);
+        rightTop = hw.get(DcMotorEx.class, rightTopName);
         leftBottom = hw.get(DcMotorEx.class, leftBottomName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
-
-        leftBottom.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBottom.setDirection(DcMotorSimple.Direction.REVERSE);
 
         resetEncoders();
 
@@ -57,7 +55,8 @@ public class Mecanum {
         imu.initialize(parameters);
     }
 
-    public void drive(double forward, double strafe, double rotate) {
+    public void drive(double forward, double strafe, double rotate)
+    {
 
 
         leftTop.setPower(forward + strafe + rotate);

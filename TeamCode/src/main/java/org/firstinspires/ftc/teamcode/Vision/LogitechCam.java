@@ -52,7 +52,7 @@ public class LogitechCam {
     {
         return detectedTags;
     }
-    public void disPlayDetectionTelemnetr(AprilTagDetection detectedId)
+    public void disPlayDetectionTelementry(AprilTagDetection detectedId)
     {
         if(detectedId ==null)
         {
@@ -62,12 +62,11 @@ public class LogitechCam {
         if(detectedId.metadata != null)
         {
             telemetry.addLine(String.format("\n==== (ID %d) %s", detectedId.id, detectedId.metadata.name));
-            telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f (inch)", detectedId.ftcPose.x, detectedId.ftcPose.y));
-            telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f (degree)", detectedId.ftcPose.pitch, detectedId.ftcPose.roll));
-            telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f (inch, degree degree)", detectedId.ftcPose.range));
+            telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f (inch)", detectedId.ftcPose.x, detectedId.ftcPose.y, detectedId.ftcPose.z));
+            telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f (degree)", detectedId.ftcPose.pitch, detectedId.ftcPose.roll, detectedId.ftcPose.yaw));
+            telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f (inch, degree degree)", detectedId.ftcPose.range, detectedId.ftcPose.bearing, detectedId.ftcPose.elevation));
         }else {
             telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectedId.id));
-            telemetry.addLine();
         }
 
     }
