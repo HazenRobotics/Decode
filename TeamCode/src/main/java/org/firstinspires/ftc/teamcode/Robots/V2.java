@@ -36,16 +36,21 @@ public class V2 {
 
     public void drive()
     {
-        drive.drive(controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
+        drive.drive(-controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
     }
 
     public void intake()
     {
 
-        feeder.reverseFeed();
         intake.intakeToggle(INTAKE_SPEED);
 
     }
+
+    public void toggleFeed()
+    {
+        feeder.toggle();
+    }
+
 
     public void shoot()
     {
@@ -65,12 +70,13 @@ public class V2 {
             //sleep
             if(elapsed > FEED_DELAY)
             {
-                feeder.feed();
+                feeder.reverseFeed();
             }
 
 
         }else {
             shooter.setRPM(-RPM/10);
+            feeder.feed();
             timePassed.reset();
         }
 
