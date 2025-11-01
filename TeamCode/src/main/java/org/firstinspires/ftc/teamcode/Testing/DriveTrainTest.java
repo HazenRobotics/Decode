@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Mecanum;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
 @TeleOp(group = "A LeTeleOp", name = "LeDrive Test")
-public class driveTrain extends LinearOpMode {
+public class DriveTrainTest extends LinearOpMode {
     Mecanum driveTrain;
     GamepadEvents controller1;
 

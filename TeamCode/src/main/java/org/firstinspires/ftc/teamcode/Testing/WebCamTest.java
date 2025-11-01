@@ -16,6 +16,12 @@ public class WebCamTest extends OpMode {
 
     @Override
     public void loop() {
+        //Read AprilTag, return a pattern:
+        //20: Blue Goal
+        //21: Green, Purple, Purple
+        //22: Purple, Green, Purple
+        //23: Purple, Purple, Green
+        //24: Red Goal
         webcam.update();
         AprilTagDetection id20 = webcam.getTagBySpecificId(20);
         telemetry.addData("id20 String", id20.toString());
