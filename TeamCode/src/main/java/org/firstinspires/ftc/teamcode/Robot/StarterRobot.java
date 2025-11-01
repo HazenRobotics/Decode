@@ -23,16 +23,22 @@ public class StarterRobot {
 
     //constants
     private final double RPM = 6000, INTAKE_SPEED = 0.8;
-    private final double FEED_DELAY = 2, LAUNCHER_DELAY = 1; //seconds
-    private final double TRANSFER_DELAY = 3;
+    private final double FEED_DELAY = 2, LAUNCHER_DELAY = 1, LOAD_DELAY = 1.5; //seconds
+    //Reverse
+    private final double RFEED_DELAY = 0.5, RLAUNCHER_DELAY = 0.5, RTRANSFER_DELAY = 0.2;
+    private final double TRANSFER_DELAY = 1;
 
     //timer
     private ElapsedTime timePassed = new ElapsedTime();
     private double shootTime = 0;
     private double transferTime = 0;
+    private double loadTime = 0;
+    private double reverseTime = 0;
 
     private boolean isTransfering = false;
     private boolean isShooting = false;
+    private boolean isLoading = false;
+    private boolean reverse = false;
 
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
@@ -48,7 +54,7 @@ public class StarterRobot {
     }
 
     public void drive() {
-        drive.drive(controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
+        drive.drive(controller1.left_stick_y, -controller1.left_stick_x, controller1.right_stick_x);
     }
 
     //intake
@@ -64,7 +70,7 @@ public class StarterRobot {
 
         flap.frontGo();
         flap.backBlock();
-        launcher.setRPM(RPM);
+        launcher.setVelocity(1800);
     }
 
 
@@ -73,7 +79,7 @@ public class StarterRobot {
 
         double elapsed = timePassed.seconds() - shootTime;
 
-        if (elapsed > LAUNCHER_DELAY) {
+        if (elapsed > LAUNCHER_DELAY && launcher.getVelocity() > 1790) {
             feeder.feed();
         }
 
@@ -91,16 +97,15 @@ public class StarterRobot {
 
         transfer.setMotor(1);
         transfer.setServo(-1);
-        launcher.setRPM(RPM);
+        launcher.setVelocity(1800);
         flap.frontBlock();
     }
 
     public void updateTransfer() {
         if (!isTransfering) return;
-
         double elapsed = timePassed.seconds() - transferTime;
 
-        if (elapsed > LAUNCHER_DELAY){
+        if (elapsed > LAUNCHER_DELAY && launcher.getVelocity() > 1790){
             feeder.feed();
         }
 
@@ -114,4 +119,55 @@ public class StarterRobot {
             isTransfering = false;
         }
     }
+
+    public void load(){
+        isLoading = true;
+        flap.backDown();
+        launcher.setVelocity(400);
+        loadTime = timePassed.seconds();
+    }
+
+    public void updateLoad(){
+        if(!isLoading) return;
+        double elapsed = timePassed.seconds() - loadTime;
+        if(elapsed > LOAD_DELAY){
+            flap.backBlock();
+        }
+        if(elapsed > LOAD_DELAY + 0.5){
+            feeder.feed(-1);
+            launcher.setVelocity(-200);
+        }
+        if(elapsed > LOAD_DELAY + 0.5 + 0.6 ){
+            feeder.reset();
+            launcher.reset();
+            isLoading = false;
+        }
+    }
+
+    public void reverseTrasfer(){
+        reverse = true;
+        flap.backBlock();
+        reverseTime = timePassed.seconds();
+        transfer.setServo(1);
+        transfer.setMotor(-1);
+    }
+
+    public void updateReverseTransfer(){
+        if(!reverse) return;
+        double elapsed = timePassed.seconds() - reverseTime;
+        if(elapsed > RLAUNCHER_DELAY){
+            launcher.setVelocity(1800);
+        }
+        if(elapsed > RLAUNCHER_DELAY + RFEED_DELAY){
+            feeder.feed(-0.3);
+            launcher.reset();
+            transfer.setMotor(0);
+            transfer.setServo(0);
+        }
+        if(elapsed > RLAUNCHER_DELAY + RFEED_DELAY + RTRANSFER_DELAY){
+            feeder.reset();
+            reverse = false;
+        }
+    }
+
 }

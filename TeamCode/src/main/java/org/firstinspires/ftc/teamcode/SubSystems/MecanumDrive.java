@@ -27,8 +27,7 @@ public class MecanumDrive {
         leftBottom = hw.get(DcMotorEx.class, leftBottomName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
-        leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBottom.setDirection(DcMotorSimple.Direction.REVERSE);
 
 //        imu = hw.get(IMU.class, imuName);
 //        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -59,10 +58,10 @@ public class MecanumDrive {
     public void drive(double forward, double strafe, double rotate) {
 
         //Issue with rotating
-        leftTop.setPower(forward + strafe + rotate);
+        leftTop.setPower(forward + strafe - rotate);
         rightTop.setPower(forward - strafe + rotate);
         leftBottom.setPower(forward - strafe - rotate);
-        rightBottom.setPower(forward + strafe - rotate);
+        rightBottom.setPower(forward + strafe + rotate);
 
     }
     //Formula's copied from gmZero

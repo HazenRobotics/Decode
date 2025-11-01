@@ -10,24 +10,28 @@ import org.firstinspires.ftc.teamcode.utils.optimalRPM;
 public class RPMTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Shooter shooter = new Shooter(hardwareMap, "shooter");
+        Shooter shooter = new Shooter(hardwareMap, "leftShooter");
         GamepadEvents controller = new GamepadEvents(gamepad1);
         waitForStart();
         double rpm = 4000;
         while(opModeIsActive())
         {
-            if(controller.dpad_up.onPress())
-            {
-                rpm += 50;
+//            if(controller.dpad_up.onPress())
+//            {
+//                rpm += 50;
+//            }
+//            if(controller.dpad_down.onPress())
+//            {
+//                rpm -= 50;
+//            }
+//            shooter.setRPM(rpm);
+            double calculatedRPM = shooter.calculateTargetRPM(2.72, 1.1, 50);
+            if(controller.a.onPress()){
+                shooter.setVelocity(1800);
             }
-            if(controller.dpad_down.onPress())
-            {
-                rpm -= 50;
-            }
-            shooter.setRPM(rpm);
 
-//            shooter.shoot(optimalRPM.getRPM(3.5));
-            telemetry.addData("RPM: ", shooter.getPower() * 6000);
+            telemetry.addData("RPM", shooter.getVelocity());
+            telemetry.addData("Power: ", shooter.getPower() * 6000);
             telemetry.update();
             controller.update();
         }
