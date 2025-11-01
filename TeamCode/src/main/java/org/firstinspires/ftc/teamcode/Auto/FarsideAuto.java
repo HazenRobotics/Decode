@@ -23,14 +23,53 @@ public class FarsideAuto extends LinearOpMode {
     Intake intake;
     Shooter shooter;
     Transfer transfer;
+    private final double v = 1900;
     public void runOpMode() throws InterruptedException {
         drive = new MecanumDrive(hardwareMap);
         feeder = new Feeder(hardwareMap);
         flap = new Flap(hardwareMap, "frontFlap", "backFlap");
         intake = new Intake(hardwareMap);
-        shooter = new Shooter(hardwareMap);
+        shooter = new Shooter(hardwareMap, "leftShooter");
         transfer = new Transfer(hardwareMap);
-        waitForStart();
 
+
+        waitForStart();
+        flap.frontGo();
+        flap.backBlock();
+        shooter.setVelocity(v);
+        sleep(3000);
+        feeder.feed();
+        sleep(2000);
+        feeder.reset();
+        shooter.reset();
+        flap.backDown();
+        shooter.setVelocity(400);
+        transfer.setServo(1);
+        sleep(1500);
+        flap.backBlock();
+        transfer.setMotor(0.3);
+        sleep(500);
+        transfer.setMotor(0);
+        transfer.setServo(0);
+        feeder.feed(-1);
+        shooter.setVelocity(-200);
+        sleep(600);
+        shooter.setVelocity(v);
+        sleep(3000);
+        feeder.feed();
+        sleep(2000);
+        feeder.reset();
+        shooter.setVelocity(300);
+        flap.backDown();
+        sleep(1500);
+        feeder.feed(-1);
+        shooter.setVelocity(-200);
+        sleep(600);
+        shooter.setVelocity(v);
+        sleep(3000);
+        feeder.feed();
+        sleep(2000);
+        shooter.reset();
+        feeder.reset();
     }
 }

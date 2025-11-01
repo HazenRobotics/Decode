@@ -13,25 +13,25 @@ public class RPMTest extends LinearOpMode {
         Shooter shooter = new Shooter(hardwareMap, "leftShooter");
         GamepadEvents controller = new GamepadEvents(gamepad1);
         waitForStart();
-        double rpm = 4000;
+        double v = 2200;
         while(opModeIsActive())
         {
-//            if(controller.dpad_up.onPress())
-//            {
-//                rpm += 50;
-//            }
-//            if(controller.dpad_down.onPress())
-//            {
-//                rpm -= 50;
-//            }
-//            shooter.setRPM(rpm);
-            double calculatedRPM = shooter.calculateTargetRPM(2.72, 1.1, 50);
+            if(controller.dpad_up.onPress())
+            {
+                v += 100;
+            }
+            if(controller.dpad_down.onPress())
+            {
+                v -= 100;
+            }
             if(controller.a.onPress()){
-                shooter.setVelocity(1800);
+                shooter.setVelocity(v);
             }
 
-            telemetry.addData("RPM", shooter.getVelocity());
-            telemetry.addData("Power: ", shooter.getPower() * 6000);
+            telemetry.addLine("Button a to shoot");
+            telemetry.addData("Velocity", v);
+            telemetry.addData("Shooter Voltage", shooter.getVoltageNormalizedVelocity(1800));
+            telemetry.addData("Voltage:", shooter.getVoltage());
             telemetry.update();
             controller.update();
         }

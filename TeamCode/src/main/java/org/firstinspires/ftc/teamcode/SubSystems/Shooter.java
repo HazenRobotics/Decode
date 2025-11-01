@@ -40,7 +40,7 @@ public class Shooter {
     public Shooter(HardwareMap hw, String lmName)
     {
         leftMotor = hw.get(DcMotorEx.class, lmName);
-//        voltageSensor = hw.voltageSensor.iterator().next();;
+        voltageSensor = hw.voltageSensor.iterator().next();
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
     }
@@ -51,9 +51,18 @@ public class Shooter {
         double targetTicksPerSec = rpmToTicksPerSec(targetRPM);
         leftMotor.setVelocity(targetTicksPerSec);
     }
+    public double getVoltageNormalizedVelocity(double targetTicksPerSec) {
+        double currentVoltage = voltageSensor.getVoltage();
+        double normalization = nominalVoltage / currentVoltage;
+        return targetTicksPerSec * normalization;
+    }
+    public double getVoltage() {
+        return voltageSensor.getVoltage();
+    }
 
     public void setVelocity(double ticks){
-        leftMotor.setVelocity(ticks);
+        double normalizedTicks = getVoltageNormalizedVelocity(ticks);
+        leftMotor.setVelocity(normalizedTicks);
     }
 
 
@@ -62,13 +71,6 @@ public class Shooter {
         return ticksPerSecToRPM(ticksPerSec);
     }
 
-
-    private double normalizePower(double requestedPower) {
-        double voltage = voltageSensor.getVoltage();
-        if (voltage <= 0) return requestedPower;
-        double normalized = requestedPower * (nominalVoltage / voltage);
-        return Math.max(-1.0, Math.min(1.0, normalized));
-    }
 
     public double calculateTargetRPM(double distanceMeters, double targetHeightMeters, double angleDegrees) {
         double g = 9.81;

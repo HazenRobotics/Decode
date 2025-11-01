@@ -27,6 +27,8 @@ public class StarterRobot {
     //Reverse
     private final double RFEED_DELAY = 0.5, RLAUNCHER_DELAY = 0.5, RTRANSFER_DELAY = 0.2;
     private final double TRANSFER_DELAY = 1;
+    //Shooter velocity
+    private final double v = 1900;
 
     //timer
     private ElapsedTime timePassed = new ElapsedTime();
@@ -70,7 +72,7 @@ public class StarterRobot {
 
         flap.frontGo();
         flap.backBlock();
-        launcher.setVelocity(1800);
+        launcher.setVelocity(v);
     }
 
 
@@ -97,7 +99,7 @@ public class StarterRobot {
 
         transfer.setMotor(1);
         transfer.setServo(-1);
-        launcher.setVelocity(1800);
+        launcher.setVelocity(v);
         flap.frontBlock();
     }
 
@@ -156,7 +158,7 @@ public class StarterRobot {
         if(!reverse) return;
         double elapsed = timePassed.seconds() - reverseTime;
         if(elapsed > RLAUNCHER_DELAY){
-            launcher.setVelocity(1800);
+            launcher.setVelocity(v);
         }
         if(elapsed > RLAUNCHER_DELAY + RFEED_DELAY){
             feeder.feed(-0.3);

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot.StarterRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
 @TeleOp(group = "A", name = "LeStarter Robot TeleOP" )
@@ -19,6 +20,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
         controller1 = new GamepadEvents(gamepad1);
         controller2 = new GamepadEvents(gamepad2);
         robot = new StarterRobot(hardwareMap, controller1, controller2);
+        Shooter shooter = new Shooter(hardwareMap,"leftShooter");
         waitForStart();
         while(opModeIsActive())
         {
@@ -46,11 +48,13 @@ public class StarterRobotTeleOP extends LinearOpMode {
             controller1.update();
             controller2.update();
 
-            telemetry.addLine("Use Left Joystick Y for movement, Right Joystick " +
-                    "X for rotation");
-            telemetry.addLine("Left bumper: intake + shoot");
-            telemetry.addLine("Right bumper: shoot only");
-            telemetry.addLine(robot.getData());
+            telemetry.addLine("(b): Tranfer");
+            telemetry.addLine("(x): Load");
+            telemetry.addLine("(left bumper): Intake");
+            telemetry.addLine("(right bumper): Shoot");
+            telemetry.addLine("(y): Reverse Transfer");
+            telemetry.addData("Shooter Voltage", shooter.getVoltageNormalizedVelocity(1800));
+            telemetry.addData("Voltage:", shooter.getVoltage());
             telemetry.update();
 
         }
