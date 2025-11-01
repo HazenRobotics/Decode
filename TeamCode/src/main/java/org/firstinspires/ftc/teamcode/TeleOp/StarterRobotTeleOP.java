@@ -48,8 +48,9 @@ public class StarterRobotTeleOP extends LinearOpMode {
 
             telemetry.addLine("Use Left Joystick Y for movement, Right Joystick " +
                     "X for rotation");
-            telemetry.addLine("Use Bumpers for launching ball");
-
+            telemetry.addLine("Left bumper: intake + shoot");
+            telemetry.addLine("Right bumper: shoot only");
+            telemetry.addLine(robot.getData());
             telemetry.update();
 
         }
