@@ -21,7 +21,7 @@ public class Robot {
     GamepadEvents controller1, controller2;
 
     //constants
-    private final double RPM = 4000, INTAKE_SPEED = 0.8;
+    private final double RPM = 6000, INTAKE_SPEED = 0.8;
     private final double FEED_DELAY = 0.6, LAUNCHER_DELAY = 0.6; //seconds
 
     //timer

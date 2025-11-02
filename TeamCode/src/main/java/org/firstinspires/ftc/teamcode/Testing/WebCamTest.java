@@ -23,7 +23,8 @@ public class WebCamTest extends OpMode {
         //23: Purple, Purple, Green
         //24: Red Goal
         webcam.update();
-        AprilTagDetection id20 = webcam.getTagBySpecificId(20);
-        telemetry.addData("id20 String", id20.toString());
+        AprilTagDetection id = webcam.getTagBySpecificId(24);
+        webcam.disPlayDetectionTelementry(id);
+
     }
 }
