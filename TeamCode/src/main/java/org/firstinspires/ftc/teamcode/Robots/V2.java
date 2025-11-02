@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 public class V2 {
     Mecanum drive;
     Intake intake;
-    private final double RPM = 6000, DEFAULT_SET = 2000, INTAKE_SPEED = 0.5, REVERSE_INTAKE = -0.2;
+    private final double RPM = 2000, DEFAULT_SET = 2000, INTAKE_SPEED = 0.7, REVERSE_INTAKE = -0.1;
     Shooter shooter;
     Feeder feeder;
     GamepadEvents controller1, controller2;

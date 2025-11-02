@@ -52,6 +52,7 @@ public class LogitechCam {
     {
         return detectedTags;
     }
+
     public void disPlayDetectionTelementry(AprilTagDetection detectedId)
     {
         if(detectedId ==null)
@@ -90,4 +91,7 @@ public class LogitechCam {
             visionPortal.close();
         }
     }
+
+
+
 }
