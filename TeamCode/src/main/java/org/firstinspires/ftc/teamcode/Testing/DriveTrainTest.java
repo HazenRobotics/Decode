@@ -10,23 +10,47 @@ import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
 @TeleOp(group = "A LeTeleOp", name = "LeDrive Test")
 public class DriveTrainTest extends LinearOpMode {
-    Mecanum driveTrain;
-    GamepadEvents controller1;
+    DcMotorEx frontLeft, backLeft, frontRight, backRight;
 
     @Override
-    public void runOpMode(){
-        driveTrain = new Mecanum(hardwareMap, "FLM", "BLM", "FRM", "BRM", "imu");
-        controller1 = new GamepadEvents(gamepad1);
-        waitForStart();
-        while(opModeIsActive()) {
-            controller1.update();
-            driveTrain.drive(controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
-            telemetry.addData("FL ticks", driveTrain.getFrontLeftTicks());
-            telemetry.addData("FR ticks", driveTrain.getFrontRightTicks());
-            telemetry.addData("BL ticks", driveTrain.getBackLeftTicks());
-            telemetry.addData("BL ticks", driveTrain.getBackRightTicks());
+    public void runOpMode() throws InterruptedException {
+        frontLeft = hardwareMap.get(DcMotorEx.class, "FLM");
+        backLeft = hardwareMap.get(DcMotorEx.class, "BLM");
+        frontRight = hardwareMap.get(DcMotorEx.class,"FRM");
+        backRight = hardwareMap.get(DcMotorEx.class, "BRM");
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection((DcMotor.Direction.REVERSE));
 
-            telemetry.update();
+        waitForStart();
+
+        while (opModeIsActive()){
+
+            if(gamepad1.x){
+                telemetry.addLine("Powering Front Left Motor");
+                frontLeft.setPower(1);
+            }
+            else if(gamepad1.y){
+                telemetry.addLine("Powering Front Right Motor");
+                frontRight.setPower(1);
+            }
+            else if (gamepad1.a){
+                telemetry.addLine("Powering Back Left Motor");
+                backLeft.setPower(1);
+            }
+            else if(gamepad1.b){
+                telemetry.addLine("Powering Back Right Motor");
+                backRight.setPower(1);
+            }
+            else{
+                frontLeft.setPower(0);
+                frontRight.setPower(0);
+                backLeft.setPower(0);
+                backRight.setPower(0);
+            }
+            telemetry.addLine("X: FRONT LEFT MOTOR");
+            telemetry.addLine("Y: FRONT RIGHT MOTOR");
+            telemetry.addLine("a: BACK LEFT MOTOR");
+            telemetry.addLine("b: BACK RIGHT MOTOR");
             telemetry.update();
         }
     }
