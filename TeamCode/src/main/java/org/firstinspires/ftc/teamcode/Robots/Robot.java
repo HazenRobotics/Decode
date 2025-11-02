@@ -33,7 +33,7 @@ public class Robot {
     {
         drive = new Mecanum(hw);
         //drive = new TankDrive(hw);
-        launcher = new Shooter(hw, "leftShooter");
+        launcher = new Shooter(hw, "leftShooter", true);
         this.controller1 = controller1;
         this.controller2 = controller2;
         flap = new Flap(hw, "frontFlap", "backFlap");

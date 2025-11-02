@@ -13,11 +13,10 @@ import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 public class V2 {
     Mecanum drive;
     Intake intake;
-    private final double RPM = 2000, DEFAULT_SET = 2000, INTAKE_SPEED = 0.7, REVERSE_INTAKE = -0.1;
+    public double FAR_RPM = 6000, NEAR_RPM = 1000, DEFAULT_SET = 2000, INTAKE_SPEED = 0.7, REVERSE_INTAKE = -0.1;
     Shooter shooter;
     Feeder feeder;
     GamepadEvents controller1, controller2;
-
     //Timer
     private ElapsedTime timePassed = new ElapsedTime();
     private final double LAUNCHER_DELAY = 4, FEED_DELAY = 1, TRANSFER_DELAY = 2; //seconds
@@ -27,16 +26,29 @@ public class V2 {
     public V2(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new Mecanum(hw);
-        shooter = new Shooter(hw, "shooter");
+        shooter = new Shooter(hw, "shooter", true);
         this.controller1 = controller1;
         this.controller2 = controller2;
         this.intake = new Intake(hw, "left", "right");
         feeder = new Feeder(hw, "leftFeeder", "rightFeeder");
     }
 
+    public V2(HardwareMap hw)
+    {
+        drive = new Mecanum(hw);
+        shooter = new Shooter(hw, "shooter", true);
+        this.intake = new Intake(hw, "left", "right");
+        feeder = new Feeder(hw, "leftFeeder", "rightFeeder");
+    }
+
     public void drive()
     {
-        drive.drive(-controller1.left_stick_y, -controller1.left_stick_x, -controller1.right_stick_x);
+        drive.drive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+    }
+
+    public void drive(double forward, double strafe, double rotate)
+    {
+        drive.drive(forward, strafe, rotate);
     }
 
     public void intake()
@@ -58,7 +70,7 @@ public class V2 {
 
         double elapsed = timePassed.seconds();
 
-        if(controller1.right_bumper.onPress())
+        if(controller1.left_bumper.onPress())
         {
             isTransfered = !isTransfered;
         }
@@ -66,7 +78,7 @@ public class V2 {
         shootTime = timePassed.seconds();
         if(isTransfered)
         {
-            shooter.setRPM(RPM);
+            shooter.setShooterRPM(FAR_RPM);
             //sleep
             if(elapsed > FEED_DELAY)
             {
@@ -75,15 +87,23 @@ public class V2 {
 
 
         }else {
-            shooter.setRPM(-RPM/10);
+            shooter.setShooterRPM(-FAR_RPM/10);
             feeder.reverseFeed();
             timePassed.reset();
         }
 
-
-
-
     }
+
+    public void shoot(double shoot)
+    {
+        shooter.setShooterRPM(6000*shoot);
+    }
+
+    public void setRPM(double rpm)
+    {
+        FAR_RPM += rpm;
+    }
+
 
     public void updateShooting()
     {

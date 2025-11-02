@@ -19,18 +19,20 @@ public class V2TeleOP extends LinearOpMode {
         while(opModeIsActive())
         {
             robot.drive();
-            if (controller1.left_bumper.onPress())
+            if (controller1.right_bumper.onPress())
             {
                 robot.intake();
             }
-//            if (controller2.left_bumper.onPress())
-//            {
-//                robot.intake();
-//            }
-//            if(controller2.b.onPress())
-//            {
-//                robot.toggleFeed();
-//            }
+
+
+            if(controller2.dpad_up.onPress())
+            {
+                robot.setRPM(100);
+            }
+            if(controller2.dpad_down.onPress())
+            {
+                robot.setRPM(-100);
+            }
 
 
             robot.shoot();
@@ -40,8 +42,12 @@ public class V2TeleOP extends LinearOpMode {
 
             telemetry.addLine("Use Left Joystick Y for movement, Right Joystick " +
                     "X for rotation");
-            telemetry.addLine("Left bumper: intake");
-            telemetry.addLine("Right bumper: shoot only");
+            telemetry.addLine("Right bumper: intake");
+            telemetry.addLine("Left bumper: shoot only");
+
+            telemetry.addLine("Driver 2:\nDPAD_UP: Increase RPM\nDPAD_DOWN: Decreased RPM");
+
+
 //            telemetry.addLine("Driver 2\nLeft_Bumper: intake");
             telemetry.update();
         }

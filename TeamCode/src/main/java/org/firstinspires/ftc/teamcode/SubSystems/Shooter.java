@@ -55,7 +55,7 @@ public class Shooter {
         leftMotor = hw.get(DcMotorEx.class, lmName);
         voltageSensor = hw.voltageSensor.iterator().next();
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
     }
 
     public double getVelocity(){
@@ -95,7 +95,11 @@ public class Shooter {
 
     public void setShooterRPM(double rpm)
     {
-        leftMotor.setPower(rpm/6000);
+        double currentVoltage = voltageSensor.getVoltage();
+        double normalization = nominalVoltage / currentVoltage;
+
+        //Honestly that *6000 constant is kinda stupid
+        leftMotor.setPower((rpm/6000) * normalization);
         leftMotor.setVelocityPIDFCoefficients(kP, kI, kD, kF);
 
     }
