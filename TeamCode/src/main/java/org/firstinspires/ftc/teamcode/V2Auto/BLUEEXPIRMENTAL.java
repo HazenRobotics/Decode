@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robots.V2;
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
-
-@Autonomous(group = "auto", name = "LE Rouge AUTO")
-public class REDAUTO extends LinearOpMode {
+@Autonomous(group = "auto", name = "LE Blu AUTO")
+public class BLUEEXPIRMENTAL extends LinearOpMode {
     V2 robot;
     Feeder feeder;
 
@@ -24,24 +23,22 @@ public class REDAUTO extends LinearOpMode {
         feeder = new Feeder(hardwareMap);
         robot.setDriveSpeed(0.5);
 
-
         robot.drive(-0.5, 0, 0);
         sleep(3300);
-        robot.drive(0,0,0);
-        robot.shoot(1);
+        robot.drive(0, 0, 0);
+        robot.shoot(0.9);
         sleep(2000);
         feeder.feed();
-        robot.shoot(0.9);
+        robot.shoot(1);
         robot.intake();
 
         sleep(6000);
-        robot.drive(0, 0.5, 0);
-        sleep(1200);
+
+        robot.drive(0, -0.5, 0);
+        sleep(600);
 
 
-
-        while(opModeIsActive())
-        {
+        while (opModeIsActive()) {
             return;
         }
     }

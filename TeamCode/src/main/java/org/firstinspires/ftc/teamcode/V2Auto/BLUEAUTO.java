@@ -22,7 +22,7 @@ public class BLUEAUTO extends LinearOpMode {
         time.reset();
         robot = new V2(hardwareMap);
         feeder = new Feeder(hardwareMap);
-
+        robot.setDriveSpeed(0.5);
 
         robot.drive(-0.5, 0, 0);
         sleep(3300);
@@ -35,7 +35,7 @@ public class BLUEAUTO extends LinearOpMode {
 
         sleep(6000);
         robot.drive(0, -0.5, 0);
-        sleep(1200);
+        sleep(600);
 
 
 

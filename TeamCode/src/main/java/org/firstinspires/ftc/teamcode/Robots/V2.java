@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 public class V2 {
     Mecanum drive;
     Intake intake;
-    public double FAR_RPM = 6000, NEAR_RPM = 1000, DEFAULT_SET = 2000, INTAKE_SPEED = 0.7, REVERSE_INTAKE = -0.1;
+    public double FAR_RPM = 6000, NEAR_RPM = 1000, DEFAULT_SET = 2000, INTAKE_SPEED = 0.9, REVERSE_INTAKE = -0.1;
     Shooter shooter;
     Feeder feeder;
     GamepadEvents controller1, controller2;
@@ -43,7 +43,12 @@ public class V2 {
 
     public void drive()
     {
-        drive.drive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+        drive.drive(controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+    }
+
+    public void setDriveSpeed(double speed)
+    {
+        drive.setForwardConst(speed);
     }
 
     public void drive(double forward, double strafe, double rotate)
@@ -57,6 +62,15 @@ public class V2 {
         intake.intakeToggle(INTAKE_SPEED);
 
     }
+
+    public void reverseIntake()
+    {
+
+        intake.intakeToggle(-INTAKE_SPEED);
+
+    }
+
+
 
     public void toggleFeed()
     {
@@ -102,6 +116,16 @@ public class V2 {
     public void setRPM(double rpm)
     {
         FAR_RPM += rpm;
+    }
+
+    public void multiplyRPM(double mult)
+    {
+        FAR_RPM *= mult;
+    }
+
+    public double getRPM()
+    {
+        return FAR_RPM;
     }
 
 

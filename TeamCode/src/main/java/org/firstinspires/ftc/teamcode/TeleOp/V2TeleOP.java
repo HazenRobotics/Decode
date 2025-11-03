@@ -15,6 +15,7 @@ public class V2TeleOP extends LinearOpMode {
         controller1 = new GamepadEvents(gamepad1);
         controller2 = new GamepadEvents(gamepad2);
         robot = new V2(hardwareMap, controller1, controller2);
+
         waitForStart();
         while(opModeIsActive())
         {
@@ -23,6 +24,22 @@ public class V2TeleOP extends LinearOpMode {
             {
                 robot.intake();
             }
+
+            if (controller1.b.onPress())
+            {
+                robot.toggleFeed();
+            }
+
+            if(controller2.x.onPress())
+            {
+                robot.multiplyRPM(-1);
+            }
+
+            if(controller2.a.onPress())
+            {
+                robot.reverseIntake();
+            }
+
 
 
             if(controller2.dpad_up.onPress())
@@ -46,7 +63,8 @@ public class V2TeleOP extends LinearOpMode {
             telemetry.addLine("Left bumper: shoot only");
 
             telemetry.addLine("Driver 2:\nDPAD_UP: Increase RPM\nDPAD_DOWN: Decreased RPM");
-
+            telemetry.addLine("X: Reverse Flywheel");
+            telemetry.addLine("A: Reverse Intake");
 
 //            telemetry.addLine("Driver 2\nLeft_Bumper: intake");
             telemetry.update();
