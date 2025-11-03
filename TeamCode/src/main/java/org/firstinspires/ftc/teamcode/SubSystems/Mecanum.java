@@ -14,6 +14,7 @@ public class Mecanum {
     private double CM_2_INCHES = 0.39370079;
     private double WHEEL_DIAMETER = 104; //mm
     private int TICKS_PER_ROT = 4096;
+    private double forwardConst = 0.7;
     private double INCHES_PER_ROTATION = (WHEEL_DIAMETER * CM_2_INCHES * Math.PI) / 10; //Distance in inches per rotation
     private double TICKS_PER_INCH = (TICKS_PER_ROT / INCHES_PER_ROTATION); //# of Ticks per Inch of distance
     IMU imu;
@@ -59,13 +60,18 @@ public class Mecanum {
 
     public void drive(double forward, double strafe, double rotate)
     {
-        forward *= 0.5;
+        forward *= forwardConst;
 
         leftTop.setPower(forward + strafe + rotate);
         rightTop.setPower(forward - strafe - rotate);
         leftBottom.setPower(forward - strafe + rotate);
         rightBottom.setPower(forward + strafe - rotate);
 
+    }
+
+    public void setForwardConst(double value)
+    {
+        forwardConst = value;
     }
     //rotation is going front and back
     //strafe is rotate
