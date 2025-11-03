@@ -27,6 +27,7 @@ public class MecanumDrive {
         leftBottom = hw.get(DcMotorEx.class, leftBottomName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
+        rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBottom.setDirection(DcMotorSimple.Direction.REVERSE);
 
 //        imu = hw.get(IMU.class, imuName);

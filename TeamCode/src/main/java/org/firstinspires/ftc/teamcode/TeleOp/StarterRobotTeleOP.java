@@ -55,6 +55,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
             telemetry.addLine("(y): Reverse Transfer");
             telemetry.addData("Shooter Voltage", shooter.getVoltageNormalizedVelocity(1800));
             telemetry.addData("Voltage:", shooter.getVoltage());
+            telemetry.addData("Velocity", shooter.getVelocity());
             telemetry.update();
 
         }
