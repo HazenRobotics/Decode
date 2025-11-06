@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.SubSystems;
+package org.firstinspires.ftc.teamcode.SubsystemsV2;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class MecanumDrive {
+public class MecanumV2 {
     DcMotorEx leftTop, leftBottom, rightTop, rightBottom;
     private double CM_2_INCHES = 0.39370079;
     private double WHEEL_DIAMETER = 104; //mm
@@ -21,15 +21,14 @@ public class MecanumDrive {
             rightTopName = "FRM", rightBottomName = "BRM", imuName = "imu";
 
 
-    public MecanumDrive(HardwareMap hw) {
+    public MecanumV2(HardwareMap hw) {
         leftTop = hw.get(DcMotorEx.class, leftTopName);
         rightTop = hw.get(DcMotorEx.class, rightTopName);
         leftBottom = hw.get(DcMotorEx.class, leftBottomName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
-        leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
 //        imu = hw.get(IMU.class, imuName);
 //        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
 //                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
@@ -37,11 +36,11 @@ public class MecanumDrive {
 //        imu.initialize(parameters);
     }
 
-    public MecanumDrive(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
-                        String rightBottomName, String imuName) {
+    public MecanumV2(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
+                   String rightBottomName, String imuName) {
         leftTop = hw.get(DcMotorEx.class,  leftTopName);
-        rightTop = hw.get(DcMotorEx.class, leftBottomName);
-        leftBottom = hw.get(DcMotorEx.class, rightTopName);
+        rightTop = hw.get(DcMotorEx.class, rightTopName);
+        leftBottom = hw.get(DcMotorEx.class, leftBottomName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
         rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -56,15 +55,24 @@ public class MecanumDrive {
         imu.initialize(parameters);
     }
 
-    public void drive(double forward, double strafe, double rotate) {
 
-        //Issue with rotating
+
+
+
+    public void drive(double forward, double strafe, double rotate)
+    {
+
+
         leftTop.setPower(forward + strafe + rotate);
         rightTop.setPower(forward - strafe + rotate);
         leftBottom.setPower(forward - strafe - rotate);
         rightBottom.setPower(forward + strafe - rotate);
 
     }
+    //rotation is going front and back
+    //strafe is rotate
+    //Forward and back is going inward
+
     //Formula's copied from gmZero
     public void fieldCentricDrive(double forward, double strafe, double rotate) {
 

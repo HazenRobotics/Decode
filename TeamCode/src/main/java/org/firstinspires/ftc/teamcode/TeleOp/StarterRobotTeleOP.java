@@ -2,11 +2,8 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.robot.Robot;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Robot.StarterRobot;
+import org.firstinspires.ftc.teamcode.Robots.StarterRobot;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
 @TeleOp(group = "A", name = "LeStarter Robot TeleOP" )
@@ -42,7 +39,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
                     "X for rotation");
             telemetry.addLine("Left bumper: intake + shoot");
             telemetry.addLine("Right bumper: shoot only");
-            telemetry.addLine(robot.getData());
+//            telemetry.addLine(robot.getData());
             telemetry.update();
 
         }

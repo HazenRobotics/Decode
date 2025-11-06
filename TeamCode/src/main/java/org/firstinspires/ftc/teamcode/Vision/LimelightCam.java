@@ -1,30 +1,32 @@
 package org.firstinspires.ftc.teamcode.Vision;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import androidx.annotation.NonNull;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class AprilTags {
+public class LimelightCam {
 
         String limelightName = "limelight";
         String ledName = "led";
         int allianceSide = 0;
         Limelight3A limelight;
         RevBlinkinLedDriver led;
-        //Need to calculate this
+        //height all in inches
         final double limit = 0.0;
-
+        final double motifHeight = 19.5, limelightElevation = 0;
+        final double limelightAngle = 0;
         //Read AprilTag, return a pattern:
         //20: Blue Goal
         //21: Green, Purple, Purple
         //22: Purple, Green, Purple
         //23: Purple, Purple, Green
         //24: Red Goal
-        public AprilTags(String side)
+        public LimelightCam(HardwareMap hw, String side)
         {
-                limelight = hardwareMap.get(Limelight3A.class, limelightName);
+                limelight = hw.get(Limelight3A.class, limelightName);
 //                led = hardwareMap.get(RevBlinkinLedDriver.class, ledName);
 
                 if(side.equalsIgnoreCase("blue"))
@@ -34,6 +36,7 @@ public class AprilTags {
                 {
                         allianceSide = 2;
                 }
+                initialize(allianceSide);
         }
 
         public void initialize(int i)
@@ -60,8 +63,10 @@ public class AprilTags {
         public void readGoal()
         {
                 initialize(allianceSide);
+                //Method for now to see the pos from the goal
+//                getPosFromTag();
                 //method to check within range of goal. maybe calculate power(later)?
-                checkValidShoot();
+//                checkValidShoot();
         }
 
         //Check if the robot is in Shooting Range
@@ -72,28 +77,38 @@ public class AprilTags {
                         double tx = result.getTx(); // How far left or right the target is (degrees)
                         double ty = result.getTy(); // How far up or down the target is (degrees)
                         //Replace with check
-                        if(Math.hypot(tx, ty) >= limit)
-                        {
-//                                led.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
-                                   //print some result
-                        }
+
+
                 }
         }
+        //attempt 2
 
-        public void shoot()
+        public double getPosFromTag()
         {
-                //Read Limelight x, y, and angle
+                //distance = (target height - camera height)
+                //           / tan(camera angle + target angle)
 
                 LLResult result = limelight.getLatestResult();
-                if (result != null && result.isValid()) {
-                        double tx = result.getTx(); // How far left or right the target is (degrees)
-                        double ty = result.getTy(); // How far up or down the target is (degrees)
+                double ty;
+                double value = Math.PI;
+                //I think I need to localize the robot to know where it is
+                if (result != null && result.isValid())
+                {
+
+                        ty = result.getTy(); // How far up or down the target is (degrees)
 
                         //Use Projectile Motion formula
                         //Assume the 435 rpm motor is used
-
+                        value = (motifHeight - limelightElevation) / Math.tan(Math.toRadians(limelightAngle + (double) ty));
                 }
 
+                return value;
+        }
 
+        @NonNull
+        public String toString()
+        {
+                LLResult result = limelight.getLatestResult();
+                return "Tx: " + result.getTx() + "\nTy: " + result.getTy() + "\nTa: " + result.getTa();
         }
 }

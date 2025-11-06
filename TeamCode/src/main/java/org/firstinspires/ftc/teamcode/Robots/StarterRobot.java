@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Robot;
+package org.firstinspires.ftc.teamcode.Robots;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -6,14 +6,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.SubSystems.Flap;
 import org.firstinspires.ftc.teamcode.SubSystems.Intake;
-import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.Mecanum;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Transfer;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 
 public class StarterRobot {
-    MecanumDrive drive;
+    Mecanum drive;
     Shooter launcher;
     Feeder feeder;
     Intake intake;
@@ -36,8 +35,7 @@ public class StarterRobot {
 
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
-        drive = new MecanumDrive(hw);
-        //drive = new TankDrive(hw);
+        drive = new Mecanum(hw);
         launcher = new Shooter(hw, "leftShooter");
         this.controller1 = controller1;
         this.controller2 = controller2;

@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Feeder {
     CRServo leftFeeder, rightFeeder;
     double speed = 1;
+    public boolean isFeed = false;
     public Feeder(HardwareMap hw){
         leftFeeder = hw.get(CRServo.class,"leftFeeder");
         rightFeeder = hw.get(CRServo.class,"rightFeeder");
@@ -17,9 +18,35 @@ public class Feeder {
         rightFeeder.setDirection(CRServo.Direction.REVERSE);
 
     }
+
+    public Feeder(HardwareMap hw, String leftName, String rightName){
+        leftFeeder = hw.get(CRServo.class,leftName);
+        rightFeeder = hw.get(CRServo.class,rightName);
+
+        //Setting Direction has had no effect
+//        leftFeeder.setDirection(Servo.Direction.FORWARD);
+        rightFeeder.setDirection(CRServo.Direction.REVERSE);
+
+    }
     public void feed(){
         leftFeeder.setPower(speed);
         rightFeeder.setPower(speed);
+        isFeed = true;
+    }
+    public void reverseFeed(){
+        leftFeeder.setPower(-speed);
+        rightFeeder.setPower(-speed);
+        isFeed = false;
+    }
+
+    public void toggle()
+    {
+        if(isFeed)
+        {
+            reverseFeed();
+        }else {
+            feed();
+        }
     }
 
     public void reset(){
