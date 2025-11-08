@@ -31,7 +31,7 @@ public class Mecanum {
         leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
         leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBottom.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightTop.setDirection(DcMotorSimple.Direction.FORWARD);
 //        imu = hw.get(IMU.class, imuName);
 //        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
 //                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
@@ -63,8 +63,8 @@ public class Mecanum {
         forward *= forwardConst;
 
         leftTop.setPower(forward + strafe + rotate);
-        rightTop.setPower(forward - strafe - rotate);
         leftBottom.setPower(forward - strafe + rotate);
+        rightTop.setPower(forward - strafe - rotate);
         rightBottom.setPower(forward + strafe - rotate);
 
     }
