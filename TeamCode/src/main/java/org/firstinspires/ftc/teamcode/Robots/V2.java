@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.Robots;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.SubSystems.LED;
@@ -22,7 +25,8 @@ public class V2 {
     private final double LAUNCHER_DELAY = 4, FEED_DELAY = 1, TRANSFER_DELAY = 2; //seconds
     private double shootTime = 0, intakeTime = 0;
 
-    private boolean isShooting = false, isTransfered = false;
+    private boolean isShooting = false, isTransfered = false, isFeeder = false;
+
     public V2(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new Mecanum(hw);
@@ -75,7 +79,10 @@ public class V2 {
     public void toggleFeed()
     {
         feeder.toggle();
+        isFeeder = !isFeeder;
     }
+
+
 
 
     public void shoot()
@@ -110,7 +117,17 @@ public class V2 {
 
     public void shoot(double shoot)
     {
-        shooter.setShooterRPM(6000*shoot);
+        if(isShooting)
+        {
+            shooter.setShooterRPM(0);
+            isShooting = false;
+        }else
+        {
+
+            shooter.setShooterRPM(6000*shoot);
+            isShooting = true;
+        }
+
     }
 
     public void setRPM(double rpm)
@@ -126,6 +143,18 @@ public class V2 {
     public double getRPM()
     {
         return FAR_RPM;
+    }
+
+    public void feederEmoji(Telemetry telemetry)
+    {
+        if(isFeeder)
+        {
+            telemetry.addLine("🤪🤪🤪🤪🤪🤪🤪🤪🤪");
+//            telemetry.speak("67 67 67 67 67 67");
+        }else {
+            telemetry.addLine("🇹🇼🇹🇼🇹🇼🇹🇼🇹🇼🇹🇼🇹🇼🇹🇼🇹🇼");
+//            telemetry.speak("我需要一辆福特F-150来获得哈兹");
+        }
     }
 
 
