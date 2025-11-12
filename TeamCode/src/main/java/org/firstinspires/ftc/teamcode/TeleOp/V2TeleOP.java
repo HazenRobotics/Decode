@@ -16,7 +16,7 @@ public class V2TeleOP extends LinearOpMode {
         controller1 = new GamepadEvents(gamepad1);
         controller2 = new GamepadEvents(gamepad2);
         robot = new V2(hardwareMap, controller1, controller2);
-
+        boolean far = false;
 
 
         waitForStart();
@@ -30,8 +30,16 @@ public class V2TeleOP extends LinearOpMode {
 
             if (controller1.a.onPress())
             {
+
                 robot.toggleFeed();
             }
+
+            if (controller1.x.onPress())
+            {
+                far=!far;
+
+                }
+
 
             if(controller2.x.onPress())
             {
@@ -42,7 +50,10 @@ public class V2TeleOP extends LinearOpMode {
             {
                 robot.reverseIntake();
             }
-
+            if(controller2.a.onPress())
+            {
+                robot.shoot(-1);
+            }
 
             if(controller2.dpad_up.onPress())
             {
@@ -55,7 +66,12 @@ public class V2TeleOP extends LinearOpMode {
 
             if(controller1.left_bumper.onPress())
             {
-                robot.shoot(6000);
+                if(far){
+                    robot.shoot(1);
+                } else if (!far) {
+                    robot.shoot(.9);
+                }
+
             }
 
 
