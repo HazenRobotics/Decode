@@ -78,8 +78,16 @@ public class V2 {
 
     public void toggleFeed()
     {
-        feeder.toggle();
-        isFeeder = !isFeeder;
+      if (isShooting)
+      {
+          feeder.toggle();
+          isFeeder = !isFeeder;
+      }
+       else {
+          feeder.reverseFeed();
+      }
+        //feeder.toggle();
+        //isFeeder = !isFeeder;
     }
 
 
@@ -121,6 +129,7 @@ public class V2 {
         {
             shooter.setShooterRPM(0);
             isShooting = false;
+            feeder.reverseFeed();
         }else
         {
 
