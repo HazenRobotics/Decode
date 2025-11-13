@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robots.V2;
 import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
-@Autonomous(group = "auto", name = "LE Blu AUTO")
+@Autonomous(group = "auto", name = "LE Blu Experimental AUTO")
 public class BLUEEXPIRMENTAL extends LinearOpMode {
     V2 robot;
     Feeder feeder;

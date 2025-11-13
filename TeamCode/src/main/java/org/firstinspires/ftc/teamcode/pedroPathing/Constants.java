@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
@@ -27,11 +28,13 @@ public class Constants {
             .translationalPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.01, 0.015))
             .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.01, 0.015))
             .headingPIDFCoefficients(new PIDFCoefficients(1,0,0.01,0.01))
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.08,0));
-//            .drivePIDFCoefficients();
+            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.08,0))
+            .centripetalScaling(0.0005)
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025, 0, 0.00001, 0.6,0.01));
+
 //            .headingPIDFCoefficients(new PIDFCoefficients());
 
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1.0, 1.0);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
@@ -53,7 +56,7 @@ public class Constants {
 
 
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .maxPower(1)
+            .maxPower(0.7)
             .rightFrontMotorName("FRM")
             .rightRearMotorName("BRM")
             .leftRearMotorName("BLM")

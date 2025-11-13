@@ -30,15 +30,8 @@ public class V2TeleOP extends LinearOpMode {
 
             if (controller1.a.onPress())
             {
-
                 robot.toggleFeed();
             }
-
-            if (controller1.x.onPress())
-            {
-                far=!far;
-
-                }
 
 
             if(controller2.x.onPress())
@@ -66,12 +59,18 @@ public class V2TeleOP extends LinearOpMode {
 
             if(controller1.left_bumper.onPress())
             {
-                if(far){
+                if(far)
+                {
                     robot.shoot(1);
-                } else if (!far) {
-                    robot.shoot(.9);
+                }else {
+                    robot.shoot(0.9);
                 }
 
+            }
+
+            if(controller1.x.onPress())
+            {
+                far = !far;
             }
 
 
