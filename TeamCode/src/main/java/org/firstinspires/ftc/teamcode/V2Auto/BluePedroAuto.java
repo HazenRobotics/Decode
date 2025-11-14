@@ -9,16 +9,17 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.localization.Localizer;
 import com.pedropathing.math.Vector;
 import com.pedropathing.paths.PathChain;
+import com.pedropathing.paths.PathConstraints;
 import com.pedropathing.util.Timer;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
+@Autonomous(name = "BluePedroAuto")
 public class BluePedroAuto extends LinearOpMode {
     private int pathState;
-    private FollowerConstants followerConstants;
-    private Drivetrain drive;
-    private Localizer localizer;
+    public static PathConstraints pathConstraints;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
@@ -27,7 +28,8 @@ public class BluePedroAuto extends LinearOpMode {
     //Shooting position
     private final Pose shootingPose = new Pose(46.33043478260869,96.83478260869565,Math.toRadians(135));
     //Near side 3 balls
-    private final Pose firstLine = new Pose(41.321739130434786,35.686956521739134,Math.toRadians(0));
+
+    private final Pose firstLine = new Pose(40.48695652173913,84.31304347826088,Math.toRadians(0));
     private final Pose firstPush = new Pose(18.782608695652172,84.10434782608695,Math.toRadians(0));
     private final Pose firstControl = new Pose(51.547826086956526,80.76521739130435);
     //Middle 3 balls
@@ -35,8 +37,8 @@ public class BluePedroAuto extends LinearOpMode {
     private final Pose secondPush = new Pose(18.782608695652172,60.104347826086965,Math.toRadians(0));
     private final Pose secondControl = new Pose(61.982608695652175,54.469565217391306);
     //Last three balls
-    private final Pose thirdLine = new Pose(40.48695652173913,84.31304347826088,Math.toRadians(0));
-    private final Pose thirdPush = new Pose(18.782608695652172,83.89565217391304,Math.toRadians(0));
+    private final Pose thirdLine = new Pose(41.321739130434786,35.686956521739134,Math.toRadians(0));
+    private final Pose thirdPush = new Pose(18.782608695652172,35.686956521739134,Math.toRadians(0));
     private final Pose thirdControl = new Pose(63.02608695652174,28.382608695652173);
     private PathChain shoot, firstBall, push1, back1, secondBall, push2, back2, thirdBall, push3, back3;
     public void buildPaths(){
