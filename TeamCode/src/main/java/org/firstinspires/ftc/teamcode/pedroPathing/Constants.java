@@ -31,10 +31,9 @@ public class Constants {
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.08,0))
             .centripetalScaling(0.0005)
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025, 0, 0.00001, 0.6,0.01));
-
-//            .headingPIDFCoefficients(new PIDFCoefficients());
-
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1.0, 1.0);
+    //Originally(1, 100, 1,1)
+    //Modified(0.5, 100, 0.9, 1)
+    public static PathConstraints pathConstraints = new PathConstraints(0.50, 100, 0.9, 1);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
@@ -56,7 +55,7 @@ public class Constants {
 
 
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .maxPower(0.7)
+            .maxPower(0.5)
             .rightFrontMotorName("FRM")
             .rightRearMotorName("BRM")
             .leftRearMotorName("BLM")
