@@ -78,17 +78,17 @@ public class V2 {
 
     public void toggleFeed()
     {
-      if (isShooting)
-      {
-          feeder.toggle();
-          isFeeder = !isFeeder;
-      }
-       else
-       {
-          feeder.reverseFeed();
-      }
-//        feeder.toggle();
-//        isFeeder = !isFeeder;
+//      if (isShooting)
+//      {
+//          feeder.toggle();
+//          isFeeder = !isFeeder;
+//      }
+//       else
+//       {
+//          feeder.reverseFeed();
+//      }
+        feeder.toggle();
+        isFeeder = !isFeeder;
     }
 
 
