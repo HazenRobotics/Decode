@@ -1,13 +1,8 @@
-package org.firstinspires.ftc.teamcode.V2Auto;
+package org.firstinspires.ftc.teamcode.Auto;
 
-import com.pedropathing.Drivetrain;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.follower.FollowerConstants;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.localization.Localizer;
-import com.pedropathing.math.Vector;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.paths.PathConstraints;
 import com.pedropathing.util.Timer;
