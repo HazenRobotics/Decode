@@ -25,7 +25,7 @@ public class V2 {
     private final double LAUNCHER_DELAY = 4, FEED_DELAY = 1, TRANSFER_DELAY = 2; //seconds
     private double shootTime = 0, intakeTime = 0;
 
-    private boolean isShooting = false, isTransfered = false, isFeeder = false, farShot = true;
+     public boolean isShooting = false, isTransfered = false, isFeeder = false, farShot = true;
 
     public V2(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
