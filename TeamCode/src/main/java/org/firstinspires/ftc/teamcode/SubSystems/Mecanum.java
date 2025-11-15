@@ -74,7 +74,6 @@ public class Mecanum {
             leftBottom.setPower(0);
             rightTop.setPower(0);
             rightBottom.setPower(0);
-
         }else {
             leftTop.setPower(forward + strafe + rotate);
             leftBottom.setPower(forward - strafe + rotate);
