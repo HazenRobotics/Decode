@@ -25,7 +25,7 @@ public class V2 {
     private final double LAUNCHER_DELAY = 4, FEED_DELAY = 1, TRANSFER_DELAY = 2; //seconds
     private double shootTime = 0, intakeTime = 0;
 
-    private boolean isShooting = false, isTransfered = false, isFeeder = false;
+    private boolean isShooting = false, isTransfered = false, isFeeder = false, farShot = true;
 
     public V2(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
@@ -78,16 +78,17 @@ public class V2 {
 
     public void toggleFeed()
     {
-      if (isShooting)
-      {
-          feeder.toggle();
-          isFeeder = !isFeeder;
-      }
-       else {
-          feeder.reverseFeed();
-      }
-        //feeder.toggle();
-        //isFeeder = !isFeeder;
+//      if (isShooting)
+//      {
+//          feeder.toggle();
+//          isFeeder = !isFeeder;
+//      }
+//       else
+//       {
+//          feeder.reverseFeed();
+//      }
+        feeder.toggle();
+        isFeeder = !isFeeder;
     }
 
 
@@ -125,14 +126,16 @@ public class V2 {
 
     public void shoot(double shoot)
     {
+
         if(isShooting)
         {
             shooter.setShooterRPM(0);
             isShooting = false;
             feeder.reverseFeed();
+
+
         }else
         {
-
             shooter.setShooterRPM(6000*shoot);
             isShooting = true;
         }

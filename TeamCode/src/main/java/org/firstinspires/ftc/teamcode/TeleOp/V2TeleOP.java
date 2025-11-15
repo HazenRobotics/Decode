@@ -30,15 +30,8 @@ public class V2TeleOP extends LinearOpMode {
 
             if (controller1.a.onPress())
             {
-
                 robot.toggleFeed();
             }
-
-            if (controller1.x.onPress())
-            {
-                far=!far;
-
-                }
 
 
             if(controller2.x.onPress())
@@ -66,12 +59,18 @@ public class V2TeleOP extends LinearOpMode {
 
             if(controller1.left_bumper.onPress())
             {
-                if(far){
+                if(far)
+                {
                     robot.shoot(1);
-                } else if (!far) {
-                    robot.shoot(.9);
+                }else {
+                    robot.shoot(0.9);
                 }
 
+            }
+
+            if(controller1.x.onPress())
+            {
+                far = !far;
             }
 
 
@@ -83,20 +82,22 @@ public class V2TeleOP extends LinearOpMode {
             controller2.update();
             robot.feederEmoji(telemetry);
 
-//            telemetry.addLine("Use Left Joystick Y for movement, Right Joystick " +
-//                    "X for rotation");
+            telemetry.addLine("Use Left Joystick Y for movement, Right Joystick " +
+                    "X for rotation");
             telemetry.addLine("使用左摇杆 Y 控制移动，右摇杆 + X 控制旋转");
-//            telemetry.addLine("Right bumper: intake");
+            telemetry.addLine("Right bumper: intake");
             telemetry.addLine("右侧保险杠：进气口");
-//            telemetry.addLine("Left bumper: shoot only");
+            telemetry.addLine("Left bumper: shoot only");
             telemetry.addLine("左侧肩键：仅射击");
-//            telemetry.addLine("Driver 2:\nDPAD_UP: Increase RPM\nDPAD_DOWN: Decreased RPM");
+            telemetry.addLine("A: Feeders");
+            telemetry.addLine("A: Ching Chong will translate later");
+            telemetry.addLine("Driver 2:\nDPAD_UP: Increase RPM\nDPAD_DOWN: Decreased RPM");
             telemetry.addLine("驱动器 2：\\n方向键向上：增加转速\\n方向键向下：降低转速");
-//            telemetry.addLine("X: Reverse Flywheel");
+            telemetry.addLine("X: Reverse Flywheel");
             telemetry.addLine("Y：反向飞轮");
-//            telemetry.addLine("A: Reverse Intake");
-            telemetry.addLine("A：拨动式喂食器");
-//            telemetry.addLine("Driver 2\nLeft_Bumper: intake");
+
+//            telemetry.addLine("A：拨动式喂食器");
+//
 
             telemetry.update();
         }

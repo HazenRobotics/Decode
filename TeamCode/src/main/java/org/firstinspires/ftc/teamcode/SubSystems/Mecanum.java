@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class Mecanum {
     DcMotorEx leftTop, leftBottom, rightTop, rightBottom;
@@ -32,11 +33,11 @@ public class Mecanum {
         leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBottom.setDirection(DcMotorSimple.Direction.FORWARD);
         rightTop.setDirection(DcMotorSimple.Direction.FORWARD);
-//        imu = hw.get(IMU.class, imuName);
-//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-//                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-//                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
-//        imu.initialize(parameters);
+        imu = hw.get(IMU.class, imuName);
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
+        imu.initialize(parameters);
     }
 
     public Mecanum(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
@@ -54,18 +55,33 @@ public class Mecanum {
         imu = hw.get(IMU.class, imuName);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
         imu.initialize(parameters);
     }
 
     public void drive(double forward, double strafe, double rotate)
     {
         forward *= forwardConst;
+        YawPitchRollAngles angles = imu.getRobotYawPitchRollAngles();
+        double pitch = angles.getPitch(AngleUnit.DEGREES);
+        double roll  = angles.getRoll(AngleUnit.DEGREES);
 
-        leftTop.setPower(forward + strafe + rotate);
-        leftBottom.setPower(forward - strafe + rotate);
-        rightTop.setPower(forward - strafe - rotate);
-        rightBottom.setPower(forward + strafe - rotate);
+        double PITCH = 15;
+        double ROLL = 15;
+        if (Math.abs(pitch) > PITCH || Math.abs(roll) > ROLL)
+        {
+            leftTop.setPower(0);
+            leftBottom.setPower(0);
+            rightTop.setPower(0);
+            rightBottom.setPower(0);
+        }else {
+            leftTop.setPower(forward + strafe + rotate);
+            leftBottom.setPower(forward - strafe + rotate);
+            rightTop.setPower(forward - strafe - rotate);
+            rightBottom.setPower(forward + strafe - rotate);
+        }
+
+
 
     }
 
