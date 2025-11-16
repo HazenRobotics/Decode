@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robots.V2;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
-@TeleOp(group = "A", name = "Red TeleOP" )
 public class V2RedTeleOP extends LinearOpMode {
     V2 robot;
     GamepadEvents controller1, controller2;
