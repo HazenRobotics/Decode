@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.ftccommon.SoundPlayer;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robots.StarterRobot;
 import org.firstinspires.ftc.teamcode.Robots.V2;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.utils.LEDLights;
+
 @TeleOp(group = "A", name = "狮子并不关心三球进洞" )
 public class V2TeleOP extends LinearOpMode {
     V2 robot;
@@ -17,7 +20,9 @@ public class V2TeleOP extends LinearOpMode {
         controller2 = new GamepadEvents(gamepad2);
         robot = new V2(hardwareMap, controller1, controller2);
         boolean far = false;
-
+        boolean shootTog = false;
+        RevBlinkinLedDriver led;
+        LEDLights LED1 = new LEDLights(hardwareMap, "lights");
 
         waitForStart();
         while(opModeIsActive())
@@ -26,6 +31,12 @@ public class V2TeleOP extends LinearOpMode {
             if (controller1.right_bumper.onPress())
             {
                 robot.intake();
+            }
+
+            if(far){
+                LED1.farColor();
+            }else{
+                LED1.nearColor();
             }
 
             if (controller1.a.onPress())
@@ -59,13 +70,17 @@ public class V2TeleOP extends LinearOpMode {
 
             if(controller1.left_bumper.onPress())
             {
-                if(far)
-                {
-                    robot.shoot(1);
-                }else {
-                    robot.shoot(0.9);
+                shootTog = !shootTog;
+                if(shootTog == true){
+                    if(far)
+                    {
+                        robot.shoot(1350);
+                    }else {
+                        robot.shoot(1050);
+                    }
+                }else{
+                    robot.shoot(0);
                 }
-
             }
 
             if(controller1.x.onPress())

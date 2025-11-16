@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 public class V2 {
     Mecanum drive;
     Intake intake;
-    public double FAR_RPM = 6000, NEAR_RPM = 1000, DEFAULT_SET = 2000, INTAKE_SPEED = 0.9, REVERSE_INTAKE = -0.1;
+    public double FAR_RPM = 6000, NEAR_RPM = 1000, DEFAULT_SET = 2000, INTAKE_SPEED = -0.9, REVERSE_INTAKE = -0.1;
     Shooter shooter;
     Feeder feeder;
     GamepadEvents controller1, controller2;
@@ -33,7 +33,7 @@ public class V2 {
         shooter = new Shooter(hw, "shooter", true);
         this.controller1 = controller1;
         this.controller2 = controller2;
-        this.intake = new Intake(hw, "left", "right");
+        this.intake = new Intake(hw);
         feeder = new Feeder(hw, "leftFeeder", "rightFeeder");
     }
 
@@ -41,13 +41,13 @@ public class V2 {
     {
         drive = new Mecanum(hw);
         shooter = new Shooter(hw, "shooter", true);
-        this.intake = new Intake(hw, "left", "right");
+        this.intake = new Intake(hw);
         feeder = new Feeder(hw, "leftFeeder", "rightFeeder");
     }
 
     public void drive()
     {
-        drive.drive(controller1.left_stick_y, -controller1.left_stick_x, controller1.right_stick_x);
+        drive.drive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
     }
 
     public void setDriveSpeed(double speed)
@@ -87,8 +87,9 @@ public class V2 {
 //       {
 //          feeder.reverseFeed();
 //      }
-        feeder.toggle();
         isFeeder = !isFeeder;
+        feeder.toggle(isFeeder);
+
     }
 
 
@@ -126,19 +127,7 @@ public class V2 {
 
     public void shoot(double shoot)
     {
-
-        if(isShooting)
-        {
-            shooter.setShooterRPM(0);
-            isShooting = false;
-            feeder.reverseFeed();
-
-
-        }else
-        {
-            shooter.setShooterRPM(6000*shoot);
-            isShooting = true;
-        }
+        shooter.setVelocity(shoot);
 
     }
 

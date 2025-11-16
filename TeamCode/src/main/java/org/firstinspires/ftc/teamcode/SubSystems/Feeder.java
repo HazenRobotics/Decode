@@ -39,15 +39,13 @@ public class Feeder {
     public void feed(){
         leftFeeder.setPower(speed);
         rightFeeder.setPower(speed);
-        isFeed = true;
     }
     public void reverseFeed(){
         leftFeeder.setPower(-speed);
         rightFeeder.setPower(-speed);
-        isFeed = false;
     }
 
-    public void toggle()
+    public void toggle(Boolean isFeed)
     {
         if(isFeed)
         {

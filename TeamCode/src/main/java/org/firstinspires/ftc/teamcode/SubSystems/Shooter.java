@@ -75,8 +75,8 @@ public class Shooter {
     }
 
     public void setVelocity(double ticks){
-        double normalizedTicks = getVoltageNormalizedVelocity(ticks);
-        leftMotor.setVelocity(normalizedTicks);
+//        double normalizedTicks = getVoltageNormalizedVelocity(ticks);
+        leftMotor.setVelocity(ticks);
     }
 
 
@@ -99,8 +99,8 @@ public class Shooter {
         double normalization = nominalVoltage / currentVoltage;
 
         //Honestly that *6000 constant is kinda stupid
-        leftMotor.setPower((rpm/6000) * normalization);
-        leftMotor.setVelocityPIDFCoefficients(kP, kI, kD, kF);
+        leftMotor.setVelocity((rpm/6000) * normalization);
+//        leftMotor.setVelocityPIDFCoefficients(kP, kI, kD, kF);
 
     }
 
