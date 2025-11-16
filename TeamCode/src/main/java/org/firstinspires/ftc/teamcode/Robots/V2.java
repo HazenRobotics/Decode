@@ -47,7 +47,7 @@ public class V2 {
 
     public void drive()
     {
-        drive.drive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+        drive.fieldCentricDrive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
     }
 
     public void setDriveSpeed(double speed)
@@ -89,7 +89,6 @@ public class V2 {
 //      }
         isFeeder = !isFeeder;
         feeder.toggle(isFeeder);
-
     }
 
 
