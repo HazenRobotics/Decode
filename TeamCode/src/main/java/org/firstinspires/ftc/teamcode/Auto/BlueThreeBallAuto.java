@@ -56,11 +56,11 @@ public class BlueThreeBallAuto extends LinearOpMode {
         telemetry.addData("motor velocity", shooter.getVelocity());
         telemetry.addData("Voltage", shooter.getVoltage());
         telemetry.update();
-        while(opModeIsActive())
-        {
+        //while(opModeIsActive())
+        //{
 
             //add drive feature
 
-        }
+        //}
     }
 }

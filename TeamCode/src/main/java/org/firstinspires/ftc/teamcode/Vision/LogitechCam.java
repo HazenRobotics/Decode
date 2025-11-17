@@ -41,7 +41,6 @@ public class LogitechCam {
 
 
     }
-
     public void update()
     {
         detectedTags = aprilTagProcessor.getDetections();
@@ -91,7 +90,5 @@ public class LogitechCam {
             visionPortal.close();
         }
     }
-
-
 
 }
