@@ -21,7 +21,7 @@ public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants().mass(10.25)
             .forwardZeroPowerAcceleration(-38.2)
             .lateralZeroPowerAcceleration(-59.86)
-            //Bottom three lines were added now
+            //Bottom three lines were aded now
             .useSecondaryTranslationalPIDF(true)
             .useSecondaryHeadingPIDF(true)
             .useSecondaryDrivePIDF(true)
