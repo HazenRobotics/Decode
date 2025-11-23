@@ -33,6 +33,12 @@ public class Mecanum {
         leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBottom.setDirection(DcMotorSimple.Direction.FORWARD);
         rightTop.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        leftTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBottom.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBottom.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         imu = hw.get(IMU.class, imuName);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
@@ -61,28 +67,24 @@ public class Mecanum {
 
     public void drive(double forward, double strafe, double rotate)
     {
-        forward *= forwardConst;
-        YawPitchRollAngles angles = imu.getRobotYawPitchRollAngles();
-        double pitch = angles.getPitch(AngleUnit.DEGREES);
-        double roll  = angles.getRoll(AngleUnit.DEGREES);
 
-        double PITCH = 15;
-        double ROLL = 15;
-        if (Math.abs(pitch) > PITCH || Math.abs(roll) > ROLL)
-        {
-            leftTop.setPower(0);
-            leftBottom.setPower(0);
-            rightTop.setPower(0);
-            rightBottom.setPower(0);
-        }else {
-            leftTop.setPower(forward + strafe + rotate);
-            leftBottom.setPower(forward - strafe + rotate);
-            rightTop.setPower(forward - strafe - rotate);
-            rightBottom.setPower(forward + strafe - rotate);
-        }
+        double frontLeftPower = forward + strafe + rotate;
+        double backLeftPower = forward - strafe + rotate;
+        double frontRightPower = forward - strafe - rotate;
+        double backRightPower = forward + strafe - rotate;
 
+        double maxPower = 1.0;
+        double maxSpeed = 1.0;
 
+        maxPower = Math.max(maxPower, Math.abs(frontLeftPower));
+        maxPower = Math.max(maxPower, Math.abs(backLeftPower));
+        maxPower = Math.max(maxPower, Math.abs(frontRightPower));
+        maxPower = Math.max(maxPower, Math.abs(backRightPower));
 
+        leftTop.setPower(maxSpeed * (frontLeftPower / maxPower));
+        leftBottom.setPower(maxSpeed * (frontLeftPower / maxPower));
+        rightTop.setPower(maxSpeed * (frontLeftPower / maxPower));
+        rightBottom.setPower(maxSpeed * (frontLeftPower / maxPower));
     }
 
     public void setForwardConst(double value)
@@ -95,27 +97,16 @@ public class Mecanum {
 
     //Formula's copied from gmZero
     public void fieldCentricDrive(double forward, double strafe, double rotate) {
+        double theta=Math.atan2(forward, strafe);
+        double r = Math.hypot(strafe, forward);
 
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        theta = AngleUnit.normalizeRadians(theta -
+                imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
 
+        double newForward = r * Math.sin(theta);
+        double newStrafe = r * Math.cos(theta);
 
-        double rotX = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
-        double rotY = strafe * Math.sin(-botHeading) + forward * Math.cos(-botHeading);
-
-
-        rotX *= 1.1;
-
-
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotate), 1);
-        double leftTopPower = (rotY + rotX + rotate) / denominator;
-        double leftBottomPower = (rotY - rotX + rotate) / denominator;
-        double rightTopPower = (rotY - rotX - rotate) / denominator;
-        double rightBottomPower = (rotY + rotX - rotate) / denominator;
-
-        leftTop.setPower(leftTopPower);
-        leftBottom.setPower(leftBottomPower);
-        rightTop.setPower(rightTopPower);
-        rightBottom.setPower(rightBottomPower);
+        this.drive(newForward, newStrafe, rotate);
     }
     public int getFrontLeftTicks() {
         return leftTop.getCurrentPosition();
