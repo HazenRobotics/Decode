@@ -14,15 +14,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "BluePedroAuto")
-public class BluePedroAuto extends LinearOpMode {
+@Autonomous(name = "BluePathTest")
+public class BluePath extends LinearOpMode {
     private int pathState;
-    private int shootState;
-
-    private final double v = 1000;
-   Feeder feeder;
-   Shooter shooter;
-   Intake intake;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
@@ -89,9 +83,6 @@ public class BluePedroAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        feeder = new Feeder(hardwareMap, "leftFeeder", "rightFeeder");
-        shooter = new Shooter(hardwareMap, "shooter");
-        intake = new Intake(hardwareMap,"intake");
         pathTimer = new Timer();
         actionTimer = new Timer();
         opmodeTimer = new Timer();
@@ -120,211 +111,59 @@ public class BluePedroAuto extends LinearOpMode {
                 autonomousPathupdate();
 
                 // Telemetry
-                telemetry.addData("path state", pathState);
-                telemetry.addData("shoot state", shootState);
                 telemetry.addData("x", follower.getPose().getX());
                 telemetry.addData("y", follower.getPose().getY());
                 telemetry.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
-                telemetry.addData("Shooter Velocity ", shooter.getVelocity());
                 telemetry.update();
             }
         }
 
 
     }
-
-    public void autonomousPathupdate() {
-
-        // ALWAYS update intake default
-        // (we turn it OFF manually during shooting states)
-        if (pathState < 100) {
-            // running by default unless shooting
-        }
-
-        switch (pathState) {
-
-            // =====================================================
-            //   0 — START: spin shooter & reverse feeder
-            // =====================================================
+    public void autonomousPathupdate(){
+        switch (pathState){
             case 0:
-                intake.setPower(0);
-                shooter.setVelocity(v);
-                feeder.reverseFeed();
                 follower.followPath(shoot);
-                shootState = 0;   // reset shooting cycle
-                pathState = 1;
+                setPathState(1);
                 break;
-
-
-            // =====================================================
-            //  1 — SHOOT PRELOAD (3 rings)
-            // =====================================================
             case 1:
-                intake.setPower(-0.8);
-                if (shootThreeBallVelocity()) {
-                    pathState = 10;
-                }
-                break;
-
-
-            // =====================================================
-            //  10 — DRIVE TO LINE 1
-            // =====================================================
-            case 10:
-                intake.setPower(-0.8);
                 if (!follower.isBusy()) {
                     follower.followPath(firstBall);
-                    pathState = 11;
+                    setPathState(2);
                 }
                 break;
-
-            // =====================================================
-            //  11 — RETURN FROM LINE 1 TO SHOOTING
-            // =====================================================
-            case 11:
+            case 2:
                 if (!follower.isBusy()) {
-                    intake.setPower(0);
-//                    shooter.setVelocity(1000);
-                    feeder.reverseFeed();
                     follower.followPath(back1);
-                    shootState = 0;
-                    pathState = 12;
+                    setPathState(3);
                 }
                 break;
-
-            // =====================================================
-            //  12 — SHOOT 3 FROM LINE 1
-            // =====================================================
-            case 12:
-                intake.setPower(-0.8);
-                if (shootThreeBallVelocity()) {
-                    pathState = 20;
-                }
-                break;
-
-
-            // =====================================================
-            //  20 — DRIVE TO LINE 2
-            // =====================================================
-            case 20:
-                intake.setPower(-0.8);
+            case 3:
                 if (!follower.isBusy()) {
                     follower.followPath(secondBall);
-                    pathState = 21;
+                    setPathState(4);
                 }
                 break;
-
-            // =====================================================
-            //  21 — RETURN FROM LINE 2
-            // =====================================================
-            case 21:
+            case 4:
                 if (!follower.isBusy()) {
-                    intake.setPower(0);
-//                    shooter.setVelocity(1000);
-                    feeder.reverseFeed();
                     follower.followPath(back2);
-                    shootState = 0;
-                    pathState = 22;
+                    setPathState(5);
                 }
                 break;
-
-            // =====================================================
-            //  22 — SHOOT 3 FROM LINE 2
-            // =====================================================
-            case 22:
-                intake.setPower(-0.8);
-                if (shootThreeBallVelocity()) {
-                    pathState = 30;
-                }
-                break;
-
-
-            // =====================================================
-            //  30 — DRIVE TO LINE 3
-            // =====================================================
-            case 30:
-                intake.setPower(-0.8);
+            case 5:
                 if (!follower.isBusy()) {
                     follower.followPath(thirdBall);
-                    pathState = 31;
+                    setPathState(6);
                 }
                 break;
-
-            // =====================================================
-            //  31 — RETURN FROM LINE 3
-            // =====================================================
-            case 31:
+            case 6:
                 if (!follower.isBusy()) {
-                    intake.setPower(0);
-//                    shooter.setVelocity(1000);
-                    feeder.reverseFeed();
                     follower.followPath(back3);
-                    shootState = 0;
-                    pathState = 32;
+                    setPathState(7);
                 }
                 break;
 
-            // =====================================================
-            //  32 — SHOOT 3 FROM LINE 3
-            // =====================================================
-            case 32:
-                intake.setPower(-0.8);
-                if (shootThreeBallVelocity()) {
-                    shooter.setVelocity(0);
-                    feeder.reset();
-                    intake.setPower(0);
-                    pathState = 100;
-                }
-                break;
-
-
-            // =====================================================
-            //  100 — END
-            // =====================================================
-            case 100:
-                // do nothing
-                break;
         }
-    }
-
-    public boolean shootThreeBallVelocity() {
-        switch (shootState) {
-
-            case 0:
-                if (shooter.getVelocity() > 980 && shooter.getVelocity() < 1050)
-                { feeder.feed(); shootState = 1; }
-                break;
-
-            case 1:
-                if (shooter.getVelocity() < 980)
-                { feeder.reverseFeed(); shootState = 2; }
-                break;
-
-            case 2:
-                if (shooter.getVelocity() > 980 && shooter.getVelocity() < 1050)
-                { feeder.feed(); shootState = 3; }
-                break;
-
-            case 3:
-                if (shooter.getVelocity() < 980)
-                { feeder.reverseFeed(); shootState = 4; }
-                break;
-
-            case 4:
-                if (shooter.getVelocity() > 980 && shooter.getVelocity() < 1050)
-                { feeder.feed(); shootState = 5; }
-                break;
-
-            case 5:
-                if (shooter.getVelocity() < 980) {
-                    feeder.reverseFeed();
-                    shootState = 0;
-                    return true;
-                }
-                break;
-        }
-
-        return false;
     }
 
 
