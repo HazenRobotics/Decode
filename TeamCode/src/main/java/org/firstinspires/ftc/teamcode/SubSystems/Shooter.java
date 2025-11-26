@@ -75,8 +75,7 @@ public class Shooter {
     }
 
     public void setVelocity(double ticks){
-        double normalizedTicks = getVoltageNormalizedVelocity(ticks);
-        leftMotor.setVelocity(normalizedTicks);
+        leftMotor.setVelocity(ticks);
     }
 
 

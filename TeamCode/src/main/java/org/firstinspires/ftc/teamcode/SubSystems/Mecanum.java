@@ -31,13 +31,6 @@ public class Mecanum {
 
         leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
         leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBottom.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightTop.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        leftTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBottom.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBottom.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         imu = hw.get(IMU.class, imuName);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -97,16 +90,31 @@ public class Mecanum {
 
     //Formula's copied from gmZero
     public void fieldCentricDrive(double forward, double strafe, double rotate) {
-        double theta=Math.atan2(forward, strafe);
-        double r = Math.hypot(strafe, forward);
+        double y = forward; // Remember, Y stick value is reversed
+        double x = strafe; // Counteract imperfect strafing
+        double rx = rotate;
 
-        theta = AngleUnit.normalizeRadians(theta -
-                imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        double newForward = r * Math.sin(theta);
-        double newStrafe = r * Math.cos(theta);
+        // Rotate the movement direction counter to the bot's rotation
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
-        this.drive(newForward, newStrafe, rotate);
+        rotX = rotX * 1.1;  // Counteract imperfect strafing
+
+        // Denominator is the largest motor power (absolute value) or 1
+        // This ensures all the powers maintain the same ratio,
+        // but only if at least one is out of the range [-1, 1]
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+        double frontLeftPower = (rotY + rotX + rx) / denominator;
+        double backLeftPower = (rotY - rotX + rx) / denominator;
+        double frontRightPower = (rotY - rotX - rx) / denominator;
+        double backRightPower = (rotY + rotX - rx) / denominator;
+
+        leftTop.setPower(frontLeftPower);
+        leftBottom.setPower(backLeftPower);
+        rightTop.setPower(frontRightPower);
+        rightBottom.setPower(backRightPower);
     }
     public int getFrontLeftTicks() {
         return leftTop.getCurrentPosition();

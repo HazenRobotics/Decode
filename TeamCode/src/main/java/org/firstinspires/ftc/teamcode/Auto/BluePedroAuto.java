@@ -19,12 +19,14 @@ public class BluePedroAuto extends LinearOpMode {
     private int pathState;
     private int shootState;
 
-    private final double v = 1000;
-   Feeder feeder;
-   Shooter shooter;
-   Intake intake;
+    private final double v = 990;
+    private final double max = 1030;
+    private final double min = 970;
+    Feeder feeder;
+    Shooter shooter;
+    Intake intake;
     private Follower follower;
-    private Timer pathTimer, actionTimer, opmodeTimer;
+    private Timer pathTimer, actionTimer, opmodeTimer, shootTimer;
     //Determine all the position by testing it out;
     //starting position
     private final Pose startPose = new Pose(19.617391304347827,122.71304347826086,Math.toRadians(135));
@@ -44,6 +46,7 @@ public class BluePedroAuto extends LinearOpMode {
     private final Pose thirdPush = new Pose(15.026086956521738,35.686956521739134,Math.toRadians(0));
     private final Pose thirdControl = new Pose(63.02608695652174,28.382608695652173);
     private PathChain shoot, firstBall, push1, back1, secondBall, push2, back2, thirdBall, push3, back3;
+
     public void buildPaths(){
         shoot = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, shootingPose))
@@ -90,7 +93,7 @@ public class BluePedroAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         feeder = new Feeder(hardwareMap, "leftFeeder", "rightFeeder");
-        shooter = new Shooter(hardwareMap, "shooter");
+        shooter = new Shooter(hardwareMap, "shooter", true);
         intake = new Intake(hardwareMap,"intake");
         pathTimer = new Timer();
         actionTimer = new Timer();
@@ -110,10 +113,10 @@ public class BluePedroAuto extends LinearOpMode {
         // 4. Main Autonomous Execution Loop (Replaces your old 'start' and 'loop' methods)
         if (opModeIsActive()) {
             opmodeTimer.resetTimer();
+            // Use setPathState to reset pathTimer properly
             setPathState(0); // Start the path sequence
 
             while (opModeIsActive() && !isStopRequested()) {
-                // Update Follower (must be done in every loop iteration)
                 follower.update();
 
                 // State machine to execute paths and actions
@@ -147,12 +150,12 @@ public class BluePedroAuto extends LinearOpMode {
             //   0 — START: spin shooter & reverse feeder
             // =====================================================
             case 0:
+                feeder.reverseFeed();
                 intake.setPower(0);
                 shooter.setVelocity(v);
-                feeder.reverseFeed();
                 follower.followPath(shoot);
                 shootState = 0;   // reset shooting cycle
-                pathState = 1;
+                setPathState(1);
                 break;
 
 
@@ -160,9 +163,18 @@ public class BluePedroAuto extends LinearOpMode {
             //  1 — SHOOT PRELOAD (3 rings)
             // =====================================================
             case 1:
-                intake.setPower(-0.8);
+                // Wait until follower finishes the path (arrived at shooting pose)
+                if (follower.isBusy()) {
+                    break;
+                }
+
+                // Small settle time to let robot stabilize (200 ms)
+                if (pathTimer.getElapsedTime() < 200) {
+                    break;
+                }
+
                 if (shootThreeBallVelocity()) {
-                    pathState = 10;
+                    setPathState(10);
                 }
                 break;
 
@@ -174,7 +186,7 @@ public class BluePedroAuto extends LinearOpMode {
                 intake.setPower(-0.8);
                 if (!follower.isBusy()) {
                     follower.followPath(firstBall);
-                    pathState = 11;
+                    setPathState(11);
                 }
                 break;
 
@@ -188,7 +200,7 @@ public class BluePedroAuto extends LinearOpMode {
                     feeder.reverseFeed();
                     follower.followPath(back1);
                     shootState = 0;
-                    pathState = 12;
+                    setPathState(12);
                 }
                 break;
 
@@ -196,9 +208,18 @@ public class BluePedroAuto extends LinearOpMode {
             //  12 — SHOOT 3 FROM LINE 1
             // =====================================================
             case 12:
-                intake.setPower(-0.8);
+                // Wait until the follower returns and stops at shooting pose
+                if (follower.isBusy()) {
+                    break;
+                }
+
+                // Small settle time to let robot stabilize
+                if (pathTimer.getElapsedTime() < 200) {
+                    break;
+                }
+
                 if (shootThreeBallVelocity()) {
-                    pathState = 20;
+                    setPathState(20);
                 }
                 break;
 
@@ -210,7 +231,7 @@ public class BluePedroAuto extends LinearOpMode {
                 intake.setPower(-0.8);
                 if (!follower.isBusy()) {
                     follower.followPath(secondBall);
-                    pathState = 21;
+                    setPathState(21);
                 }
                 break;
 
@@ -224,7 +245,7 @@ public class BluePedroAuto extends LinearOpMode {
                     feeder.reverseFeed();
                     follower.followPath(back2);
                     shootState = 0;
-                    pathState = 22;
+                    setPathState(22);
                 }
                 break;
 
@@ -232,9 +253,18 @@ public class BluePedroAuto extends LinearOpMode {
             //  22 — SHOOT 3 FROM LINE 2
             // =====================================================
             case 22:
-                intake.setPower(-0.8);
+                // Wait until the follower returns and stops at shooting pose
+                if (follower.isBusy()) {
+                    break;
+                }
+
+                // Small settle time to let robot stabilize
+                if (pathTimer.getElapsedTime() < 200) {
+                    break;
+                }
+
                 if (shootThreeBallVelocity()) {
-                    pathState = 30;
+                    setPathState(30);
                 }
                 break;
 
@@ -246,7 +276,7 @@ public class BluePedroAuto extends LinearOpMode {
                 intake.setPower(-0.8);
                 if (!follower.isBusy()) {
                     follower.followPath(thirdBall);
-                    pathState = 31;
+                    setPathState(31);
                 }
                 break;
 
@@ -260,7 +290,7 @@ public class BluePedroAuto extends LinearOpMode {
                     feeder.reverseFeed();
                     follower.followPath(back3);
                     shootState = 0;
-                    pathState = 32;
+                    setPathState(32);
                 }
                 break;
 
@@ -268,12 +298,21 @@ public class BluePedroAuto extends LinearOpMode {
             //  32 — SHOOT 3 FROM LINE 3
             // =====================================================
             case 32:
-                intake.setPower(-0.8);
+                // Wait until the follower returns and stops at shooting pose
+                if (follower.isBusy()) {
+                    break;
+                }
+
+                // Small settle time to let robot stabilize
+                if (pathTimer.getElapsedTime() < 200) {
+                    break;
+                }
+
                 if (shootThreeBallVelocity()) {
                     shooter.setVelocity(0);
                     feeder.reset();
                     intake.setPower(0);
-                    pathState = 100;
+                    setPathState(100);
                 }
                 break;
 
@@ -288,46 +327,69 @@ public class BluePedroAuto extends LinearOpMode {
     }
 
     public boolean shootThreeBallVelocity() {
+
+        // Force time limit per stage
+        if (shootTimer == null) shootTimer = new Timer();
+
         switch (shootState) {
 
             case 0:
-                if (shooter.getVelocity() > 980 && shooter.getVelocity() < 1050)
-                { feeder.feed(); shootState = 1; }
+                shootTimer.resetTimer();   // reset timer when starting a new 3-ball cycle
+                if (shooter.getVelocity() > min && shooter.getVelocity() < max) {
+                    feeder.feed();
+                    intake.setPower(-1);
+                    shootState = 1;
+                    shootTimer.resetTimer();
+                }
                 break;
 
             case 1:
-                if (shooter.getVelocity() < 980)
-                { feeder.reverseFeed(); shootState = 2; }
+                // Either velocity drops OR timeout after 1 sec
+                if (shooter.getVelocity() < min || shootTimer.getElapsedTime() > 1000) {
+                    feeder.reverseFeed();
+                    intake.setPower(0);
+                    shootState = 2;
+                    shootTimer.resetTimer();
+                }
                 break;
 
             case 2:
-                if (shooter.getVelocity() > 980 && shooter.getVelocity() < 1050)
-                { feeder.feed(); shootState = 3; }
+                // Feed next ring
+                if ((shooter.getVelocity() > min)
+                        || shootTimer.getElapsedTime() > 2000) {
+                    feeder.feed();
+                    intake.setPower(-1);
+                    shootState = 3;
+                    shootTimer.resetTimer();
+                }
                 break;
 
             case 3:
-                if (shooter.getVelocity() < 980)
-                { feeder.reverseFeed(); shootState = 4; }
+                if (shooter.getVelocity() < min || shootTimer.getElapsedTime() > 1000) {
+                    feeder.reverseFeed();
+                    intake.setPower(0);
+                    shootState = 4;
+                    shootTimer.resetTimer();
+                }
                 break;
 
             case 4:
-                if (shooter.getVelocity() > 980 && shooter.getVelocity() < 1050)
-                { feeder.feed(); shootState = 5; }
+                if ((shooter.getVelocity() > min)
+                        || shootTimer.getElapsedTime() > 1000) {
+                    feeder.feed();
+                    intake.setPower(-1);
+                    shootState = 5;
+                    shootTimer.resetTimer();
+                }
                 break;
 
             case 5:
-                if (shooter.getVelocity() < 980) {
-                    feeder.reverseFeed();
-                    shootState = 0;
-                    return true;
-                }
-                break;
+                feeder.reverseFeed();
+                shootState = 0;
+                return true;
         }
-
         return false;
     }
-
-
 
 
     public void setPathState(int pState) {
