@@ -12,9 +12,10 @@ import org.firstinspires.ftc.teamcode.utils.optimalRPM;
 public class RPMTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Shooter shooter = new Shooter(hardwareMap, "leftShooter");
+        Shooter shooter = new Shooter(hardwareMap, "shooter", true);
         GamepadEvents controller = new GamepadEvents(gamepad1);
         Intake intake = new Intake(hardwareMap);
+        Feeder feeder = new Feeder(hardwareMap, "leftFeeder", "rightFeeder");
         waitForStart();
         double v = 1000;
         while(opModeIsActive())
@@ -28,6 +29,7 @@ public class RPMTest extends LinearOpMode {
                 v -= 50;
             }
             if(controller.a.onPress()){
+                feeder.feed();
                 intake.setPower(-0.8);
                 shooter.setVelocity(v);
             }

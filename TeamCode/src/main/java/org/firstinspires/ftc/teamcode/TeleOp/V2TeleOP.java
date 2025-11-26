@@ -105,7 +105,7 @@ public class V2TeleOP extends LinearOpMode {
             telemetry.addLine("Left bumper: shoot only");
             telemetry.addLine("左侧肩键：仅射击");
             telemetry.addLine("A: Feeders");
-            telemetry.addLine("A: Ching Chong will translate later");
+            telemetry.addLine("A: 你中文考了A-，你妈要拿凉鞋打你了。");
             telemetry.addLine("Driver 2:\nDPAD_UP: Increase RPM\nDPAD_DOWN: Decreased RPM");
             telemetry.addLine("驱动器 2：\\n方向键向上：增加转速\\n方向键向下：降低转速");
             telemetry.addLine("X: Reverse Flywheel");
