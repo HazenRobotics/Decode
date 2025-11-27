@@ -34,6 +34,7 @@ public class RPMTest extends LinearOpMode {
                 shooter.setVelocity(v);
             }
 
+            telemetry.addData("Current(AMP)", shooter.getCurrent());
             telemetry.addLine("Button a to shoot");
             telemetry.addData("V", v);
             telemetry.addData("Velocity", shooter.getVelocity());

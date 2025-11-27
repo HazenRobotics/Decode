@@ -14,6 +14,7 @@ public class Feeder {
         leftFeeder = hw.get(CRServo.class,"leftFeeder");
         rightFeeder = hw.get(CRServo.class,"rightFeeder");
 
+
         //Setting Direction has had no effect
         if(isReversed)
         {

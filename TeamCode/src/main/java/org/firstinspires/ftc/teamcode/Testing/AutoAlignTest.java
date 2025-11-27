@@ -109,4 +109,3 @@ public class AutoAlignTest extends LinearOpMode {
         camera.stop();
     }
 }
-
