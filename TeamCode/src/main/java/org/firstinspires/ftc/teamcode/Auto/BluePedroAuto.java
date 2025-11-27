@@ -20,7 +20,7 @@ public class BluePedroAuto extends LinearOpMode {
     private int shootState;
 
     private final double v = 990;
-    private final double max = 1030;
+    private final double max = 1010;
     private final double min = 970;
     Feeder feeder;
     Shooter shooter;
@@ -345,7 +345,7 @@ public class BluePedroAuto extends LinearOpMode {
 
             case 1:
                 // Either velocity drops OR timeout after 1 sec
-                if (shooter.getVelocity() < min || shootTimer.getElapsedTime() > 1000) {
+                if (shooter.getVelocity() < min || shootTimer.getElapsedTime() > 3000) {
                     feeder.reverseFeed();
                     intake.setPower(0);
                     shootState = 2;
@@ -365,7 +365,7 @@ public class BluePedroAuto extends LinearOpMode {
                 break;
 
             case 3:
-                if (shooter.getVelocity() < min || shootTimer.getElapsedTime() > 1000) {
+                if (shooter.getVelocity() < min || shootTimer.getElapsedTime() > 3000) {
                     feeder.reverseFeed();
                     intake.setPower(0);
                     shootState = 4;
@@ -375,7 +375,7 @@ public class BluePedroAuto extends LinearOpMode {
 
             case 4:
                 if ((shooter.getVelocity() > min)
-                        || shootTimer.getElapsedTime() > 1000) {
+                        || shootTimer.getElapsedTime() > 3000) {
                     feeder.feed();
                     intake.setPower(-1);
                     shootState = 5;
