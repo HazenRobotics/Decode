@@ -24,7 +24,9 @@ public class WebCamTest extends OpMode {
         //24: Red Goal
         webcam.update();
         AprilTagDetection id = webcam.getTagBySpecificId(24);
-        webcam.disPlayDetectionTelementry(id);
+        if(id != null) {
+            webcam.disPlayDetectionTelementry(id);
+        }
 
     }
 }
