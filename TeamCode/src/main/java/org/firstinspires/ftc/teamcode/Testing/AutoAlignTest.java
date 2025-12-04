@@ -11,7 +11,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 
-@TeleOp(name = "AutoAlign AprilTag (Linear)", group = "Vision")
+@TeleOp(name = "AutoAlignTest1", group = "Vision")
 public class AutoAlignTest extends LinearOpMode {
 
     private Follower follower;
@@ -109,4 +109,3 @@ public class AutoAlignTest extends LinearOpMode {
         camera.stop();
     }
 }
-

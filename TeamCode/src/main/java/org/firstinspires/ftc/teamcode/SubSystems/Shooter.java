@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class Shooter {
     //Designers may test multiple motors
     //this class must be as modular as possible
@@ -64,6 +66,10 @@ public class Shooter {
     public void setTargetRPM(double targetRPM){
         double targetTicksPerSec = rpmToTicksPerSec(targetRPM);
         leftMotor.setVelocity(targetTicksPerSec);
+    }
+
+    public double getCurrent(){
+        return leftMotor.getCurrent(CurrentUnit.AMPS);
     }
     public double getVoltageNormalizedVelocity(double targetTicksPerSec) {
         double currentVoltage = voltageSensor.getVoltage();
