@@ -28,9 +28,6 @@ public class AutoAlignTest2 extends LinearOpMode {
         // --- 1. Initialization ---
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
-
-        // Initialize the Pedro Pathing Follower
-        // NOTE: 'Constants' is assumed to be defined by the user's Pedro Pathing setup.
         follower = Constants.createFollower(hardwareMap);
 
         // Initialize the Vision System

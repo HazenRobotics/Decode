@@ -22,7 +22,7 @@ public class BluePedroAuto extends LinearOpMode {
     private final double v = 990;
     private final double max = 1010;
     private final double min = 970;
-    private final double current = 2.5;
+    private final double current = 1.2;
     Feeder feeder;
     Shooter shooter;
     Intake intake;
@@ -95,7 +95,7 @@ public class BluePedroAuto extends LinearOpMode {
     public void runOpMode() {
         feeder = new Feeder(hardwareMap, "leftFeeder", "rightFeeder");
         shooter = new Shooter(hardwareMap, "shooter", true);
-        intake = new Intake(hardwareMap,"intake");
+        intake = new Intake(hardwareMap);
         pathTimer = new Timer();
         actionTimer = new Timer();
         opmodeTimer = new Timer();
@@ -346,7 +346,7 @@ public class BluePedroAuto extends LinearOpMode {
 
             case 1:
                 // Either velocity drops OR timeout after 1 sec
-                if (shooter.getVelocity() < min || shooter.getCurrent() > current || shootTimer.getElapsedTime() > 3000) {
+                if (shooter.getVelocity() < min || shootTimer.getElapsedTime() > 3000) {
                     feeder.reverseFeed();
                     intake.setPower(0);
                     shootState = 2;
@@ -366,7 +366,7 @@ public class BluePedroAuto extends LinearOpMode {
                 break;
 
             case 3:
-                if (shooter.getVelocity() < min || shooter.getCurrent() > current || shootTimer.getElapsedTime() > 3000) {
+                if (shooter.getVelocity() < min || shootTimer.getElapsedTime() > 3000) {
                     feeder.reverseFeed();
                     intake.setPower(0);
                     shootState = 4;
@@ -375,8 +375,7 @@ public class BluePedroAuto extends LinearOpMode {
                 break;
 
             case 4:
-                if ((shooter.getVelocity() > min)
-                        || shootTimer.getElapsedTime() > 3000) {
+                if (shooter.getVelocity() > min) {
                     feeder.feed();
                     intake.setPower(-1);
                     shootState = 5;
