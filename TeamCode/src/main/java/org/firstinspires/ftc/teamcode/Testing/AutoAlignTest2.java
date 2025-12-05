@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.pedropathing.follower.Follower;
@@ -9,7 +12,8 @@ import org.firstinspires.ftc.teamcode.Vision.LogitechCam;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-
+//TODO: Limit Y Distance to be between 100-110
+//TODO: Constain X Distance to be >4, maybe try PID to position to 10
 @TeleOp(name = "AutoAlignTest", group = "Tester")
 public class AutoAlignTest2 extends LinearOpMode {
 
@@ -75,7 +79,16 @@ public class AutoAlignTest2 extends LinearOpMode {
                 telemetry.addData("Alignment Status", "TARGETING TAG");
                 telemetry.addData("Yaw Error (Deg)", String.format("%.2f", yawErrorDeg));
 
+                //Have robot also move the x-position 10, and y-position for 105
+                Pose currentLine = new Pose(targetTag.ftcPose.x,targetTag.ftcPose.y);
+                Pose newLine = new Pose(10,105);
+                follower.pathBuilder()
+                        .addPath(new BezierLine(currentLine, newLine))
+                        .build();
+
                 if (Math.abs(yawErrorDeg) < ALIGNMENT_TOLERANCE_DEG) {
+
+
                     // If the robot is aligned, stop all movement
                     follower.setTeleOpDrive(0, 0, 0, true);
                     telemetry.addData("Alignment Status", "ALIGNED");

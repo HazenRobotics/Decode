@@ -36,7 +36,7 @@ public class StarterRobot {
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new Mecanum(hw);
-        launcher = new Shooter(hw, "leftShooter");
+        launcher = new Shooter(hw, "shooter");
         this.controller1 = controller1;
         this.controller2 = controller2;
         flap = new Flap(hw, "frontFlap", "backFlap");
