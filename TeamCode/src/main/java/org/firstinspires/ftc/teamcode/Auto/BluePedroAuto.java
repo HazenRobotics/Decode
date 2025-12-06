@@ -15,6 +15,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "BluePedroAuto")
+//TODO: Spilt lines1, lines2, and lines3 into seperate lines
+//I.E: Line 1: Approach Line 1, then go slow to intake the balls
+
 public class BluePedroAuto extends LinearOpMode {
     private int pathState;
     private int shootState;
@@ -23,6 +26,7 @@ public class BluePedroAuto extends LinearOpMode {
     private final double max = 1010;
     private final double min = 970;
     private final double current = 1.2;
+    private final double breakingStrength = 3.0;
     Feeder feeder;
     Shooter shooter;
     Intake intake;
@@ -58,6 +62,8 @@ public class BluePedroAuto extends LinearOpMode {
                 .addPath(new BezierLine(shootingPose, firstLine))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(0))
                 .addPath(new BezierLine(firstLine,firstPush))
+                //Test constraining the speed
+                .setBrakingStrength(breakingStrength)
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
@@ -70,6 +76,7 @@ public class BluePedroAuto extends LinearOpMode {
                 .addPath(new BezierLine(shootingPose, secondLine))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(0))
                 .addPath(new BezierLine(secondLine,secondPush))
+                .setBrakingStrength(breakingStrength)
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
@@ -82,6 +89,7 @@ public class BluePedroAuto extends LinearOpMode {
                 .addPath(new BezierLine(shootingPose, thirdLine))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(0))
                 .addPath(new BezierLine(thirdLine,thirdPush))
+                .setBrakingStrength(breakingStrength)
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
@@ -152,7 +160,7 @@ public class BluePedroAuto extends LinearOpMode {
             // =====================================================
             case 0:
                 feeder.reverseFeed();
-                intake.setPower(0);
+                intake.setPower(-0.5);
                 shooter.setVelocity(v);
                 follower.followPath(shoot);
                 shootState = 0;   // reset shooting cycle
@@ -184,7 +192,7 @@ public class BluePedroAuto extends LinearOpMode {
             //  10 — DRIVE TO LINE 1
             // =====================================================
             case 10:
-                intake.setPower(-0.8);
+                intake.setPower(-1);
                 if (!follower.isBusy()) {
                     follower.followPath(firstBall);
                     setPathState(11);
@@ -196,7 +204,7 @@ public class BluePedroAuto extends LinearOpMode {
             // =====================================================
             case 11:
                 if (!follower.isBusy()) {
-                    intake.setPower(0);
+                    intake.setPower(-0.8);
 //                    shooter.setVelocity(1000);
                     feeder.reverseFeed();
                     follower.followPath(back1);
@@ -229,7 +237,7 @@ public class BluePedroAuto extends LinearOpMode {
             //  20 — DRIVE TO LINE 2
             // =====================================================
             case 20:
-                intake.setPower(-0.8);
+                intake.setPower(-1);
                 if (!follower.isBusy()) {
                     follower.followPath(secondBall);
                     setPathState(21);
@@ -241,7 +249,7 @@ public class BluePedroAuto extends LinearOpMode {
             // =====================================================
             case 21:
                 if (!follower.isBusy()) {
-                    intake.setPower(0);
+                    intake.setPower(-0.8);
 //                    shooter.setVelocity(1000);
                     feeder.reverseFeed();
                     follower.followPath(back2);
@@ -274,7 +282,7 @@ public class BluePedroAuto extends LinearOpMode {
             //  30 — DRIVE TO LINE 3
             // =====================================================
             case 30:
-                intake.setPower(-0.8);
+                intake.setPower(-1);
                 if (!follower.isBusy()) {
                     follower.followPath(thirdBall);
                     setPathState(31);
@@ -286,7 +294,7 @@ public class BluePedroAuto extends LinearOpMode {
             // =====================================================
             case 31:
                 if (!follower.isBusy()) {
-                    intake.setPower(0);
+                    intake.setPower(-0.8);
 //                    shooter.setVelocity(1000);
                     feeder.reverseFeed();
                     follower.followPath(back3);
@@ -312,7 +320,7 @@ public class BluePedroAuto extends LinearOpMode {
                 if (shootThreeBallVelocity()) {
                     shooter.setVelocity(0);
                     feeder.reset();
-                    intake.setPower(0);
+                    intake.setPower(-0.8);
                     setPathState(100);
                 }
                 break;
