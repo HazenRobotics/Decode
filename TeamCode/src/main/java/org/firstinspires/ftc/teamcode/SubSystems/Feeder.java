@@ -45,7 +45,7 @@ public class Feeder {
     public void reverseFeed(){
         leftFeeder.setPower(-speed);
         rightFeeder.setPower(-speed);
-        topFeeder.setPower(0);
+        topFeeder.setPower(0.1);
 
     }
 
