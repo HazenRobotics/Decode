@@ -13,7 +13,7 @@ public class V2RedTeleOP extends LinearOpMode {
         controller1 = new GamepadEvents(gamepad1);
         controller2 = new GamepadEvents(gamepad2);
         robot = new V2(hardwareMap, controller1, controller2);
-
+        boolean shootTog = false;
 
 
         waitForStart();

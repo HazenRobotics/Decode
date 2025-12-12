@@ -24,6 +24,7 @@ public class LogitechCam {
     public void init(HardwareMap hw, Telemetry telemetry)
     {
         this.telemetry = telemetry;
+        this.telemetry = telemetry;
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawTagID(true)
                 .setDrawTagOutline(true)

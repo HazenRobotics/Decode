@@ -39,7 +39,7 @@ public class V2 {
 
     public V2(HardwareMap hw)
     {
-        drive = new Mecanum(hw);
+       drive = new Mecanum(hw);
         shooter = new Shooter(hw, "shooter", true);
         this.intake = new Intake(hw);
         feeder = new Feeder(hw, "leftFeeder", "rightFeeder");
@@ -86,12 +86,19 @@ public class V2 {
 //       else
 //       {
 //          feeder.reverseFeed();
+//
 //      }
-        isFeeder = !isFeeder;
-        feeder.toggle(isFeeder);
+        if (isShooting)
+        {
+            isFeeder = !isFeeder;
+            feeder.toggle(isFeeder);
+        }
+        else if (isFeeder)
+        {
+            isFeeder = !isFeeder;
+            feeder.toggle(isFeeder);
+        }
     }
-
-
 
 
     public void shoot()
