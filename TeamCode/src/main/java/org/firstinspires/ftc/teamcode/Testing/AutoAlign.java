@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robots.V2;
 import org.firstinspires.ftc.teamcode.Vision.LogitechCam;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
-@TeleOp(name = "AutoAlignTest", group = "Tester")
 public class AutoAlign extends LinearOpMode {
     GamepadEvents controller1;
     V2 robot;

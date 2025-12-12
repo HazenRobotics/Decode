@@ -22,11 +22,11 @@ public class BluePedroAuto extends LinearOpMode {
     private int pathState;
     private int shootState;
 
-    private final double v = 1000;
-    private final double max = 1020;
-    private final double min = 990;
+    private final double v = 1410;
+    private final double max = 1450;
+    private final double min = 1390;
     private final double current = 1.35;
-    private final double breakingStrength = 3.0;
+    private final double breakingStrength = 2.0;
     Feeder feeder;
     Shooter shooter;
     Intake intake;
@@ -164,7 +164,7 @@ public class BluePedroAuto extends LinearOpMode {
             case 0:
                 feeder.reverseFeed();
                 intake.setPower(-0.5);
-                shooter.setVelocity(850);
+                shooter.setVelocity(v);
                 follower.followPath(shoot);
                 shootState = 0;   // reset shooting cycle
                 setPathState(1);
@@ -346,11 +346,8 @@ public class BluePedroAuto extends LinearOpMode {
         switch (shootState) {
 
             case 0:
-                shootTimer.resetTimer();   // reset timer when starting a new 3-ball cycle
-                if(shooter.getCurrent() > max){
-                    shooter.setVelocity(800);
-                }
-                if (shooter.getVelocity() > min && shooter.getVelocity() < max) {
+                // reset timer when starting a new 3-ball cycle
+                if (shootTimer.getElapsedTime() > 1000 && shooter.getVelocity() > min && shooter.getVelocity() < max) {
                     feeder.feed();
                     intake.setPower(-0.8);
                     shootState = 1;
@@ -364,7 +361,6 @@ public class BluePedroAuto extends LinearOpMode {
                 if (shooter.getCurrent() > current && shootTimer.getElapsedTime() > 500) {
                     feeder.reverseFeed();
                     intake.setPower(0);
-                    shooter.setVelocity(v);
                     shootState = 2;
                     shootTimer.resetTimer();
                     isShoot = "firstReverse";
@@ -373,7 +369,7 @@ public class BluePedroAuto extends LinearOpMode {
 
             case 2:
                 // Feed next ring
-                if ((shooter.getVelocity() > min && shooter.getVelocity() < max && shootTimer.getElapsedTime() > 500)) {
+                if (shootTimer.getElapsedTime() > 700 && shooter.getVelocity() > min && shooter.getVelocity() < max) {
                     feeder.feed();
                     intake.setPower(-0.8);
                     shootState = 3;
@@ -393,7 +389,7 @@ public class BluePedroAuto extends LinearOpMode {
                 break;
 
             case 4:
-                if (shooter.getVelocity() > min && shooter.getVelocity() < max && shootTimer.getElapsedTime() > 500) {
+                if (shootTimer.getElapsedTime() > 500 && shooter.getVelocity() > min && shooter.getVelocity() < max) {
                     feeder.feed();
                     intake.setPower(-0.8);
                     shootState = 5;
@@ -403,7 +399,7 @@ public class BluePedroAuto extends LinearOpMode {
                 break;
 
             case 5:
-                if(shooter.getCurrent() > current && shootTimer.getElapsedTime()> 1000) {
+                if(shooter.getCurrent() > current && shootTimer.getElapsedTime()> 800) {
                     feeder.reverseFeed();
                     shootState = 0;
                     isShoot = "thirdReverse";

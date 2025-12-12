@@ -74,9 +74,9 @@ public class V2TeleOP extends LinearOpMode {
                 if(shootTog == true){
                     if(far)
                     {
-                        robot.shoot(1350);
+                        robot.shoot(1500);
                     }else {
-                        robot.shoot(1050);
+                        robot.shoot(1350);
                     }
                 }else{
                     robot.shoot(0);

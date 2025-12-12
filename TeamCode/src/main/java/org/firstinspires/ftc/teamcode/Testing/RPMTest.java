@@ -17,16 +17,16 @@ public class RPMTest extends LinearOpMode {
         Intake intake = new Intake(hardwareMap);
         Feeder feeder = new Feeder(hardwareMap, "leftFeeder", "rightFeeder");
         waitForStart();
-        double v = 1000;
+        double v = 1350;
         while(opModeIsActive())
         {
             if(controller.dpad_up.onPress())
             {
-                v += 50;
+                v += 10;
             }
             if(controller.dpad_down.onPress())
             {
-                v -= 50;
+                v -= 10;
             }
             if(controller.a.onPress()){
                 feeder.feed();
