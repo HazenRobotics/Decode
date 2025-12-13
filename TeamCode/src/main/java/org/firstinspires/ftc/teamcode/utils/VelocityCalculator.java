@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 public class VelocityCalculator {
+    //radius = 4 inches
     private static double launchHeight = 0.10; //launchHeight height of launcher above ground (meters)
     private static double launchAngle = 50; //launchAngle launch angle in degrees
     private static double targetHeight = 0.984; //target height in meters
