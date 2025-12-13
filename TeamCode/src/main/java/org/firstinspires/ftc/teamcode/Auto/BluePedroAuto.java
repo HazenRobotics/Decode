@@ -15,8 +15,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "BluePedroAuto")
-//TODO: Spilt lines1, lines2, and lines3 into seperate lines
-//I.E: Line 1: Approach Line 1, then go slow to intake the balls
+
 
 public class BluePedroAuto extends LinearOpMode {
     private int pathState;
@@ -186,149 +185,149 @@ public class BluePedroAuto extends LinearOpMode {
                 }
 
                 if (shootThreeBallVelocity()) {
+                    setPathState(10);
+                }
+                break;
+
+
+            // =====================================================
+            //  10 — DRIVE TO LINE 1
+            // =====================================================
+            case 10:
+                intake.setPower(-1);
+                if (!follower.isBusy()) {
+                    follower.followPath(firstBall);
+                    setPathState(11);
+                }
+                break;
+
+            // =====================================================
+            //  11 — RETURN FROM LINE 1 TO SHOOTING
+            // =====================================================
+            case 11:
+                if (!follower.isBusy()) {
+                    intake.setPower(-0.8);
+//                    shooter.setVelocity(1000);
+                    feeder.reverseFeed();
+                    follower.followPath(back1);
+                    shootState = 0;
+                    setPathState(12);
+                }
+                break;
+
+            // =====================================================
+            //  12 — SHOOT 3 FROM LINE 1
+            // =====================================================
+            case 12:
+                // Wait until the follower returns and stops at shooting pose
+                if (follower.isBusy()) {
+                    break;
+                }
+
+                // Small settle time to let robot stabilize
+                if (pathTimer.getElapsedTime() < 200) {
+                    break;
+                }
+
+                if (shootThreeBallVelocity()) {
+                    setPathState(20);
+                }
+                break;
+
+
+            // =====================================================
+            //  20 — DRIVE TO LINE 2
+            // =====================================================
+            case 20:
+                intake.setPower(-1);
+                if (!follower.isBusy()) {
+                    follower.followPath(secondBall);
+                    setPathState(21);
+                }
+                break;
+
+            // =====================================================
+            //  21 — RETURN FROM LINE 2
+            // =====================================================
+            case 21:
+                if (!follower.isBusy()) {
+                    intake.setPower(-0.8);
+//                    shooter.setVelocity(1000);
+                    feeder.reverseFeed();
+                    follower.followPath(back2);
+                    shootState = 0;
+                    setPathState(22);
+                }
+                break;
+
+            // =====================================================
+            //  22 — SHOOT 3 FROM LINE 2
+            // =====================================================
+            case 22:
+                // Wait until the follower returns and stops at shooting pose
+                if (follower.isBusy()) {
+                    break;
+                }
+
+                // Small settle time to let robot stabilize
+                if (pathTimer.getElapsedTime() < 200) {
+                    break;
+                }
+
+                if (shootThreeBallVelocity()) {
+                    setPathState(30);
+                }
+                break;
+
+
+            // =====================================================
+            //  30 — DRIVE TO LINE 3
+            // =====================================================
+            case 30:
+                intake.setPower(-1);
+                if (!follower.isBusy()) {
+                    follower.followPath(thirdBall);
+                    setPathState(31);
+                }
+                break;
+
+            // =====================================================
+            //  31 — RETURN FROM LINE 3
+            // =====================================================
+            case 31:
+                if (!follower.isBusy()) {
+                    intake.setPower(-0.8);
+//                    shooter.setVelocity(1000);
+                    feeder.reverseFeed();
+                    follower.followPath(back3);
+                    shootState = 0;
+                    setPathState(32);
+                }
+                break;
+
+            // =====================================================
+            //  32 — SHOOT 3 FROM LINE 3
+            // =====================================================
+            case 32:
+                // Wait until the follower returns and stops at shooting pose
+                if (follower.isBusy()) {
+                    break;
+                }
+
+                // Small settle time to let robot stabilize
+                if (pathTimer.getElapsedTime() < 200) {
+                    break;
+                }
+
+                if (shootThreeBallVelocity()) {
+                    shooter.setVelocity(0);
+                    feeder.reset();
+                    intake.setPower(-0.8);
                     setPathState(100);
                 }
                 break;
-//
-//
-//            // =====================================================
-//            //  10 — DRIVE TO LINE 1
-//            // =====================================================
-//            case 10:
-//                intake.setPower(-1);
-//                if (!follower.isBusy()) {
-//                    follower.followPath(firstBall);
-//                    setPathState(11);
-//                }
-//                break;
-//
-//            // =====================================================
-//            //  11 — RETURN FROM LINE 1 TO SHOOTING
-//            // =====================================================
-//            case 11:
-//                if (!follower.isBusy()) {
-//                    intake.setPower(-0.8);
-////                    shooter.setVelocity(1000);
-//                    feeder.reverseFeed();
-//                    follower.followPath(back1);
-//                    shootState = 0;
-//                    setPathState(12);
-//                }
-//                break;
-//
-//            // =====================================================
-//            //  12 — SHOOT 3 FROM LINE 1
-//            // =====================================================
-//            case 12:
-//                // Wait until the follower returns and stops at shooting pose
-//                if (follower.isBusy()) {
-//                    break;
-//                }
-//
-//                // Small settle time to let robot stabilize
-//                if (pathTimer.getElapsedTime() < 200) {
-//                    break;
-//                }
-//
-//                if (shootThreeBallVelocity()) {
-//                    setPathState(20);
-//                }
-//                break;
-//
-//
-//            // =====================================================
-//            //  20 — DRIVE TO LINE 2
-//            // =====================================================
-//            case 20:
-//                intake.setPower(-1);
-//                if (!follower.isBusy()) {
-//                    follower.followPath(secondBall);
-//                    setPathState(21);
-//                }
-//                break;
-//
-//            // =====================================================
-//            //  21 — RETURN FROM LINE 2
-//            // =====================================================
-//            case 21:
-//                if (!follower.isBusy()) {
-//                    intake.setPower(-0.8);
-////                    shooter.setVelocity(1000);
-//                    feeder.reverseFeed();
-//                    follower.followPath(back2);
-//                    shootState = 0;
-//                    setPathState(22);
-//                }
-//                break;
-//
-//            // =====================================================
-//            //  22 — SHOOT 3 FROM LINE 2
-//            // =====================================================
-//            case 22:
-//                // Wait until the follower returns and stops at shooting pose
-//                if (follower.isBusy()) {
-//                    break;
-//                }
-//
-//                // Small settle time to let robot stabilize
-//                if (pathTimer.getElapsedTime() < 200) {
-//                    break;
-//                }
-//
-//                if (shootThreeBallVelocity()) {
-//                    setPathState(30);
-//                }
-//                break;
-//
-//
-//            // =====================================================
-//            //  30 — DRIVE TO LINE 3
-//            // =====================================================
-//            case 30:
-//                intake.setPower(-1);
-//                if (!follower.isBusy()) {
-//                    follower.followPath(thirdBall);
-//                    setPathState(31);
-//                }
-//                break;
-//
-//            // =====================================================
-//            //  31 — RETURN FROM LINE 3
-//            // =====================================================
-//            case 31:
-//                if (!follower.isBusy()) {
-//                    intake.setPower(-0.8);
-////                    shooter.setVelocity(1000);
-//                    feeder.reverseFeed();
-//                    follower.followPath(back3);
-//                    shootState = 0;
-//                    setPathState(32);
-//                }
-//                break;
-//
-//            // =====================================================
-//            //  32 — SHOOT 3 FROM LINE 3
-//            // =====================================================
-//            case 32:
-//                // Wait until the follower returns and stops at shooting pose
-//                if (follower.isBusy()) {
-//                    break;
-//                }
-//
-//                // Small settle time to let robot stabilize
-//                if (pathTimer.getElapsedTime() < 200) {
-//                    break;
-//                }
-//
-//                if (shootThreeBallVelocity()) {
-//                    shooter.setVelocity(0);
-//                    feeder.reset();
-//                    intake.setPower(-0.8);
-//                    setPathState(100);
-//                }
-//                break;
-//
-//
+
+
             // =====================================================
             //  100 — END
             // =====================================================
@@ -337,6 +336,7 @@ public class BluePedroAuto extends LinearOpMode {
                 break;
         }
     }
+
 
     public boolean shootThreeBallVelocity() {
 
@@ -347,7 +347,7 @@ public class BluePedroAuto extends LinearOpMode {
 
             case 0:
                 // reset timer when starting a new 3-ball cycle
-                if (shootTimer.getElapsedTime() > 1000 && shooter.getVelocity() > min && shooter.getVelocity() < max) {
+                if (shooter.getVelocity() > min && shooter.getVelocity() < max) {
                     feeder.feed();
                     intake.setPower(-0.8);
                     shootState = 1;

@@ -41,11 +41,13 @@ public class Feeder {
         leftFeeder.setPower(speed);
         rightFeeder.setPower(speed);
         topFeeder.setPower(speed);
+        isFeed = true;
     }
     public void reverseFeed(){
         leftFeeder.setPower(-speed);
         rightFeeder.setPower(-speed);
         topFeeder.setPower(0.1);
+        isFeed = false;
 
     }
 
@@ -63,12 +65,14 @@ public class Feeder {
         leftFeeder.setPower(0);
         rightFeeder.setPower(0);
         topFeeder.setPower(0);
+        isFeed = false;
     }
 
     public void feed(double speed){
         leftFeeder.setPower(speed);
         rightFeeder.setPower(speed);
         topFeeder.setPower(speed);
+        isFeed = true;
     }
 
 

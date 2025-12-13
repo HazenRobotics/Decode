@@ -127,37 +127,43 @@ public class BluePath extends LinearOpMode {
                 setPathState(1);
                 break;
             case 1:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy())
+                {
                     follower.followPath(firstBall);
                     setPathState(2);
                 }
                 break;
             case 2:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy())
+                {
                     follower.followPath(back1);
                     setPathState(3);
                 }
                 break;
             case 3:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy())
+                {
                     follower.followPath(secondBall);
                     setPathState(4);
                 }
                 break;
             case 4:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy())
+                {
                     follower.followPath(back2);
                     setPathState(5);
                 }
                 break;
             case 5:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy())
+                {
                     follower.followPath(thirdBall);
                     setPathState(6);
                 }
                 break;
             case 6:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy())
+                {
                     follower.followPath(back3);
                     setPathState(7);
                 }
@@ -167,11 +173,11 @@ public class BluePath extends LinearOpMode {
     }
 
 
-
-
-    public void setPathState(int pState) {
+    public void setPathState(int pState)
+    {
         pathState = pState;
-        if (pathTimer != null) {
+        if (pathTimer != null)
+        {
             pathTimer.resetTimer();
         }
     }

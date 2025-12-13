@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -16,7 +14,7 @@ public class Shooter {
     //this class must be as modular as possible
     DcMotorEx leftMotor, rightMotor;
     Limelight3A limelight;
-    private String lmName = "leftShooter", rmName = "rightShooter", limelightName = "limelight";
+    private String name = "shooter";
     private double defaultPower = 0.2;
     private double nominalVoltage = 12.0;
     private VoltageSensor voltageSensor;
@@ -38,8 +36,7 @@ public class Shooter {
     //Add Two Servos for controlling the pushing of the ball
     public Shooter(HardwareMap hw)
     {
-        leftMotor = hw.get(DcMotorEx.class, lmName);
-        rightMotor = hw.get(DcMotorEx.class, rmName);
+        leftMotor = hw.get(DcMotorEx.class, name);
 //        limelight = hw.get(Limelight3A.class, limelightName);
         twoMotors = true;
 

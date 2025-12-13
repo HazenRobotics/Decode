@@ -52,6 +52,20 @@ public class LogitechCam {
     {
         return detectedTags;
     }
+    public double getHorizontalData(AprilTagDetection detectedId)
+    {
+        if(detectedId ==null)
+        {
+            return 0;
+        }
+
+
+        if(detectedId.metadata != null)
+        {
+            return detectedId.ftcPose.y;
+        }
+        return 0;
+    }
 
     public void disPlayDetectionTelementry(AprilTagDetection detectedId)
     {

@@ -21,8 +21,8 @@ public class V2TeleOP extends LinearOpMode {
         robot = new V2(hardwareMap, controller1, controller2);
         boolean far = false;
         boolean shootTog = false;
-        RevBlinkinLedDriver led;
-        LEDLights LED1 = new LEDLights(hardwareMap, "lights");
+//        RevBlinkinLedDriver led;
+//        LEDLights LED1 = new LEDLights(hardwareMap, "lights");
 
         waitForStart();
         while(opModeIsActive())
@@ -33,11 +33,11 @@ public class V2TeleOP extends LinearOpMode {
                 robot.intake();
             }
 
-            if(far){
-                LED1.farColor();
-            }else{
-                LED1.nearColor();
-            }
+//            if(far){
+//                LED1.farColor();
+//            }else{
+//                LED1.nearColor();
+//            }
 
             if (controller1.a.onPress())
             {
