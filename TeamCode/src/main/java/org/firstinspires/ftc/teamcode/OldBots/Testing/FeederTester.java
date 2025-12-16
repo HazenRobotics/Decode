@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
 @TeleOp(group = "A LeTeleOp", name = "LeFeeder Test")
 public class FeederTester extends LinearOpMode {
 

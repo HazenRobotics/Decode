@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.OldBots.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
-import org.firstinspires.ftc.teamcode.utils.ColorSensor;
-import org.firstinspires.ftc.teamcode.utils.LEDLights;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.ColorSensor;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.LEDLights;
 
 @TeleOp (group = "test", name = "colorSensor Test")
 public class ColorSensorTester extends LinearOpMode {

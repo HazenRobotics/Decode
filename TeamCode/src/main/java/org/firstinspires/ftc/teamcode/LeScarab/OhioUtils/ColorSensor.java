@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode.utils;
+package org.firstinspires.ftc.teamcode.LeScarab.OhioUtils;
 
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.utils.ColorSensorExample2;
 
 
 public class ColorSensor {

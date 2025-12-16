@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeMecanum;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
 
 public class V2 {
     LeMecanum drive;

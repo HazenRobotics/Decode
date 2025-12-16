@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Vision;
+package org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision;
 
 import android.util.Size;
 

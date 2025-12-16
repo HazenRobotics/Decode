@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
 
 @TeleOp(group = "A LeTeleOp", name = "RPMTest")
 public class RPMTest extends LinearOpMode {

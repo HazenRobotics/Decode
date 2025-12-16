@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.Vision.LogitechCam;
-import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
-import org.firstinspires.ftc.teamcode.utils.VelocityCalculator;
+import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.VelocityCalculator;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 @TeleOp(group = "Tester", name = "VelocityCalculatorTest")
 public class VelocityCalculatorTest extends LinearOpMode {

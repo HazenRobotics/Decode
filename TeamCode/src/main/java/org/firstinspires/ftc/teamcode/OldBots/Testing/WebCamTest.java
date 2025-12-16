@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.OldBots.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Vision.LogitechCam;
+import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @TeleOp(group = "test", name = "LeWebcam")

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
 
 @TeleOp(group = "A LeTeleOp", name = "LeShooter Prototype")
 public class testShooterProtoype extends LinearOpMode {

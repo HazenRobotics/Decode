@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.OldBots.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.OldBots.Robots.V2;
-import org.firstinspires.ftc.teamcode.Vision.LogitechCam;
-import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
 public class AutoAlign extends LinearOpMode {
     GamepadEvents controller1;
     V2 robot;

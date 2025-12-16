@@ -5,11 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.pedropathing.follower.Follower;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Vision.LogitechCam;
+import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
 import org.firstinspires.ftc.teamcode.OldBots.Robots.V2;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.utils.ColorSensor;
-import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.ColorSensor;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Constants;
 
