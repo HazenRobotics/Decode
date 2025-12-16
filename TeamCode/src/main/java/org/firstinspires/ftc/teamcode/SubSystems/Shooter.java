@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -57,6 +58,11 @@ public class Shooter {
         leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
     }
 
+    public void updatePID(Double P, Double F){
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        leftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+    }
+
     public double getVelocity(){
         return leftMotor.getVelocity();
     }
@@ -104,29 +110,6 @@ public class Shooter {
         leftMotor.setVelocity((rpm/6000) * normalization);
 //        leftMotor.setVelocityPIDFCoefficients(kP, kI, kD, kF);
 
-    }
-
-
-    public double calculateTargetRPM(double distanceMeters, double targetHeightMeters, double angleDegrees) {
-        double g = 9.81;
-        double theta = Math.toRadians(angleDegrees);
-
-        // Projectile motion equation for required exit velocity
-        double numerator = distanceMeters * distanceMeters * g;
-        double denominator = 2 * Math.cos(theta) * Math.cos(theta) *
-                (distanceMeters * Math.tan(theta) - targetHeightMeters);
-
-        if (denominator <= 0) return MAX_RPM; // failsafe
-        double vExit = Math.sqrt(numerator / denominator);
-
-        // Convert linear velocity to angular velocity (rad/s)
-        double omega = vExit / wheelRadius;
-
-        // Convert rad/s to RPM
-        double targetRPM = (omega * 60.0) / (2 * Math.PI);
-
-        // Cap within safe limits
-        return Math.min(targetRPM, MAX_RPM);
     }
 
 

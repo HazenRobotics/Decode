@@ -47,7 +47,7 @@ public class V2 {
 
     public void drive()
     {
-        drive.drive(controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+        drive.drive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
     }
 
     public void setDriveSpeed(double speed)
@@ -108,7 +108,7 @@ public class V2 {
         shootTime = timePassed.seconds();
         if(isTransfered)
         {
-            shooter.setShooterRPM(FAR_RPM);
+            shooter.setVelocity(1780);
             //sleep
             if(elapsed > FEED_DELAY)
             {
@@ -117,7 +117,7 @@ public class V2 {
 
 
         }else {
-            shooter.setShooterRPM(-FAR_RPM/10);
+            shooter.setVelocity(0);
             feeder.reverseFeed();
             timePassed.reset();
         }
@@ -126,10 +126,13 @@ public class V2 {
 
     public void shoot(double shoot)
     {
+        feeder.feed();
         shooter.setVelocity(shoot);
-
     }
 
+    public void reverseFeed(){
+        feeder.reverseFeed();
+    }
     public void setRPM(double rpm)
     {
         FAR_RPM += rpm;

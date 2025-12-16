@@ -16,6 +16,8 @@ public class LEDLights {
     public static final double GREEN_WEIGHT = 0.500;
     public static final double PURPLE_WEIGHT = 0.722;
 
+    public static final double FAR_WEIGHT = 0.222;
+
     Servo LED;
     Telemetry telemetry;
 
@@ -29,6 +31,8 @@ public class LEDLights {
 // Error        this(hw, "light");
         telemetry = t;
     }
+
+
 
     public void setColor(double color) {
         LED.setPosition(color);

@@ -47,5 +47,16 @@ public class VelocityCalculator {
         System.out.println("Required velocity: " + v0 + " m/s");
         return v0;
     }
+    //radius = 4.5 inches
+    // 1 meter = 39.3701
+    // 1 revolution = 2pi radians
+    // length of flywheel: 2pi*(4.5)
+    // radius = 4.5
+
+    //Final Result: ticks per second
+//    public double calclateAnglarVelocityForTarget(double horizontalDistance)
+//    {
+//        return calculateVelocityForTarget(horizontalDistance) *
+//    }
 
 }

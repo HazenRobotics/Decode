@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "BluePathTest")
 public class BluePath extends LinearOpMode {
     private int pathState;
     private Follower follower;
