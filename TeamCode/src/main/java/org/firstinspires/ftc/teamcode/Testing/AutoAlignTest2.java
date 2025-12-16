@@ -32,9 +32,6 @@ public class AutoAlignTest2 extends LinearOpMode {
         // --- 1. Initialization ---
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
-
-        // Initialize the Pedro Pathing Follower
-        // NOTE: 'Constants' is assumed to be defined by the user's Pedro Pathing setup.
         follower = Constants.createFollower(hardwareMap);
 
         // Initialize the Vision System
@@ -93,16 +90,16 @@ public class AutoAlignTest2 extends LinearOpMode {
                     follower.setTeleOpDrive(0, 0, 0, true);
                     telemetry.addData("Alignment Status", "ALIGNED");
                 } else {
-                    // Calculate angular velocity (vOmega) using a simple P-controller
+                    // Calculating angular velocity (vOmega) using a simple P-controller
                     double vOmega = ALIGNMENT_P_GAIN * yawErrorRad;
 
-                    // Optionally, add a minimum power to prevent stalling near the target
+                    // A minimum power to prevent stalling near the target
                     if (Math.abs(vOmega) < 0.1) {
                         vOmega = Math.copySign(0.1, vOmega);
                     }
 
-                    // Apply drive power (0 translational, calculated rotational)
-                    // Use ROBOT CENTRIC control (last parameter true) for simple rotation
+                    // Applying drive power (0 translational, calculated rotational)
+                    // Using robot centric control (last parameter true) for simple rotation
                     follower.setTeleOpDrive(0, 0, vOmega, true);
                     telemetry.addData("vOmega Applied", String.format("%.3f", vOmega));
                 }

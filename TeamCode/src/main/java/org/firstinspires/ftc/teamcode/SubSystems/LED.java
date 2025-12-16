@@ -4,31 +4,30 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LED {
-    RevBlinkinLedDriver led;
-    private final String name = "led";
+    public static final double GREEN_WEIGHT = 0.500;
+    public static final double PURPLE_WEIGHT = 0.722;
 
-    RevBlinkinLedDriver.BlinkinPattern[] lights = {
-            RevBlinkinLedDriver.BlinkinPattern.WHITE,
-            RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN,
-            RevBlinkinLedDriver.BlinkinPattern.RED,
-    };
-
-    public LED(HardwareMap hw)
-    {
-        led = hw.get(RevBlinkinLedDriver.class, name);
+    Servo LED;
+    Telemetry telemetry;
+    public LED(HardwareMap hw) {
+        LED = hw.get(Servo.class, "led");
     }
 
-    public void reset()
-    {
-        led.setPattern(lights[0]);
+    public LED(HardwareMap hw, String name) {
+        LED = hw.get(Servo.class, name);
     }
 
-//    public void rangeToggle()
-//    {
-//        //If Arraylist 1, switch to 2, and vice versa
-//        //Maybe use enums
-//        led.setPattern();
-//    }
+    public LED(HardwareMap hw, Telemetry t) {
+// Error        this(hw, "light");
+        telemetry = t;
+    }
+
+    public void setColor(double color) {
+        LED.setPosition(color);
+    }
 }

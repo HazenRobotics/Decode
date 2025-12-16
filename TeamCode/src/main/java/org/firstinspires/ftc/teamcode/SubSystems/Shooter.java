@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -14,7 +15,7 @@ public class Shooter {
     //this class must be as modular as possible
     DcMotorEx leftMotor, rightMotor;
     Limelight3A limelight;
-    private String shooterName = "shooter", limelightName = "limelight";
+    private String name = "shooter";
     private double defaultPower = 0.2;
     private double nominalVoltage = 12.0;
     private VoltageSensor voltageSensor;
@@ -36,8 +37,7 @@ public class Shooter {
     //Add Two Servos for controlling the pushing of the ball
     public Shooter(HardwareMap hw)
     {
-        leftMotor = hw.get(DcMotorEx.class, shooterName);
-
+        leftMotor = hw.get(DcMotorEx.class, name);
 //        limelight = hw.get(Limelight3A.class, limelightName);
         twoMotors = true;
 
@@ -56,6 +56,11 @@ public class Shooter {
         voltageSensor = hw.voltageSensor.iterator().next();
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+    }
+
+    public void updatePID(Double P, Double F){
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        leftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
     }
 
     public double getVelocity(){
@@ -105,29 +110,6 @@ public class Shooter {
         leftMotor.setVelocity((rpm/6000) * normalization);
 //        leftMotor.setVelocityPIDFCoefficients(kP, kI, kD, kF);
 
-    }
-
-
-    public double calculateTargetRPM(double distanceMeters, double targetHeightMeters, double angleDegrees) {
-        double g = 9.81;
-        double theta = Math.toRadians(angleDegrees);
-
-        // Projectile motion equation for required exit velocity
-        double numerator = distanceMeters * distanceMeters * g;
-        double denominator = 2 * Math.cos(theta) * Math.cos(theta) *
-                (distanceMeters * Math.tan(theta) - targetHeightMeters);
-
-        if (denominator <= 0) return MAX_RPM; // failsafe
-        double vExit = Math.sqrt(numerator / denominator);
-
-        // Convert linear velocity to angular velocity (rad/s)
-        double omega = vExit / wheelRadius;
-
-        // Convert rad/s to RPM
-        double targetRPM = (omega * 60.0) / (2 * Math.PI);
-
-        // Cap within safe limits
-        return Math.min(targetRPM, MAX_RPM);
     }
 
 
