@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class Intake {
     private String name = "intake";
     DcMotorEx intake, otherIntake;
@@ -77,6 +79,10 @@ public class Intake {
             Thread.sleep(time);
         }
 
+    }
+    public double getCurrent()
+    {
+        return intake.getCurrent(CurrentUnit.AMPS);
     }
 
     public double getPower()

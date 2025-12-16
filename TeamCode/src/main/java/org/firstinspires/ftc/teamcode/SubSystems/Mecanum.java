@@ -66,18 +66,10 @@ public class Mecanum {
         double frontRightPower = forward - strafe - rotate;
         double backRightPower = forward + strafe - rotate;
 
-        double maxPower = 1.0;
-        double maxSpeed = 1.0;
-
-        maxPower = Math.max(maxPower, Math.abs(frontLeftPower));
-        maxPower = Math.max(maxPower, Math.abs(backLeftPower));
-        maxPower = Math.max(maxPower, Math.abs(frontRightPower));
-        maxPower = Math.max(maxPower, Math.abs(backRightPower));
-
-        leftTop.setPower(maxSpeed * (frontLeftPower / maxPower));
-        leftBottom.setPower(maxSpeed * (frontLeftPower / maxPower));
-        rightTop.setPower(maxSpeed * (frontLeftPower / maxPower));
-        rightBottom.setPower(maxSpeed * (frontLeftPower / maxPower));
+        leftTop.setPower(frontLeftPower);
+        leftBottom.setPower(backLeftPower);
+        rightTop.setPower(frontRightPower);
+        rightBottom.setPower(backRightPower);
     }
 
     public void setForwardConst(double value)
