@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeMecanum;
 import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@TeleOp(name = "AutoAlignTest", group = "Tester")
 public class AutoAlignTest3 extends LinearOpMode {
     private static final int TARGET_TAG_ID = 20; // Change this to the AprilTag ID you want to align to
     private LogitechCam visionSystem;
