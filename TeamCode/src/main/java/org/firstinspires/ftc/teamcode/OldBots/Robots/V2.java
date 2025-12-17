@@ -29,7 +29,6 @@ public class V2 {
     final double SPEED_SCALE = 0.9;
 
      public boolean isShooting = false, isTransfered = false, isFeeder = false, farShot = true;
-
     public V2(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new LeMecanum(hw);
