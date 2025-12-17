@@ -9,17 +9,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LED {
-    public static final double GREEN_WEIGHT = 0.500;
-    public static final double PURPLE_WEIGHT = 0.722;
 
-    Servo LED;
+    RevBlinkinLedDriver LED;
     Telemetry telemetry;
     public LED(HardwareMap hw) {
-        LED = hw.get(Servo.class, "led");
+        LED = hw.get(RevBlinkinLedDriver.class, "led");
     }
 
     public LED(HardwareMap hw, String name) {
-        LED = hw.get(Servo.class, name);
+        LED = hw.get(RevBlinkinLedDriver.class, name);
     }
 
     public LED(HardwareMap hw, Telemetry t) {
@@ -27,7 +25,7 @@ public class LED {
         telemetry = t;
     }
 
-    public void setColor(double color) {
-        LED.setPosition(color);
+    public void setColor(RevBlinkinLedDriver.BlinkinPattern color) {
+        LED.setPattern(color);
     }
 }
