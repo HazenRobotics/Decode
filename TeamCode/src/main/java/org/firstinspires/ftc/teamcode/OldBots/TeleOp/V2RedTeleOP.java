@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.pedropathing.follower.Follower;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.VelocityCalculator;
 import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
 import org.firstinspires.ftc.teamcode.OldBots.Robots.V2;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
@@ -30,6 +31,7 @@ public class V2RedTeleOP extends LinearOpMode {
     private static final double ALIGN_TOLERANCE = 1.0;
     private static final double MAX_TURN = 0.6;
     private double v = 1360;
+    VelocityCalculator calculator;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,6 +40,7 @@ public class V2RedTeleOP extends LinearOpMode {
         controller1 = new GamepadEvents(gamepad1);
         controller2 = new GamepadEvents(gamepad2);
         robot = new V2(hardwareMap, controller1, controller2);
+        calculator = new VelocityCalculator();
 //        lights = new LEDLights[1];
 //        lights[0] = new LEDLights(hardwareMap, "led");
 
@@ -60,6 +63,7 @@ public class V2RedTeleOP extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            AprilTagDetection targetTag = vision.getTagBySpecificId(TARGET_TAG_ID);
 
             // ===================== AUTO-ALIGN =====================
             vision.update();
@@ -99,14 +103,15 @@ public class V2RedTeleOP extends LinearOpMode {
             if (controller1.right_bumper.onPress()) robot.intake();
             if(controller1.left_bumper.onPress())
             {
-                robot.shoot(v);
+//                robot.shoot(v);
+                shooter.setVelocity(calculator.calculateAngularVelocityForTarget(vision.getHorizontalData(targetTag)));
             }
             if(shooter.getCurrent() > 2){
                 robot.reverseFeed();
             }
             if (controller1.a.onPress()){
-                robot.shoot(1360);
-                robot.reverseFeed();
+//                robot.shoot(1360);
+                robot.toggleFeed();
             }
             if (controller1.x.onPress()){
                 far = !far;

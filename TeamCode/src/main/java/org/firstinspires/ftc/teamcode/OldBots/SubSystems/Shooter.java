@@ -83,7 +83,8 @@ public class Shooter {
         return voltageSensor.getVoltage();
     }
 
-    public void setVelocity(double ticks){
+    public void setVelocity(double ticks)
+    {
         leftMotor.setVelocity(ticks);
     }
 

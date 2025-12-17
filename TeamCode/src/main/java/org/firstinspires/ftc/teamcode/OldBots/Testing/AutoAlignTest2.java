@@ -13,7 +13,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 //TODO: Limit Y Distance to be between 100-110
 //TODO: Constain X Distance to be >4, maybe try PID to position to 10
-@TeleOp(name = "AutoAlignTest", group = "Tester")
+//@TeleOp(name = "AutoAlignTest", group = "Tester")
 public class AutoAlignTest2 extends LinearOpMode {
 
     // --- Configuration ---

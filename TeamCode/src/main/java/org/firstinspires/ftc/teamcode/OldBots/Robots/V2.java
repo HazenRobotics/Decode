@@ -19,11 +19,16 @@ public class V2 {
     GamepadEvents controller1, controller2;
     //Timer
     private ElapsedTime timePassed = new ElapsedTime();
+    private double applyDeadzone(double v, double d) {
+        return Math.abs(v) > d ? v : 0.0;
+    }
     private final double LAUNCHER_DELAY = 4, FEED_DELAY = 1, TRANSFER_DELAY = 2; //seconds
     private double shootTime = 0, intakeTime = 0;
+    //idk where you got these values from but they work
+    final double DEADZONE = 0.05;
+    final double SPEED_SCALE = 0.9;
 
      public boolean isShooting = false, isTransfered = false, isFeeder = false, farShot = true;
-
     public V2(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
         drive = new LeMecanum(hw);
@@ -44,7 +49,15 @@ public class V2 {
 
     public void drive()
     {
-        drive.drive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+        double forward = -controller1.left_stick_y; // up = positive
+        double strafe = controller1.left_stick_x;
+        double rotate =controller1.right_stick_x;
+
+        forward = applyDeadzone(forward, DEADZONE) * SPEED_SCALE;
+        strafe = applyDeadzone(strafe, DEADZONE) * SPEED_SCALE;
+        rotate = applyDeadzone(rotate, DEADZONE) * SPEED_SCALE;
+
+        drive.fieldCentricDrive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
     }
 
     public void setDriveSpeed(double speed)

@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.OldBots.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeMecanum;
-
+@TeleOp(group = "Tester", name = "LeFieldCentricDriveTester")
 public class FieldCentricDriveTester extends LinearOpMode {
     private LeMecanum driveTrain;
     private double applyDeadzone(double v, double d) {
