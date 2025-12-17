@@ -68,6 +68,7 @@ public class VelocityCalculatorTest extends LinearOpMode {
                 telemetry.addData("Calculated Linear velocity", calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
                 telemetry.addData("Calculated angular velocity", calculator.calculateAngularVelocityForTarget(camera.getHorizontalData(targetTag)));
                 telemetry.addData("Can shoot", canShoot);
+                telemetry.addData("Is LED Active", targetTag != null);
                 telemetry.addLine("Press A to allow shooting\nPress left_bumper to shoot");
                 telemetry.update();
                 controller.update();
