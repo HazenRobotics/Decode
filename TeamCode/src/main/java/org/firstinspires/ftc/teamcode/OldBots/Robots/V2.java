@@ -19,7 +19,7 @@ public class V2 {
     GamepadEvents controller1, controller2;
     //Timer
     private ElapsedTime timePassed = new ElapsedTime();
-    private double applyDeadzone(double v, double d) {
+    public double applyDeadzone(double v, double d) {
         return Math.abs(v) > d ? v : 0.0;
     }
     private final double LAUNCHER_DELAY = 4, FEED_DELAY = 1, TRANSFER_DELAY = 2; //seconds
@@ -58,6 +58,10 @@ public class V2 {
         rotate = applyDeadzone(rotate, DEADZONE) * SPEED_SCALE;
 
         drive.fieldCentricDrive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+    }
+    public void fieldCentricDrive(double forward, double strafe, double rotate) {
+
+        drive.fieldCentricDrive(forward, strafe, rotate);
     }
 
     public void setDriveSpeed(double speed)
