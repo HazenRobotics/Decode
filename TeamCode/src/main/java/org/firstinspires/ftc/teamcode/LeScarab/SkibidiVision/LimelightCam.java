@@ -90,18 +90,12 @@ public class LimelightCam {
 
                 LLResult result = limelight.getLatestResult();
                 double ty;
-                double value = Math.PI;
+                double value = 0.001;
                 //I think I need to localize the robot to know where it is
                 if (result != null && result.isValid())
                 {
-
-                        ty = result.getTy(); // How far up or down the target is (degrees)
-
-                        //Use Projectile Motion formula
-                        //Assume the 435 rpm motor is used
-                        value = (motifHeight - limelightElevation) / Math.tan(Math.toRadians(limelightAngle + (double) ty));
+                       return result.getTy();
                 }
-
                 return value;
         }
 

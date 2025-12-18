@@ -60,6 +60,8 @@ public class VelocityCalculatorTest extends LinearOpMode {
                 if(targetTag != null)
                 {
                     led.setColor(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
+                }else {
+                    led.setColor(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);
                 }
 
                 camera.update();

@@ -10,12 +10,14 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 public class WebCamTest extends OpMode {
     LogitechCam webcam = new LogitechCam();
     @Override
-    public void init() {
+    public void init()
+    {
         webcam.init(hardwareMap, telemetry);
     }
 
     @Override
-    public void loop() {
+    public void loop()
+    {
         //Read AprilTag, return a pattern:
         //20: Blue Goal
         //21: Green, Purple, Purple

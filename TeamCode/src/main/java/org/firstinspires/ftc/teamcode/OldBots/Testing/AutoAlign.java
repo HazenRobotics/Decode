@@ -15,9 +15,9 @@ public class AutoAlign extends LinearOpMode {
     private GamepadEvents controller1, controller2;
     private V2 robot;
     private int TARGET_ID = 20;
-    private static final double SPEED_SCALE     = 0.9;
-    private static final double P_GAIN          = 0.015;
-    private static final double ROT_DEADZONE    = 1.0;   // degrees
+    private static final double SPEED_SCALE = 0.9;
+    private static final double P_GAIN = 0.015;
+    private static final double ROT_DEADZONE = 1.0;   // degrees
     private static final double MAX_ALIGN_SPEED = 0.6;
 
     @Override
