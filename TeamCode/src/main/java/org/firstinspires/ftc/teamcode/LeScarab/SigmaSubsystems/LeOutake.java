@@ -1,9 +1,58 @@
 package org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class LeOutake {
 
     //Motor stuff
     //2 flywheels
     //3200 rmp - 6000 rmp motor currently
     //2 motors - don’t direct drive
+    DcMotorEx leftMotor, rightMotor;
+    private String leftName = "leftFlyWheel", rightName = "rightFlyWheel";
+    private double nominalVoltage = 12.0;
+    private VoltageSensor voltageSensor;
+    private static final double TICKS_PER_REV = 537.6;
+
+    public LeOutake(HardwareMap hw)
+    {
+        leftMotor = hw.get(DcMotorEx.class, leftName);
+        rightMotor = hw.get(DcMotorEx.class, rightName);
+
+        rightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        voltageSensor = hw.voltageSensor.iterator().next();
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+    }
+
+    public double getVelocity()
+    {
+        return leftMotor.getVelocity();
+    }
+
+    public double getCurrent()
+    {
+        return leftMotor.getCurrent(CurrentUnit.AMPS);
+    }
+
+    //AngularVelocity btw
+    public void setVelocity(double velocity)
+    {
+        leftMotor.setVelocity(velocity);
+        rightMotor.setVelocity(velocity);
+    }
+    public String getData() {
+            return "Left Shooter: " + leftMotor.getVelocity() + "\nRight Shooter: " + rightMotor.getVelocity();
+
+    }
 }

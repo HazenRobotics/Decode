@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.OldBots.TeleOp;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.pedropathing.follower.Follower;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.VelocityCalculator;
 import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
 import org.firstinspires.ftc.teamcode.OldBots.Robots.V2;
+import org.firstinspires.ftc.teamcode.OldBots.SubSystems.LED;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.ColorSensor;
 import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
@@ -14,27 +17,28 @@ import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.LEDLights;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Constants;
 
-@TeleOp(group = "A", name = "V2BlueTeleop")
+@TeleOp(group = "B", name = "V2BlueTeleop")
 public class V2BlueTeleOP extends LinearOpMode {
     ColorSensor colorSensor;
     LEDLights[] lights;
     private V2 robot;
     private GamepadEvents controller1, controller2;
-    private LEDLights led;
+    private LED led;
     private Shooter shooter;
-    //
+
     private static final int TARGET_TAG_ID = 20; // Change this to the AprilTag ID you want to align to
     private static final double ALIGNMENT_P_GAIN = 0.015; // Proportional gain for turning power (vOmega)
     private static final double ALIGNMENT_TOLERANCE_DEG = 1.0; // Stop turning when yaw is within this range (in degrees)
     // Pedro + Vision
     private Follower follower;
     private LogitechCam vision;
+    private VelocityCalculator calculator;
 
     // Auto Align config
-    private static final double ALIGN_P = 0.015;      // degree-based
-    private static final double ALIGN_TOLERANCE = 1.0;
-    private static final double MAX_TURN = 0.6;
-    private double v = 1780;
+    private static final double P_GAIN = 0.015;
+    private static final double ROT_DEADZONE = 1.0;   // degrees
+    private static final double MAX_ALIGN_SPEED = 0.6;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -43,7 +47,9 @@ public class V2BlueTeleOP extends LinearOpMode {
         controller1 = new GamepadEvents(gamepad1);
         controller2 = new GamepadEvents(gamepad2);
         robot = new V2(hardwareMap, controller1, controller2);
+        calculator = new VelocityCalculator();
 
+        led = new LED(hardwareMap);
 //        lights = new LEDLights[1];
 //        lights[0] = new LEDLights(hardwareMap, "led");
 
@@ -56,7 +62,6 @@ public class V2BlueTeleOP extends LinearOpMode {
         vision.init(hardwareMap, telemetry);
 
         boolean far = false;
-        boolean shootTog = false;
 
         telemetry.addLine("V2 Blue TeleOp + Auto Aim Initialized");
         telemetry.addLine("Hold Y to Auto-Align");
@@ -67,73 +72,80 @@ public class V2BlueTeleOP extends LinearOpMode {
 
         while (opModeIsActive()) {
 
+            robot.drive();
             // ===================== AUTO-ALIGN =====================
             vision.update();
-            AprilTagDetection tag = vision.getTagBySpecificId(TARGET_TAG_ID);
-            boolean autoAlign = gamepad1.y;
+            AprilTagDetection targetTag = vision.getTagBySpecificId(TARGET_TAG_ID);
 
-            if (autoAlign && tag != null) {
-                double yawErrorDeg = tag.ftcPose.yaw;
-                double yawErrorRad = AngleUnit.DEGREES.toRadians(yawErrorDeg);
-                if (Math.abs(yawErrorDeg) < ALIGN_TOLERANCE) {
-                    follower.setTeleOpDrive(0, 0, 0, true);
-                } else {
-                    double vOmega = ALIGN_P * yawErrorDeg;
 
-                    // A minimum power to prevent stalling near the target
-                    if (Math.abs(vOmega) < 0.1) {
-                        vOmega = Math.copySign(0.1, vOmega);
-                    }
-
-                    // Applying drive power (0 translational, calculated rotational)
-                    // Using robot centric control (last parameter true) for simple rotation
-                    follower.setTeleOpDrive(0, 0, vOmega, true);
-                    telemetry.addData("vOmega Applied", String.format("%.3f", vOmega));
-                }
-                telemetry.addData("Auto Align", "ACTIVE");
-                telemetry.addData("Yaw Error", yawErrorDeg);
-
-            } else if (autoAlign) {
-                follower.setTeleOpDrive(0, 0, 0, true);
-                telemetry.addLine("⚠️ Tag Not Detected");
-            } else {
-                // Normal drive
-                robot.drive();
+            if (targetTag != null)
+            {
+                led.setColor(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
+            } else
+            {
+                led.setColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
             }
 
             // ===================== DRIVER 1 =====================
-            if (controller1.right_bumper.onPress()) robot.intake();
-            if(controller1.left_bumper.onPress())
+            if (controller1.right_bumper.onPress())
             {
-                shootTog = !shootTog;
-                if(shootTog == true){
-                    robot.shoot(1780);
-                }else{
-                    robot.shoot(0);
-                }
+                robot.intake();
             }
-            if (controller1.a.onPress()){
-                robot.shoot(1360);
-                robot.reverseFeed();
+            if (controller1.left_bumper.onPress())
+            {
+                shooter.setVelocity(calculator.calculateAngularVelocityForTarget(vision.getHorizontalData(targetTag)));
             }
-            if (controller1.x.onPress()){
-                far = !far;
-                if(!far)
-                {
-                    robot.shoot(1350);
-                }else {
-                    robot.shoot(1780);
+            if (controller1.a.onPress())
+            {
+                robot.toggleFeed();
+            }
+
+
+            if (controller1.x.onPress()) {
+                if (targetTag != null && targetTag.metadata != null) {
+
+                    double bearingError = targetTag.ftcPose.bearing;
+                    double alignTurn = -bearingError * P_GAIN;
+
+                    alignTurn = Math.max(
+                            -MAX_ALIGN_SPEED,
+                            Math.min(MAX_ALIGN_SPEED, alignTurn)
+                    );
+
+                    // Lock when aligned
+                    if (Math.abs(bearingError) < ROT_DEADZONE) {
+                        robot.fieldCentricDrive(0, 0, 0);
+                    } else {
+                        robot.fieldCentricDrive(0, 0, alignTurn);
+                    }
+
+                    telemetry.addData("Align", "ACTIVE");
+                    telemetry.addData("Bearing (deg)", "%.2f", bearingError);
+
+
+                } else {
+                    telemetry.addData("Align", "Target not visible");
                 }
             }
 
-            // ===================== DRIVER 2 =====================
-            if (controller2.x.onPress()) robot.multiplyRPM(-1);
-            if (controller2.y.onPress()) robot.reverseIntake();
-            if (controller2.a.onPress()) robot.shoot(-1);
-            if (controller2.dpad_up.onPress()) robot.setRPM(100);
-            if (controller2.dpad_down.onPress()) robot.setRPM(-100);
+                // ===================== DRIVER 2 =====================
+                if (controller2.x.onPress()) {
+                    robot.multiplyRPM(-1);
+                }
+                if (controller2.y.onPress()) {
+                    robot.reverseIntake();
+                }
+                if (controller2.a.onPress()) {
+                    robot.shoot(-1);
+                }
+                if (controller2.dpad_up.onPress()) {
+                    robot.setRPM(100);
+                }
+                if (controller2.dpad_down.onPress()) {
+                    robot.setRPM(-100);
+                }
 
-            //Color Sensor
+                //Color Sensor
 //            ColorSensor.Color color = colorSensor.getColor();
 //
 //            switch (color){
@@ -147,36 +159,35 @@ public class V2BlueTeleOP extends LinearOpMode {
 //                    break;
 //
 //            }
-            // ===================== LED =====================
+                // ===================== LED =====================
 //            if (far) {
 //                led.setColor(LEDLights.FAR_WEIGHT);
 //            }
 
-            // ===================== UPDATES =====================
-            controller1.update();
-            controller2.update();
-            robot.feederEmoji(telemetry);
+                // ===================== UPDATES =====================
+                controller1.update();
+                controller2.update();
+                robot.feederEmoji(telemetry);
 
-            // ===================== TELEMETRY =====================
-            telemetry.addData("Shooter Velocity", shooter.getVelocity());
-            telemetry.addLine("Controller1 - Right Bumper: intake");
-            telemetry.addLine("Controller1 - Left Bumper: shoot toggle");
-            telemetry.addLine("Controller1 - A: feed");
-            telemetry.addLine("Controller1 - X (far): toggle distance");
-            telemetry.addData("Far mode", far);
-            telemetry.addLine("Controller2 - X: multiplyRPM");
-            telemetry.addLine("Controller2 - Y: reverseIntake");
-            telemetry.addLine("Controller2 - A: shoot -1");
-            telemetry.addLine("Controller2 - DPad Up: +RPM");
-            telemetry.addLine("Controller2 - DPad Down: -RPM");
+                // ===================== TELEMETRY =====================
+                telemetry.addData("Shooter Velocity", shooter.getVelocity());
+                telemetry.addLine("Controller1 - Right Bumper: intake");
+                telemetry.addLine("Controller1 - Left Bumper: shoot toggle");
+                telemetry.addLine("Controller1 - A: feed");
+                telemetry.addLine("Controller1 - X: Auto Align");
+                telemetry.addData("Far mode", far);
+                telemetry.addLine("Controller2 - X: multiplyRPM");
+                telemetry.addLine("Controller2 - Y: reverseIntake");
+                telemetry.addLine("Controller2 - A: shoot -1");
+                telemetry.addLine("Controller2 - DPad Up: +RPM");
+                telemetry.addLine("Controller2 - DPad Down: -RPM");
 
-            if (tag != null) vision.disPlayDetectionTelementry(tag);
 
-            telemetry.update();
+                telemetry.update();
 
-            // ===================== PEDRO UPDATE =====================
-            follower.update();
-            idle();
+                // ===================== PEDRO UPDATE =====================
+                follower.update();
+                idle();
+            }
         }
-    }
 }
