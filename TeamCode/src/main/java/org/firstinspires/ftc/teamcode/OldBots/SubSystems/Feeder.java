@@ -15,14 +15,15 @@ public class Feeder {
         rightFeeder = hw.get(CRServo.class,"rightFeeder");
         topFeeder = hw.get(CRServo.class, "topFeeder");
 
+
         //Setting Direction has had no effect
         if(isReversed)
         {
             leftFeeder.setDirection(CRServo.Direction.FORWARD);
-            rightFeeder.setDirection(CRServo.Direction.FORWARD);
+            rightFeeder.setDirection(CRServo.Direction.REVERSE);
         }else {
             leftFeeder.setDirection(CRServo.Direction.REVERSE);
-            rightFeeder.setDirection(CRServo.Direction.REVERSE);
+            rightFeeder.setDirection(CRServo.Direction.FORWARD);
         }
 
 

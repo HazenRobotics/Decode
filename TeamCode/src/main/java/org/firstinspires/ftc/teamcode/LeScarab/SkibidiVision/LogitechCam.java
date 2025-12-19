@@ -98,6 +98,11 @@ public class LogitechCam {
         return null;
     }
 
+    public double getBearing(AprilTagDetection detectedId)
+    {
+        return detectedId.ftcPose.bearing;
+    }
+
     public void stop()
     {
         if(visionPortal != null)

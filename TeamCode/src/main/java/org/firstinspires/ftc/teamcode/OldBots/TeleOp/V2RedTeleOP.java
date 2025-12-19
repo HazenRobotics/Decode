@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OldBots.TeleOp;
 
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -31,9 +32,10 @@ public class V2RedTeleOP extends LinearOpMode {
     // Auto Align config
     private static final int TARGET_TAG_ID = 24;
     private VelocityCalculator calculator;
-    private static final double P_GAIN = 0.015;
-    private static final double ROT_DEADZONE = 1.0;   // degrees
-    private static final double MAX_ALIGN_SPEED = 0.6;
+    private final Pose startPose = new Pose(0,0,0);
+    double WEB_CAM_OFFSET = -6.0;
+    boolean canAlign = false;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,7 +51,7 @@ public class V2RedTeleOP extends LinearOpMode {
 
         // PedroPathing init
         follower = Constants.createFollower(hardwareMap);
-        follower.startTeleopDrive();
+        follower.setStartingPose(startPose);
 
         // Vision init
         vision = new LogitechCam();
@@ -98,33 +100,28 @@ public class V2RedTeleOP extends LinearOpMode {
                 robot.toggleFeed();
             }
 
-
+            if(controller1.y.onPress())
+            {
+                canAlign = !canAlign;
+            }
 
             if(controller1.x.onPress())
             {
-                if (targetTag != null && targetTag.metadata != null) {
+                if(targetTag != null && canAlign)
+                {
+                    led.setColor(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
 
-                    double bearingError = targetTag.ftcPose.bearing;
-                    double alignTurn = -bearingError * P_GAIN;
+                    if(vision.getBearing(targetTag) > 1)
+                    {
+                        follower.turn(Math.abs(Math.toRadians(vision.getBearing(targetTag)) + WEB_CAM_OFFSET), false);
 
-                    alignTurn = Math.max(
-                            -MAX_ALIGN_SPEED,
-                            Math.min(MAX_ALIGN_SPEED, alignTurn)
-                    );
-
-                    // Lock when aligned
-                    if (Math.abs(bearingError) < ROT_DEADZONE) {
-                        robot.fieldCentricDrive(0,0,0);
-                    } else {
-                        robot.fieldCentricDrive(0,0, alignTurn);
+                    }else if(vision.getBearing(targetTag) < -1)
+                    {
+                        follower.turn(Math.abs(Math.toRadians(vision.getBearing(targetTag)) - WEB_CAM_OFFSET), true);
                     }
-
-                    telemetry.addData("Align", "ACTIVE");
-                    telemetry.addData("Bearing (deg)", "%.2f", bearingError);
-
-
-                } else {
-                    telemetry.addData("Align", "Target not visible");
+                    telemetry.addData("Camera Rotation", vision.getBearing(targetTag));
+                }else {
+                    led.setColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
                 }
             }
 
@@ -188,6 +185,8 @@ public class V2RedTeleOP extends LinearOpMode {
             telemetry.addLine("Controller1 - Right Bumper: intake");
             telemetry.addLine("Controller1 - Left Bumper: shoot toggle");
             telemetry.addLine("Controller1 - A: feed");
+            //Fix Driver-Automations to improve driving experience
+            telemetry.addLine("Controller1 - Y: Allow Auto-Aligning");
             telemetry.addLine("Controller1 - X: Auto Align");
             telemetry.addData("Far mode", far);
             telemetry.addLine("Controller2 - X: multiplyRPM");

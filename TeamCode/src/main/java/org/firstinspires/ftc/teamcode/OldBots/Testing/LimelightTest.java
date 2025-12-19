@@ -32,7 +32,7 @@ public class LimelightTest extends LinearOpMode {
     //24: Red Goal
     @Override
     public void runOpMode() throws InterruptedException {
-            camera = new LimelightCam(hardwareMap,"i");
+            camera = new LimelightCam(hardwareMap,"red");
             shooter = new Shooter(hardwareMap);
             calculator = new VelocityCalculator();
             feeder = new Feeder(hardwareMap);
@@ -54,7 +54,6 @@ public class LimelightTest extends LinearOpMode {
                     feeder.feed();
                     intake.intakeToggle(-0.8);
                 }
-
 
                 controller.update();
                telemetry.addLine(camera.toString());

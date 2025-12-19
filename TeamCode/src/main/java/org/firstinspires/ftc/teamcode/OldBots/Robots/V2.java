@@ -57,7 +57,7 @@ public class V2 {
         strafe = applyDeadzone(strafe, DEADZONE) * SPEED_SCALE;
         rotate = applyDeadzone(rotate, DEADZONE) * SPEED_SCALE;
 
-        drive.fieldCentricDrive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+        drive.fieldCentricDrive(forward, strafe, rotate);
     }
     public void fieldCentricDrive(double forward, double strafe, double rotate) {
 
