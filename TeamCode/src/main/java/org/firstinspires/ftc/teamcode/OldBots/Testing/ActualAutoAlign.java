@@ -92,7 +92,6 @@ public class ActualAutoAlign extends LinearOpMode {
             telemetry.addLine("Press Y to toggle Align");
             telemetry.addLine("Press left bumper to intake and shoot");
             telemetry.addData("Can Align", targetTag != null && canAlign);
-
             follower.update();
             webcam.update();
             telemetry.update();
@@ -100,5 +99,4 @@ public class ActualAutoAlign extends LinearOpMode {
 
         }
     }
-
 }

@@ -43,6 +43,7 @@ public class V2RedTeleOP extends LinearOpMode {
         shooter = new Shooter(hardwareMap, "shooter", true);
         controller1 = new GamepadEvents(gamepad1);
         controller2 = new GamepadEvents(gamepad2);
+
         led = new LED(hardwareMap);
         robot = new V2(hardwareMap, controller1, controller2);
         calculator = new VelocityCalculator();
@@ -52,7 +53,7 @@ public class V2RedTeleOP extends LinearOpMode {
         // PedroPathing init
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
-
+        follower.startTeleopDrive();
         // Vision init
         vision = new LogitechCam();
         vision.init(hardwareMap, telemetry);
@@ -70,7 +71,7 @@ public class V2RedTeleOP extends LinearOpMode {
         while (opModeIsActive()) {
             AprilTagDetection targetTag = vision.getTagBySpecificId(TARGET_TAG_ID);
 
-            robot.drive();
+            follower.setTeleOpDrive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x, false);
             // ===================== AUTO-ALIGN =====================
             vision.update();
 
@@ -105,24 +106,19 @@ public class V2RedTeleOP extends LinearOpMode {
                 canAlign = !canAlign;
             }
 
-            if(controller1.x.onPress())
-            {
-                if(targetTag != null && canAlign)
-                {
-                    led.setColor(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
-
-                    if(vision.getBearing(targetTag) > 1)
-                    {
-                        follower.turn(Math.abs(Math.toRadians(vision.getBearing(targetTag)) + WEB_CAM_OFFSET), false);
-
-                    }else if(vision.getBearing(targetTag) < -1)
-                    {
-                        follower.turn(Math.abs(Math.toRadians(vision.getBearing(targetTag)) - WEB_CAM_OFFSET), true);
-                    }
-                    telemetry.addData("Camera Rotation", vision.getBearing(targetTag));
-                }else {
-                    led.setColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+            if(canAlign && targetTag != null) {
+                led.setColor(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
+                if (vision.getBearing(targetTag) > 1) {
+                    follower.turn(Math.abs(Math.toRadians(vision.getBearing(targetTag)) + WEB_CAM_OFFSET), false);
+                } else if (vision.getBearing(targetTag) < -1) {
+                    follower.turn(Math.abs(Math.toRadians(vision.getBearing(targetTag)) - WEB_CAM_OFFSET), true);
                 }
+                telemetry.addData("Camera Rotation", vision.getBearing(targetTag));
+            }else if(canAlign && targetTag == null){
+                follower.turnTo(0);
+            }else {
+                led.setColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+                follower.breakFollowing();
             }
 
 
@@ -182,6 +178,7 @@ public class V2RedTeleOP extends LinearOpMode {
 
             // ===================== TELEMETRY =====================
             telemetry.addData("Shooter Velocity", shooter.getVelocity());
+            telemetry.addData("Orientation", follower.getHeading());
             telemetry.addLine("Controller1 - Right Bumper: intake");
             telemetry.addLine("Controller1 - Left Bumper: shoot toggle");
             telemetry.addLine("Controller1 - A: feed");
@@ -197,8 +194,6 @@ public class V2RedTeleOP extends LinearOpMode {
 
 
             telemetry.update();
-
-            // ===================== PEDRO UPDATE =====================
             follower.update();
             idle();
         }
