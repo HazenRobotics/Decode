@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.LeScarab.TungTungTungTester;
+package org.firstinspires.ftc.teamcode.NewBot.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
-import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeOutake;
-import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeStopper;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeOutake;
+import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeStopper;
 
 @TeleOp(name = "LeOutakeTester", group = "1 TungTungTungTesting")
 public class LeOutakeTester extends LinearOpMode {

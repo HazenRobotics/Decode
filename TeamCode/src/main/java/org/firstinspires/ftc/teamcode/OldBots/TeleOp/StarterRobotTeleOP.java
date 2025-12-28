@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.OldBots.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.OldBots.Robots.StarterRobot;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 
 public class StarterRobotTeleOP extends LinearOpMode {
     StarterRobot robot;

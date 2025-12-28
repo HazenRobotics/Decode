@@ -6,20 +6,19 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.pedropathing.follower.Follower;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.VelocityCalculator;
-import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator;
+import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
 import org.firstinspires.ftc.teamcode.OldBots.Robots.V2;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.LED;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.ColorSensor;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.LEDLights;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.ColorSensor;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.LEDLights;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Constants;
 
 @TeleOp(group = "B", name = "V2BlueTeleop")
-public class V2BlueTeleOP extends LinearOpMode {
+public class BlueTeleOP extends LinearOpMode {
     ColorSensor colorSensor;
     LEDLights[] lights;
     private V2 robot;
@@ -96,7 +95,6 @@ public class V2BlueTeleOP extends LinearOpMode {
             }
 
 
-            if (controller1.x.onPress()) {
                 if(targetTag != null && canAlign)
                 {
                     led.setColor(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
@@ -110,10 +108,15 @@ public class V2BlueTeleOP extends LinearOpMode {
                         follower.turn(Math.abs(Math.toRadians(vision.getBearing(targetTag)) - WEB_CAM_OFFSET), true);
                     }
                     telemetry.addData("Camera Rotation", vision.getBearing(targetTag));
-                }else {
+                }else if(canAlign && targetTag == null)
+                {
+                    follower.turnTo(0);
+                }else
+                {
                     led.setColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+                    follower.breakFollowing();
                 }
-            }
+
 
                 // ===================== DRIVER 2 =====================
                 if (controller2.x.onPress()) {
@@ -161,6 +164,8 @@ public class V2BlueTeleOP extends LinearOpMode {
                 telemetry.addLine("Controller1 - Right Bumper: intake");
                 telemetry.addLine("Controller1 - Left Bumper: shoot toggle");
                 telemetry.addLine("Controller1 - A: feed");
+            telemetry.addData("Can Align", canAlign);
+            telemetry.addData("Target tag", targetTag != null);
             //Fix Driver-Automations to improve driving experience
             telemetry.addLine("Controller1 - Y: Allow Auto-Align");
                 telemetry.addLine("Controller1 - X: Auto Align");

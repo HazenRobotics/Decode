@@ -9,9 +9,9 @@ import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.LED;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.VelocityCalculator;
+import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 @TeleOp(group = "Tester", name = "VelocityCalculatorTest")
 public class VelocityCalculatorTest extends LinearOpMode {
@@ -60,7 +60,8 @@ public class VelocityCalculatorTest extends LinearOpMode {
                 if(targetTag != null)
                 {
                     led.setColor(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN);
-                }else {
+                }else
+                {
                     led.setColor(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);
                 }
 
