@@ -22,18 +22,18 @@ public class LeTransferTester extends LinearOpMode {
         {
             if(controller.left_bumper.onPress())
             {
-                transfer.setPower();
+                power += 0.1;
             }
 
             if(controller.right_bumper.onPress())
             {
-                transfer.stop();
+                power -= 0.1;
             }
-
+            transfer.setPower(power);
 
 
             telemetry.addLine("Press Left bumper to increase power\nPress Right Bumper to decrease power");
-            telemetry.addData("Power", transfer.getData());
+            telemetry.addData("Power", transfer.getPower());
             telemetry.update();
             controller.update();
         }

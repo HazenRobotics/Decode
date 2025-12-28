@@ -10,8 +10,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class LeMecanum {
-    //Need to figure out abstraction for this class
-    //TODO: Keep the core initialization, but move the math out to wrapper class
     DcMotorEx leftTop, leftBottom, rightTop, rightBottom;
     private double CM_2_INCHES = 0.39370079;
     private double WHEEL_DIAMETER = 104; //mm
@@ -38,15 +36,12 @@ public class LeMecanum {
 
         imu = hw.get(IMU.class, imuName);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
         imu.initialize(parameters);
     }
 
-    public double getRotation()
-    {
-        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-    }
+
 
     public LeMecanum(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
                      String rightBottomName, String imuName) {

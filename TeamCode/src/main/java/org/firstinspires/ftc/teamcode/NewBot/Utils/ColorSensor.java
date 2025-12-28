@@ -2,13 +2,10 @@ package org.firstinspires.ftc.teamcode.NewBot.Utils;
 
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 public class ColorSensor
 {
-    private final ElapsedTime detectionTimer = new ElapsedTime();
-    private static final double DELAY_IN_SECONDS = 1.0;
     public enum Color
     {
         Green,
@@ -32,18 +29,12 @@ public class ColorSensor
         boolean col1 = this.pin1.getState();
 // pin0 = purple
 // pin1 = green
-
-        if (detectionTimer.seconds() < DELAY_IN_SECONDS) {
-            return Color.None;
-        }
         if (col0)
         {
-            detectionTimer.reset();
             return Color.Purple;
         }
         else if(col1)
         {
-            detectionTimer.reset();
             return Color.Green;
         }
         return Color.None;
