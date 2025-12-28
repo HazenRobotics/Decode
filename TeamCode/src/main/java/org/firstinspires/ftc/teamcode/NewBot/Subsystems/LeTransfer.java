@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems;
+package org.firstinspires.ftc.teamcode.NewBot.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class LeTransfer {
@@ -8,12 +9,13 @@ public class LeTransfer {
     //1 motor
     DcMotorEx transfer;
     String name = "transfer";
-    boolean isZero = true;
-    double pow = 0.8;
+    boolean isZero = false;
+    double pow = 1.0;
 
     public LeTransfer(HardwareMap hw)
     {
         transfer = hw.get(DcMotorEx.class, name);
+        transfer.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public void setPower(double power)
@@ -36,6 +38,7 @@ public class LeTransfer {
             transfer.setPower(0);
         }
     }
+
 
     public void reverseMotor()
     {

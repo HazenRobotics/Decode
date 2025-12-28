@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.OldBots.Robots.V2;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
-import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeMecanum;
+import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeMecanum;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
 
 @Autonomous(group = "Blue", name = "Three Ball Auto")

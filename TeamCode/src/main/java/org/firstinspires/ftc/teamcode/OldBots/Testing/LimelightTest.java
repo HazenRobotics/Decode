@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.OldBots.Testing;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.VelocityCalculator;
-import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LimelightCam;
-import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator;
+import org.firstinspires.ftc.teamcode.NewBot.Vision.LimelightCam;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.LED;

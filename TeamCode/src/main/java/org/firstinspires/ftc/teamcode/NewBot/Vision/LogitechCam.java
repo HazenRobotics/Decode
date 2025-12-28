@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision;
+package org.firstinspires.ftc.teamcode.NewBot.Vision;
 
 import android.util.Size;
 

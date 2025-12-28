@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 @TeleOp(group = "A LeTeleOp", name = "IntakeTest")
 public class IntakeTester extends LinearOpMode {
     @Override

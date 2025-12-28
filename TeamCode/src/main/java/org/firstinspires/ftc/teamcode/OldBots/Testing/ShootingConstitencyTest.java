@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 @TeleOp(group = "Tester", name = "Shooter Reliability Test")
 public class ShootingConstitencyTest extends LinearOpMode {
     Shooter shooter;
