@@ -1,20 +1,22 @@
-package org.firstinspires.ftc.teamcode.LeScarab.TungTungTungTester;
+package org.firstinspires.ftc.teamcode.NewBot.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
-import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeIntake;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeTransfer;
 
-@TeleOp(name = "LeIntakeTester", group = "1 TungTungTungTesting")
-public class LeIntakeTester extends LinearOpMode {
-    LeIntake intake;
+@TeleOp(name = "LeTrasnferTester", group = "1 TungTungTungTesting")
+public class LeTransferTester extends LinearOpMode {
+    LeTransfer transfer;
     GamepadEvents controller;
     double power = 0;
     @Override
-    public void runOpMode() throws InterruptedException {
-        intake = new LeIntake(hardwareMap);
+    public void runOpMode() throws InterruptedException
+    {
+        transfer = new LeTransfer(hardwareMap);
         controller = new GamepadEvents(gamepad1);
+
         waitForStart();
         while(opModeIsActive())
         {
@@ -27,15 +29,13 @@ public class LeIntakeTester extends LinearOpMode {
             {
                 power -= 0.1;
             }
+            transfer.setPower(power);
 
-            intake.setPower(power);
+
             telemetry.addLine("Press Left bumper to increase power\nPress Right Bumper to decrease power");
-            telemetry.addData("Power", intake.getPower());
+            telemetry.addData("Power", transfer.getPower());
             telemetry.update();
             controller.update();
-
         }
-
-
     }
 }

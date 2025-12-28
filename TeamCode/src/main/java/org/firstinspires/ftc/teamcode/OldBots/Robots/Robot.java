@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Flap;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
-import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeMecanum;
+import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeMecanum;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Transfer;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 
 public class Robot {
     LeMecanum drive;

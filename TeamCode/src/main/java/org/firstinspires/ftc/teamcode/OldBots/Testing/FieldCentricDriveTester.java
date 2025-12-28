@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.OldBots.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems.LeMecanum;
+import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeMecanum;
 @TeleOp(group = "Tester", name = "LeFieldCentricDriveTester")
 public class FieldCentricDriveTester extends LinearOpMode {
     private LeMecanum driveTrain;

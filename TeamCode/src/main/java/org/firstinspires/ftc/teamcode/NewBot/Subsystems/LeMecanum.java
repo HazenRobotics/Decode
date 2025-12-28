@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.LeScarab.SigmaSubsystems;
+package org.firstinspires.ftc.teamcode.NewBot.Subsystems;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,7 +22,8 @@ public class LeMecanum {
             rightTopName = "FRM", rightBottomName = "BRM", imuName = "imu";
 
 
-    public LeMecanum(HardwareMap hw) {
+    public LeMecanum(HardwareMap hw)
+    {
         leftTop = hw.get(DcMotorEx.class, leftTopName);
         rightTop = hw.get(DcMotorEx.class, rightTopName);
         leftBottom = hw.get(DcMotorEx.class, leftBottomName);
@@ -37,6 +38,8 @@ public class LeMecanum {
                 RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
         imu.initialize(parameters);
     }
+
+
 
     public LeMecanum(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
                      String rightBottomName, String imuName) {

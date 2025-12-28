@@ -4,49 +4,48 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.ColorSensor;
-import org.firstinspires.ftc.teamcode.LeScarab.OhioUtils.LEDLights;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.ColorSensor;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.LEDLights;
 
 @TeleOp (group = "test", name = "colorSensor Test")
 public class ColorSensorTester extends LinearOpMode {
     ColorSensor colorSensor;
-    LEDLights[] lights;
-    int count = 0;
+    LEDLights lights;
+    GamepadEvents controller;
     @Override
     public void runOpMode() throws InterruptedException {
-        lights = new LEDLights[1];
-        lights[0] = new LEDLights(hardwareMap, "led");
-
+        lights = new LEDLights(hardwareMap, "led");
+        colorSensor = new ColorSensor(hardwareMap);
+        controller = new GamepadEvents(gamepad1);
         colorSensor = new ColorSensor(hardwareMap);
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive())
+        {
             ColorSensor.Color color = colorSensor.getColor();
 
             switch (color){
                 case Green:
-                    lights[0].setColor(LEDLights.GREEN_WEIGHT);
-                    count++;
+                    lights.setColor(LEDLights.GREEN_WEIGHT);
 
                     break;
                 case Purple:
-                    lights[0].setColor(LEDLights.PURPLE_WEIGHT);
-                    count++;
+                    lights.setColor(LEDLights.PURPLE_WEIGHT);
 
                     break;
                 default:
-                    lights[0].setColor(0);
+                    lights.setColor(LEDLights.WHITE_WEIGHT);
                     break;
             }
 
-//            if(count == 3)
-//            {
-//                lights[0].setColor(LEDLights.BlUE_WEIGHT);
-//            }
+
+
+            telemetry.addData("Color", colorSensor.getColor());
             telemetry.addData("Pin0", colorSensor.getPin0().getState());
             telemetry.addData("Pin1", colorSensor.getPin1().getState());
-            telemetry.addData("Count", count);
+            controller.update();
             telemetry.update();
 
         }

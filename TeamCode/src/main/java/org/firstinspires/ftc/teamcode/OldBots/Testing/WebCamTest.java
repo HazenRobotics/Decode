@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.OldBots.Testing;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.LeScarab.SkibidiVision.LogitechCam;
-import org.firstinspires.ftc.teamcode.OldBots.SubSystems.LED;
+import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import com.qualcomm.ftccommon.SoundPlayer;
 

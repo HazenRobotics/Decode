@@ -1,11 +1,24 @@
-package org.firstinspires.ftc.teamcode.LeScarab.OhioUtils;
+package org.firstinspires.ftc.teamcode.NewBot.Utils;
 
 public class VelocityCalculator {
-    private static double launchHeight = 0.10; //launchHeight height of launcher above ground (meters)
-    private static double launchAngle = 50; //launchAngle launch angle in degrees
+    /*Armaan Attempt at writing physics equation
+        Need to find V_inital:
+        Given:
+        ∆X
+        Angle of Ramp
+        Y distance
+
+        X:
+
+        Y:
+
+    */
+    private static double launchHeight = 0.15; //launchHeight height of launcher above ground (meters)
+    private static double launchAngle = 45; //launchAngle launch angle in degrees
     private static double targetHeight = 0.984; //target height in meters
     private static double offsetDistance = 0.30;//Combined offset distance of camera and from edge of goal (meters)
     private static double relativeHeight = targetHeight - launchHeight;
+    double why = 3.25;
 
     private static double g = 9.81;//accelertaion due to gravity
 
@@ -33,7 +46,7 @@ public class VelocityCalculator {
     }
 
 
-    public double calculateVelocityForTarget ( double horizontalDistance){
+    public double calculateVelocityForTarget( double horizontalDistance){
         // Calculaterelative height (target height - launch height)
         double relativeHeight = targetHeight - launchHeight;
 
@@ -54,8 +67,17 @@ public class VelocityCalculator {
     {
         //using unit multiplication it should be (m/s)/m * 28 ticks/rev * 1 rev / 2pi
         //Issue with code is probably because our currently bot has a lot of friction
-        double why = 2.75;
+
         return (calculateVelocityForTarget(horizontalDistance) / 0.043) * 28/ (Math.PI * 2 *  why);
+    }
+
+    public void setConstant(double constant)
+    {
+        why += constant;
+    }
+    public double getConstant()
+    {
+       return why;
     }
 
 }
