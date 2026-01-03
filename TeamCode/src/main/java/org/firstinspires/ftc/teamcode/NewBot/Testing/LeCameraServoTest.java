@@ -43,7 +43,7 @@ public class LeCameraServoTest extends LinearOpMode {
             servo.setPositon(controller.left_stick_y);
             telemetry.addData("Horizontal Distance: ", camera.getHorizontalData(targetTag));
             telemetry.addLine("Hold left joystick up and down to control servo");
-            telemetry.addData("Servo pos", servo.getPositon());
+            telemetry.addData("Servo pos", servo.getData());
             telemetry.update();
             controller.update();
         }

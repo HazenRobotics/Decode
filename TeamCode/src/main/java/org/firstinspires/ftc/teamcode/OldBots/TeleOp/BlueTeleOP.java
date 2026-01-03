@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.NewBot.Utils.ColorSensor;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.LEDLights;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 
 @TeleOp(group = "B", name = "V2BlueTeleop")
 public class BlueTeleOP extends LinearOpMode {
