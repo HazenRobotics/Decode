@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.LED;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @TeleOp(group = "test", name = "LeAutoAlign")

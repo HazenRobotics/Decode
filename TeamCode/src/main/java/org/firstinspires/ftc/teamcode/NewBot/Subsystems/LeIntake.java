@@ -12,13 +12,14 @@ public class LeIntake {
     private DcMotorEx intake;
 
     private String name = "intake";
+    private boolean isFeed = false;
 
     public LeIntake(HardwareMap hw)
     {
         intake = hw.get(DcMotorEx.class, name);
     }
 
-    public void setPower(double power)
+    private void setPower(double power)
     {
         intake.setPower(power);
     }
@@ -26,6 +27,24 @@ public class LeIntake {
     public void feed()
     {
         intake.setPower(0.8);
+        isFeed = true;
+    }
+
+    public void stop()
+    {
+        intake.setPower(0);
+        isFeed = false;
+    }
+
+    public void toggle()
+    {
+        if(isFeed)
+        {
+           stop();
+        }else {
+            feed();
+        }
+        isFeed = !isFeed;
     }
 
     public double getPower()

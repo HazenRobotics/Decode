@@ -67,14 +67,14 @@ public class LeCameraTest extends LinearOpMode {
             if(targetTag != null)
             {
                telemetry.addLine("Found AprilTag");
-                led.setColor(LeLED.PINK_WEIGHT);
+                led.setColor(LeLED.Colors.PINK);
             }else {
                 telemetry.addLine("Nothing Found :(");
-                led.setColor(LeLED.BLUE_WEIGHT);
+                led.setColor(LeLED.Colors.BLUE);
             }
 
 
-            drive.drive(controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
+            drive.drive(-controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
 
             if(controller.x.onPress())
             {
@@ -105,7 +105,7 @@ public class LeCameraTest extends LinearOpMode {
             telemetry.addData("Estimated Velocity: ", calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
             telemetry.addData("Horizontal Distance: ", camera.getHorizontalData(targetTag));
             telemetry.addData("Velocity: ", flywheel.getVelocity());
-            telemetry.addData("Transfer Power: ", transfer.getPower());
+            telemetry.addData("Transfer Power: ", transfer.getData());
 
             telemetry.update();
             controller.update();

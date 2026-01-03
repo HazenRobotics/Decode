@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class LeStopper {
+    //Will look at improving abstraction for this class
     Servo leftStopper, rightStopper;
     String leftStopperName = "leftStopper", rightStopperName = "rightStopper";
     boolean isFull = false;

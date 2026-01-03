@@ -25,7 +25,7 @@ public class LeOutake {
         leftMotor = hw.get(DcMotorEx.class, leftName);
         rightMotor = hw.get(DcMotorEx.class, rightName);
 
-        rightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         voltageSensor = hw.voltageSensor.iterator().next();
@@ -35,6 +35,7 @@ public class LeOutake {
         rightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
     }
 
+    //This method is redundant
     public double getVelocity()
     {
         return leftMotor.getVelocity();
@@ -48,8 +49,15 @@ public class LeOutake {
     //AngularVelocity btw
     public void setVelocity(double velocity)
     {
-        leftMotor.setVelocity(velocity);
-        rightMotor.setVelocity(velocity);
+        //Some reason the right motor spins way faster
+        //Issue the rightMotor always goes to 2000 even when constraining
+        leftMotor.setVelocity(getVoltageNormalizedVelocity(velocity));
+        rightMotor.setVelocity(getVoltageNormalizedVelocity(velocity));
+    }
+    public double getVoltageNormalizedVelocity(double targetTicksPerSec) {
+        double currentVoltage = voltageSensor.getVoltage();
+        double normalization = nominalVoltage / currentVoltage;
+        return targetTicksPerSec * normalization;
     }
     public String getData() {
             return "Left Shooter: " + leftMotor.getVelocity() + "\nRight Shooter: " + rightMotor.getVelocity();

@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.OldBots.pedroPathing;
+package org.firstinspires.ftc.teamcode.NewBot.pedroPathing;
 
-import static org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Tuning.changes;
-import static org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Tuning.drawCurrent;
-import static org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Tuning.drawCurrentAndHistory;
-import static org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Tuning.follower;
-import static org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Tuning.stopRobot;
-import static org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Tuning.telemetryM;
+import static org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Tuning.changes;
+import static org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Tuning.drawCurrent;
+import static org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Tuning.drawCurrentAndHistory;
+import static org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Tuning.follower;
+import static org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Tuning.stopRobot;
+import static org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Tuning.telemetryM;
 
 
 import com.bylazar.configurables.PanelsConfigurables;
@@ -402,7 +402,8 @@ class ForwardVelocityTuner extends OpMode {
             telemetryM.update(telemetry);
             telemetry.update();
 
-            if (gamepad1.aWasPressed()) {
+            if (gamepad1.aWasPressed())
+            {
                 follower.setXVelocity(average);
                 String message = "XMovement: " + average;
                 changes.add(message);

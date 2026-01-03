@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Feeder;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
-import org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 
 @Autonomous(name = "Blue Near Auto")
 
