@@ -20,16 +20,16 @@ public class LeIntakeTester extends LinearOpMode {
         {
             if(controller.left_bumper.onPress())
             {
-                power += 0.1;
+                intake.feed();
             }
 
             if(controller.right_bumper.onPress())
             {
-                power -= 0.1;
+                intake.stop();
             }
 
-            intake.setPower(power);
-            telemetry.addLine("Press Left bumper to increase power\nPress Right Bumper to decrease power");
+
+            telemetry.addLine("Press Left bumper to intake\nPress Right Bumper to stop");
             telemetry.addData("Power", intake.getPower());
             telemetry.update();
             controller.update();

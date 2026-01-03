@@ -52,11 +52,11 @@ public class LeEverythingTester extends LinearOpMode {
             if(controller.left_bumper.onPress())
             {
                 transfer.togglePower();
-                intake.feed();
+                intake.toggle();
             }
 
 
-            drive.drive(controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
+            drive.drive(-controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
 
             if(controller.x.onPress())
             {
@@ -96,7 +96,7 @@ public class LeEverythingTester extends LinearOpMode {
             telemetry.addLine("DPAD UP to increase velocity\nDPAD DOWN to decrease velocity");
             telemetry.addData("Velocity: ", velocity);
             telemetry.addData("Horizontal Distance: ", camera.getHorizontalData(targetTag));
-            telemetry.addData("Transfer Power: ", transfer.getPower());
+            telemetry.addData("Transfer Power: ", transfer.getData());
 
             telemetry.update();
             controller.update();

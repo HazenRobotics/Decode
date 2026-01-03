@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeOutake;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeStopper;
 
-@TeleOp(name = "LeOutakeTester", group = "1 TungTungTungTesting")
+@TeleOp(name = "LeFlywheelTester", group = "1 TungTungTungTesting")
 public class LeOutakeTester extends LinearOpMode {
     LeOutake flywheel;
     GamepadEvents controller;

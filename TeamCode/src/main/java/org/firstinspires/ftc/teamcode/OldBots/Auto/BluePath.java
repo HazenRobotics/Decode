@@ -7,7 +7,7 @@ import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 
 public class BluePath extends LinearOpMode {
     private int pathState;

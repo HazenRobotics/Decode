@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OldBots.pedroPathing;
+package org.firstinspires.ftc.teamcode.NewBot.pedroPathing;
 
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
@@ -18,20 +18,25 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
-    public static FollowerConstants followerConstants = new FollowerConstants().mass(10.25)
-            .forwardZeroPowerAcceleration(-38.2)
-            .lateralZeroPowerAcceleration(-59.86)
-            //Bottom three lines were aded now
+    public static FollowerConstants followerConstants = new FollowerConstants().mass(11.8)
+            .forwardZeroPowerAcceleration(-35.0)
+            .lateralZeroPowerAcceleration(-74.4)
             .useSecondaryTranslationalPIDF(true)
             .useSecondaryHeadingPIDF(true)
             .useSecondaryDrivePIDF(true)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.15, 0, 0.00001, 0.05))
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.06, 0, 0.00005, 0.01))
-            .headingPIDFCoefficients(new PIDFCoefficients(1,0,0.00001,0))
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.0005,0.02))
-            .centripetalScaling(0.0005)
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.01, 0, 0.00001, 0.6,0.01));
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 0.9, 1);
+
+            //Change values of below
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0, 0))
+            //above was good enough to be consistent
+//            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.06, 0, 0.00005, 0.01));
+
+            .headingPIDFCoefficients(new PIDFCoefficients(1,0,0,0.01));
+//            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.0005,0.02))
+                //above was good enough to be consistent
+//            .centripetalScaling(0.0005)
+//            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.01, 0, 0.00001, 0.6,0.01));
+
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1.0, 1);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
@@ -42,12 +47,12 @@ public class Constants {
     }
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(1.5)
-            .strafePodX(1.5)
+            .forwardPodY(5.5)
+            .strafePodX(2.5)
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("pinpoint")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD)
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
 
@@ -62,6 +67,6 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(63.8)
-            .yVelocity(51.8759);
+            .xVelocity(91.55)
+            .yVelocity(74.49);
 }

@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 public class VelocityCalculator2 {
     public double guess = 15;
-    double[] distances = {0, 1000, 1075, 1350};
+    //950 as the default
+    double[] distances = {1000, 1050, 1125, 1400};
     public double calculateVelocityForTarget(double horizontalDistance)
     {
         if(horizontalDistance < 60)

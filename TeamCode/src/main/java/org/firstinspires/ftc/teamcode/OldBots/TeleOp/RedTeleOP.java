@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.ColorSensor;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.teamcode.OldBots.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 
 @TeleOp(group = "B", name = "V2RedTeleop")
 public class RedTeleOP extends LinearOpMode {
