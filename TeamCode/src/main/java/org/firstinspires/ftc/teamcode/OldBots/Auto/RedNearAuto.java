@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.OldBots.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 
-@Autonomous(name = "Red Near Auto")
+//@Autonomous(name = "Red Near Auto")
 public class RedNearAuto extends LinearOpMode {
 
     private int pathState;
