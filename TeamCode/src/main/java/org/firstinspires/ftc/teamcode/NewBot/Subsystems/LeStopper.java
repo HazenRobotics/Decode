@@ -23,16 +23,25 @@ public class LeStopper {
         rightStopper.setPosition(pos);
     }
 
+    public void block()
+    {
+        setPositon(0.4);
+    }
+
+    public void lift()
+    {
+        setPositon(0.7);
+    }
+
     public void toggle()
     {
         isFull = !isFull;
         if(isFull)
         {
-            setPositon(0.4);
-
+            block();
         }else
         {
-            setPositon(0.7);
+            lift();
         }
 
 

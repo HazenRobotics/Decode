@@ -37,7 +37,18 @@ public class LeLED {
         rightLed.setPosition(color.weight);
     }
 
+    //One LED for if it is aligned
+    //Other LED for what the shooting distance is
 
+    public void setleftLEDColor(Colors color)
+    {
+        leftLed.setPosition(color.weight);
+    }
+
+    public void setRightLEDColor(Colors color)
+    {
+        rightLed.setPosition(color.weight);
+    }
 
 
 }

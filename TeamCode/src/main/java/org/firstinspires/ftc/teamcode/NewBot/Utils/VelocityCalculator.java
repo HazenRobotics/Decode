@@ -4,7 +4,7 @@ public class VelocityCalculator {
     private static double launchHeight = 0.15; //launchHeight height of launcher above ground (meters)
     private static double launchAngle = 45; //launchAngle launch angle in degrees
     private static double targetHeight = 0.984; //target height in meters
-    private static double offsetDistance = 0.30;//Combined offset distance of camera and from edge of goal (meters)
+    private static double offsetDistance = 0.15;//Combined offset distance of camera and from edge of goal (meters)
     private static double relativeHeight = targetHeight - launchHeight;
 
     private static double g = 9.81;//accelertaion due to gravity

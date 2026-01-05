@@ -1,14 +1,9 @@
-package org.firstinspires.ftc.teamcode.OldBots.Testing;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import java.lang.reflect.Array;
-import java.util.HashMap;
+package org.firstinspires.ftc.teamcode.NewBot.Utils;
 
 public class VelocityCalculator2 {
     public double guess = 15;
     //950 as the default
-    double[] distances = {1000, 1050, 1125, 1400};
+    public static double[] distances = {1000, 1050, 1125, 1400};
     public double calculateVelocityForTarget(double horizontalDistance)
     {
         if(horizontalDistance < 60)
@@ -27,6 +22,15 @@ public class VelocityCalculator2 {
             return distances[0];
         }
     }
+
+    public void adjustDistance(double value)
+    {
+        for(int i= 0; i < distances.length; i++)
+        {
+            distances[i] += value;
+        }
+    }
+
 
     public void setConstant(double constant)
     {

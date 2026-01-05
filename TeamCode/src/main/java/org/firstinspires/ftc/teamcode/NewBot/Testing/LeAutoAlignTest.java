@@ -13,11 +13,12 @@ import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeOutake;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeStopper;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeTransfer;
 import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
+import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@TeleOp(name = "LeCameraTester", group = "1 TungTungTungTesting")
-public class LeCameraTest extends LinearOpMode {
+@TeleOp(name = "LeAutoAlignTester", group = "1 TungTungTungTesting")
+public class LeAutoAlignTest extends LinearOpMode {
     LeTransfer transfer;
     LeOutake flywheel;
     LeIntake intake;
@@ -46,8 +47,8 @@ public class LeCameraTest extends LinearOpMode {
         camera = new LogitechCam();
         camera.init(hardwareMap,telemetry);
         led = new LeLED(hardwareMap);
-//        follower = Constants.createFollower(hardwareMap);
-//        follower.setStartingPose(startPose);
+        follower = Constants.createFollower(hardwareMap);
+        follower.setStartingPose(startPose);
 
 
         waitForStart();
@@ -64,13 +65,27 @@ public class LeCameraTest extends LinearOpMode {
             }
 
 
-            if(targetTag != null)
+            if(targetTag != null && canAlign)
             {
-               telemetry.addLine("Found AprilTag");
                 led.setColor(LeLED.Colors.PINK);
-            }else {
-                telemetry.addLine("Nothing Found :(");
+
+                if(camera.getBearing(targetTag) > 1)
+                {
+                    follower.turn(Math.abs(Math.toRadians(camera.getBearing(targetTag)) + WEB_CAM_OFFSET), false);
+
+
+                }else if(camera.getBearing(targetTag) < -1)
+                {
+
+                    follower.turn(Math.abs(Math.toRadians(camera.getBearing(targetTag)) - WEB_CAM_OFFSET), true);
+                }
+                telemetry.addData("Camera Rotation", camera.getBearing(targetTag));
+            }
+            else
+            {
+
                 led.setColor(LeLED.Colors.BLUE);
+                follower.breakFollowing();
             }
 
 
@@ -81,7 +96,12 @@ public class LeCameraTest extends LinearOpMode {
                 transfer.reverseMotor();
             }
 
-            if(controller.right_bumper.onPress())
+            if(controller.y.onPress())
+            {
+                canAlign = !canAlign;
+            }
+
+            if(controller.a.onPress())
             {
                 canShoot = !canShoot;
             }
@@ -96,10 +116,12 @@ public class LeCameraTest extends LinearOpMode {
                 stopper.toggle();
             }
 
+            follower.update();
 
             telemetry.addLine("Left bumper to toggle transfer and feed");
             telemetry.addLine("Press X to reverse transfer");
-            telemetry.addLine("Press Right Bumper to toggle shooting");
+            telemetry.addLine("Press A to toggle shooting");
+            telemetry.addLine("Press Y to Auto Align");
             telemetry.addLine("Press B to toggle stopper");
             telemetry.addLine("DPAD UP to increase velocity\nDPAD DOWN to decrease velocity");
             telemetry.addData("Estimated Velocity: ", calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
