@@ -30,11 +30,12 @@ public class Constants {
             //above was good enough to be consistent
 //            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.06, 0, 0.00005, 0.01));
 
-            .headingPIDFCoefficients(new PIDFCoefficients(1,0,0,0.01));
+            .headingPIDFCoefficients(new PIDFCoefficients(1,0,0,0.01))
 //            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.0005,0.02))
                 //above was good enough to be consistent
-//            .centripetalScaling(0.0005)
-//            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.01, 0, 0.00001, 0.6,0.01));
+            .centripetalScaling(0.0005)
+            //Note braking strength was 0.7
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(1, 0, 0.1, 0.6,0));
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1.0, 1);
 

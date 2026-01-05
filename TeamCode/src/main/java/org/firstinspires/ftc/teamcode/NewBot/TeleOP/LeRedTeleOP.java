@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode.NewBot.Testing;
+package org.firstinspires.ftc.teamcode.NewBot.TeleOP;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeCameraServo;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeIntake;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeLED;
@@ -16,8 +17,8 @@ import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@TeleOp(name = "LeCameraTester", group = "1 TungTungTungTesting")
-public class LeCameraTest extends LinearOpMode {
+@TeleOp(name = "Red Scrim TeleOP", group = "1 TungTungTungTesting")
+public class LeRedTeleOP extends LinearOpMode {
     LeTransfer transfer;
     LeOutake flywheel;
     LeIntake intake;
@@ -29,8 +30,9 @@ public class LeCameraTest extends LinearOpMode {
     double WEB_CAM_OFFSET = 6.0;
     boolean canAlign = false;
     LeLED led;
+    LeCameraServo cameraServo;
     LogitechCam camera;
-    int TARGET_TAG_ID = 20;
+    int TARGET_TAG_ID = 24;
     LeMecanum drive;
     boolean canShoot = false;
     @Override
@@ -46,6 +48,7 @@ public class LeCameraTest extends LinearOpMode {
         camera = new LogitechCam();
         camera.init(hardwareMap,telemetry);
         led = new LeLED(hardwareMap);
+        cameraServo = new LeCameraServo(hardwareMap);
 //        follower = Constants.createFollower(hardwareMap);
 //        follower.setStartingPose(startPose);
 
@@ -60,17 +63,46 @@ public class LeCameraTest extends LinearOpMode {
             if(controller.left_bumper.onPress())
             {
                 transfer.togglePower();
-                intake.feed();
+                intake.toggle();
+            }
+
+            if(controller.dpad_left.onPress())
+            {
+                cameraServo.setPositon(cameraServo.getPositon() + 0.05);
+            }
+
+            if(controller.dpad_left.onPress())
+            {
+                cameraServo.setPositon(cameraServo.getPositon() - 0.05);
             }
 
 
             if(targetTag != null)
             {
-               telemetry.addLine("Found AprilTag");
-                led.setColor(LeLED.Colors.PINK);
+                telemetry.addLine("Found AprilTag");
+                led.setleftLEDColor(LeLED.Colors.PINK);
             }else {
                 telemetry.addLine("Nothing Found :(");
-                led.setColor(LeLED.Colors.BLUE);
+                led.setleftLEDColor(LeLED.Colors.BLUE);
+            }
+
+            if(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)) != VelocityCalculator2.distances[0])
+            {
+                led.setRightLEDColor(LeLED.Colors.GREEN);
+                telemetry.addLine("Can Shoot");
+            }else {
+                led.setRightLEDColor(LeLED.Colors.ORANGE);
+                telemetry.addLine("Can't Shoot");
+            }
+
+            if(controller.dpad_up.onPress())
+            {
+                calculator.adjustDistance(5);
+            }
+
+            if(controller.dpad_down.onPress())
+            {
+                calculator.adjustDistance(-5);
             }
 
 
@@ -112,3 +144,5 @@ public class LeCameraTest extends LinearOpMode {
         }
     }
 }
+
+

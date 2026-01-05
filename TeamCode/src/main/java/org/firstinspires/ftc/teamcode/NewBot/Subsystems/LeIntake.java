@@ -27,13 +27,11 @@ public class LeIntake {
     public void feed()
     {
         intake.setPower(0.8);
-        isFeed = true;
     }
 
     public void stop()
     {
         intake.setPower(0);
-        isFeed = false;
     }
 
     public void toggle()

@@ -22,7 +22,7 @@ public class LeCameraServo {
     {
         cameraServo.setPosition(pos);
     }
-    private double getPositon()
+    public double getPositon()
     {
         return cameraServo.getPosition();
     }

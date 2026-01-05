@@ -9,8 +9,8 @@ public class LeTransfer {
     //1 motor
     DcMotorEx transfer;
     String name = "transfer";
-    boolean isZero = true;
-    double pow = 1.0;
+    boolean isFull = false;
+    double downPow = 0.5, upPow = 0.5;
 
     public LeTransfer(HardwareMap hw)
     {
@@ -20,8 +20,18 @@ public class LeTransfer {
 
     public void setPower()
     {
+        transfer.setPower(downPow);
+    }
+
+    public void setPower(double pow)
+    {
         transfer.setPower(pow);
     }
+
+
+
+
+
     public void stop()
     {
         transfer.setPower(0);
@@ -36,19 +46,19 @@ public class LeTransfer {
     public void togglePower()
     {
 
-        if(isZero)
+        if(isFull)
         {
             setPower();
         }else {
             stop();
         }
-        isZero = !isZero;
+        isFull = !isFull;
     }
 
 
     public void reverseMotor()
     {
-        pow *= -1;
+        downPow *= -1;
     }
 
     public String getData()
