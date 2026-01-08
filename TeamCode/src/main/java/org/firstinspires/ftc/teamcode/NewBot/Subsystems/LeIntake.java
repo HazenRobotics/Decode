@@ -12,7 +12,7 @@ public class LeIntake {
     private DcMotorEx intake;
 
     private String name = "intake";
-    private boolean isFeed = false;
+    private boolean isFeed = true;
 
     public LeIntake(HardwareMap hw)
     {

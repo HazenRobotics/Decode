@@ -34,6 +34,7 @@ public class LeAutoAlignTest extends LinearOpMode {
     int TARGET_TAG_ID = 20;
     LeMecanum drive;
     boolean canShoot = false;
+    double headingTurn = 0;
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -50,10 +51,11 @@ public class LeAutoAlignTest extends LinearOpMode {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
 
-
         waitForStart();
         while(opModeIsActive())
         {
+
+
             camera.update();
             AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
 
@@ -65,10 +67,11 @@ public class LeAutoAlignTest extends LinearOpMode {
             }
 
 
+            //Auto Align
             if(targetTag != null && canAlign)
             {
                 led.setColor(LeLED.Colors.PINK);
-
+                drive.resetHeading();
                 if(camera.getBearing(targetTag) > 1)
                 {
                     follower.turn(Math.abs(Math.toRadians(camera.getBearing(targetTag)) + WEB_CAM_OFFSET), false);
@@ -80,13 +83,18 @@ public class LeAutoAlignTest extends LinearOpMode {
                     follower.turn(Math.abs(Math.toRadians(camera.getBearing(targetTag)) - WEB_CAM_OFFSET), true);
                 }
                 telemetry.addData("Camera Rotation", camera.getBearing(targetTag));
+            } else if(targetTag == null && canAlign)
+            {
+                follower.turn(drive.getRotation(), true);
             }
             else
             {
-
+                headingTurn = drive.getRotation();
                 led.setColor(LeLED.Colors.BLUE);
                 follower.breakFollowing();
             }
+
+
 
 
             drive.drive(-controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
