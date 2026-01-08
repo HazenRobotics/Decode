@@ -41,6 +41,10 @@ public class LeMecanum {
         imu.initialize(parameters);
     }
 
+    public double getRotation()
+    {
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+    }
 
 
     public LeMecanum(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,

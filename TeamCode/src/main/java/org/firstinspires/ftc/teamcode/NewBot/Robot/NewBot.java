@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.NewBot.Robot;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -32,7 +33,7 @@ public class NewBot {
     int TARGET_TAG_ID = 20;
     LeTransfer transfer;
     GamepadEvents controller1, controller2;
-    public NewBot(HardwareMap hw, Telemetry telemetry)
+    public NewBot(HardwareMap hw, Telemetry telemetry, int id)
     {
         cameraServo = new LeCameraServo(hw);
         intake = new LeIntake(hw);
@@ -40,6 +41,7 @@ public class NewBot {
         drive = new LeMecanum(hw);
         flywheel = new LeOutake(hw);
         stopper = new LeStopper(hw);
+        TARGET_TAG_ID = id;
         transfer = new LeTransfer(hw);
         camera = new LogitechCam();
         calculator = new VelocityCalculator2();
@@ -48,9 +50,9 @@ public class NewBot {
         controller2 = new GamepadEvents(gamepad2);
     }
 
-    public void drive()
+    public void drive(double x, double y, double r)
     {
-        drive.fieldCentricDrive(-controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
+        drive.drive(-x, y, r);
     }
 
     public void runShooter()
@@ -66,11 +68,42 @@ public class NewBot {
         transfer.setPower();
     }
 
+    public void leftLEDIndicator()
+    {
+        camera.update();
+        AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
+        if(targetTag != null)
+        {
+
+            led.setleftLEDColor(LeLED.Colors.PINK);
+        }else {
+            led.setleftLEDColor(LeLED.Colors.BLUE);
+        }
+    }
+
+    public void rightLEDIndicator()
+    {
+        if(calculator.checkIfDefaultValue())
+        {
+            led.setRightLEDColor(LeLED.Colors.ORANGE);
+        }else
+        {
+            led.setRightLEDColor(LeLED.Colors.GREEN);
+        }
+    }
+
+
     public void shoot()
     {
         runShooter();
         transfer.setPower();
+        intake.feed();
         stopper.lift();
+    }
+
+    public void reverseTransfer()
+    {
+        transfer.reverseMotor();
     }
 
     public void store()
@@ -80,7 +113,43 @@ public class NewBot {
         stopper.block();
     }
 
+    public void calculateVelocity()
+    {
+        camera.update();
+        AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
+        flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+    }
 
+    public void reverseShooter()
+    {
+        camera.update();
+        AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
+        flywheel.setVelocity(-calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+    }
+
+
+    public void cameraServoSetPosition(GamepadEvents controller)
+    {
+        if(controller.dpad_left.onPress())
+        {
+            cameraServo.setPositon(cameraServo.getPositon() + 0.05);
+        }
+
+        if(controller.dpad_left.onPress())
+        {
+            cameraServo.setPositon(cameraServo.getPositon() - 0.05);
+        }
+    }
+
+    public String getData()
+    {
+        return "Left bumper to toggle transfer and feed" +"\nPress X to reverse transfer\""
+                +"\nPress Y to store ball" + "\nPress Right Bumper to toggle shooting"
+                + "\n\"Press B to Reverse shooter"
+                + "\nDPAD UP to increase velocity\nDPAD DOWN to decrease velocity"
+                + "\nVelocity: " + flywheel.getVelocity()
+                + "\nTransfer Power: " + transfer.getData();
+    }
 
 
 }
