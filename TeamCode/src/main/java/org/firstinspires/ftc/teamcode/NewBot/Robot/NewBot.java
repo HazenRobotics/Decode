@@ -32,6 +32,11 @@ public class NewBot {
     LeStopper stopper;
     int TARGET_TAG_ID = 20;
     LeTransfer transfer;
+    public enum STATES
+    {
+        SHOOT, STORE, INTAKE
+    }
+    private STATES state = STATES.INTAKE;
     GamepadEvents controller1, controller2;
     public NewBot(HardwareMap hw, Telemetry telemetry, int id)
     {
@@ -52,17 +57,25 @@ public class NewBot {
 
     public void drive(double x, double y, double r)
     {
-        drive.drive(-x, y, r);
+        drive.fieldCentricDrive(-x, y, r);
     }
 
     public void runShooter()
     {
         AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
-        flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+        if(targetTag == null)
+        {
+            flywheel.setVelocity(calculator.setVelocityWhenItDoesNotSeeAPRIlTag());
+        }else
+        {
+            flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+        }
+
     }
 
     public void intake()
     {
+        state = STATES.INTAKE;
         intake.feed();
         stopper.block();
         transfer.setPower();
@@ -95,10 +108,25 @@ public class NewBot {
 
     public void shoot()
     {
+        state = STATES.SHOOT;
         runShooter();
         transfer.setPower();
         intake.feed();
         stopper.lift();
+    }
+
+    public void toggleShootStore()
+    {
+        if(state == STATES.INTAKE)
+        {
+            store();
+        }else if(state == STATES.SHOOT)
+        {
+            intake();
+        }else if(state == STATES.STORE)
+        {
+            intake();
+        }
     }
 
     public void reverseTransfer()
@@ -108,6 +136,7 @@ public class NewBot {
 
     public void store()
     {
+        state = STATES.STORE;
         intake.stop();
         transfer.stop();
         stopper.block();
@@ -128,27 +157,29 @@ public class NewBot {
     }
 
 
-    public void cameraServoSetPosition(GamepadEvents controller)
+    public void adJustFlywheel(GamepadEvents controller)
     {
-        if(controller.dpad_left.onPress())
+        if(controller.dpad_up.onPress())
         {
-            cameraServo.setPositon(cameraServo.getPositon() + 0.05);
+            calculator.adjustDistance(5);
         }
 
-        if(controller.dpad_left.onPress())
+        if(controller.dpad_down.onPress())
         {
-            cameraServo.setPositon(cameraServo.getPositon() - 0.05);
+            calculator.adjustDistance(-5);
         }
     }
 
     public String getData()
     {
         return "Left bumper to toggle transfer and feed" +"\nPress X to reverse transfer\""
-                +"\nPress Y to store ball" + "\nPress Right Bumper to toggle shooting"
+                + "\nPress Right Bumper to toggle shooting and storing"
                 + "\n\"Press B to Reverse shooter"
                 + "\nDPAD UP to increase velocity\nDPAD DOWN to decrease velocity"
                 + "\nVelocity: " + flywheel.getVelocity()
-                + "\nTransfer Power: " + transfer.getData();
+                + "\nTransfer Power: " + transfer.getData()
+                +"\n Controller 2 Controls: "
+                +"\n Adjust FLywheel speed using up and down dpads";
     }
 
 

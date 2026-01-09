@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.OldBots.Auto;
+package org.firstinspires.ftc.teamcode.NewBot.Auto;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
@@ -16,7 +15,7 @@ public class BluePath extends LinearOpMode {
     //YMultipler affects what it is going vertical in refernce to the field
     //YMultiplier has to be positve
     //160/84
-    private double xMultiplier = 1.7, yMultiplier = (double) 44/28;
+    private double xMultiplier = 1, yMultiplier = 1;
 //private double xMultiplier = 1, yMultiplier = 1;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
@@ -25,6 +24,7 @@ public class BluePath extends LinearOpMode {
     //Shooting position
     private final Pose shootingPose = new Pose(46.33043478260869 * xMultiplier,96.83478260869565 *yMultiplier,Math.toRadians(135));
     //Near side 3 balls
+    //IDEA Potenially move x back
     private final Pose firstLine = new Pose(40.48695652173913 * xMultiplier,84.31304347826088 *yMultiplier,Math.toRadians(0));
     private final Pose firstPush = new Pose(15.026086956521738 * xMultiplier,84.10434782608695 *yMultiplier,Math.toRadians(0));
     private final Pose firstControl = new Pose(51.547826086956526 * xMultiplier,80.76521739130435 *yMultiplier);

@@ -74,7 +74,8 @@ public class BlueFarAuto extends LinearOpMode {
     }
 
     @Override
-    public void runOpMode() {
+    public void runOpMode()
+    {
         flywheel = new LeOutake(hardwareMap);
         stopper = new LeStopper(hardwareMap);
         transfer = new LeTransfer(hardwareMap);

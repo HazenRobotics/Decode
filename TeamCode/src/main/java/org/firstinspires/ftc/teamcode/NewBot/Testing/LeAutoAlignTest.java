@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@TeleOp(name = "LeAutoAlignTester", group = "1 TungTungTungTesting")
+@TeleOp(name = "LeAutoLebronAlignTester", group = "1 TungTungTungTesting")
 public class LeAutoAlignTest extends LinearOpMode {
     LeTransfer transfer;
     LeOutake flywheel;
@@ -26,7 +26,7 @@ public class LeAutoAlignTest extends LinearOpMode {
     GamepadEvents controller;
     VelocityCalculator2 calculator;
     private Follower follower;
-    private final Pose startPose = new Pose(0,0,0);
+    private Pose pose = new Pose(0,0,0);
     double WEB_CAM_OFFSET = 6.0;
     boolean canAlign = false;
     LeLED led;
@@ -49,7 +49,7 @@ public class LeAutoAlignTest extends LinearOpMode {
         camera.init(hardwareMap,telemetry);
         led = new LeLED(hardwareMap);
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(startPose);
+        follower.setStartingPose(pose);
 
         waitForStart();
         while(opModeIsActive())
@@ -70,12 +70,12 @@ public class LeAutoAlignTest extends LinearOpMode {
             //Auto Align
             if(targetTag != null && canAlign)
             {
+                pose = new Pose(0,0,0);
                 led.setColor(LeLED.Colors.PINK);
                 drive.resetHeading();
                 if(camera.getBearing(targetTag) > 1)
                 {
                     follower.turn(Math.abs(Math.toRadians(camera.getBearing(targetTag)) + WEB_CAM_OFFSET), false);
-
 
                 }else if(camera.getBearing(targetTag) < -1)
                 {
@@ -85,7 +85,8 @@ public class LeAutoAlignTest extends LinearOpMode {
                 telemetry.addData("Camera Rotation", camera.getBearing(targetTag));
             } else if(targetTag == null && canAlign)
             {
-                follower.turn(drive.getRotation(), true);
+                headingTurn = drive.getRotation();
+                drive.fieldCentricDrive(-controller.left_stick_y, controller.left_stick_x, headingTurn);
             }
             else
             {
@@ -95,9 +96,17 @@ public class LeAutoAlignTest extends LinearOpMode {
             }
 
 
+            //TODO: GET Distance from AprilTag, and as I move or strafe, rotate to the april tag
+            //(1) Read April Tag, reset dead wheels
+            //(2) As I move away from Apriltag, use some PID to rotate to the apriltag
+            //(3) If I get bumped, and no longer see the april tag, use deadhweel data to get back to original pos
+            if(targetTag == null && canAlign)
+            {
+                drive.fieldCentricDrive(-controller.left_stick_y, controller.left_stick_x, headingTurn);
+            }else {
+                drive.fieldCentricDrive(-controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
+            }
 
-
-            drive.drive(-controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
 
             if(controller.x.onPress())
             {
@@ -117,6 +126,11 @@ public class LeAutoAlignTest extends LinearOpMode {
             if(canShoot)
             {
                 flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+            }
+
+            if(canShoot && targetTag == null)
+            {
+                flywheel.setVelocity(calculator.setVelocityWhenItDoesNotSeeAPRIlTag());
             }
 
             if(controller.b.onPress())
