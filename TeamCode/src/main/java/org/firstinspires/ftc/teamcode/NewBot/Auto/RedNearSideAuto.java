@@ -36,7 +36,7 @@ public class RedNearSideAuto extends LinearOpMode {
     LeStopper stopper;
     String isShoot;
     private Follower follower;
-    private final double xMultiplier = 1.7, yMultiplier = (double) 44/28;
+    private final double xMultiplier = 1, yMultiplier = 1;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
     //starting position

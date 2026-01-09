@@ -36,8 +36,8 @@ public class LeMecanum {
 
         imu = hw.get(IMU.class, imuName);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
+                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
     }
 
@@ -45,7 +45,6 @@ public class LeMecanum {
     {
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
-
 
     public LeMecanum(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
                      String rightBottomName, String imuName) {
