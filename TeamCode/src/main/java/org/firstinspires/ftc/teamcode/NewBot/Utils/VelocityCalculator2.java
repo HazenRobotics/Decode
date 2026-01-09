@@ -6,40 +6,60 @@ public class VelocityCalculator2 {
     //Idea: Save Last known distance value, and know which quadrant I am in
     //And Then I don't see the AprilTag, determine how far I traveled in a certain direction
     public enum Quadrant {
-        NEAR, FAR
+        DEFAULT, NEAR, FAR
     }
-    public static double[] distances = {900, 1000, 1125, 1400};
+    public static double[] distances = {900, 975, 1125, 1300};
     private boolean isDefaultValue = false;
 
-    public Quadrant state = Quadrant.NEAR;
+    public Quadrant state = Quadrant.DEFAULT;
     public double calculateVelocityForTarget(double horizontalDistance)
     {
-        if (horizontalDistance < 60) {
+        if (horizontalDistance < 60)
+        {
             state = Quadrant.NEAR;
             isDefaultValue = true;
             return distances[0];
         }
-        else if (horizontalDistance < 160) {
+        else if (horizontalDistance < 160)
+        {
             state = Quadrant.NEAR;
             isDefaultValue = false;
             return distances[1];
         }
-        else if (horizontalDistance < 200) {
+        else if (horizontalDistance < 200)
+        {
             state = Quadrant.NEAR;
             isDefaultValue = false;
             return distances[2];
         }
-        else {
+        else
+        {
             state = Quadrant.FAR;
             isDefaultValue = false;
             return distances[3];
         }
     }
 
-    public Quadrant returnState()
+    private Quadrant returnState()
     {
         return state;
     }
+
+    //Get State, Then save that as final pos, and then have the Shooter shoot
+
+    public double setVelocityWhenItDoesNotSeeAPRIlTag()
+    {
+        if(returnState() == Quadrant.FAR)
+        {
+            return distances[3];
+        }else if(returnState() == Quadrant.NEAR)
+        {
+            return distances[1];
+        }
+        return distances[0];
+    }
+
+
 
     public boolean checkIfDefaultValue()
     {

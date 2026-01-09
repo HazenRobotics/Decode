@@ -36,7 +36,7 @@ public class BlueNearSideAuto extends LinearOpMode {
     private Follower follower;
     //The Multipliers are there becasue I may have made a mistake in pedro pathing,
     //retune the robot and prob set X and Y multipliers to 1, and see if the path is accurate
-    private final double xMultiplier = 1.7, yMultiplier = (double) 44/28;
+    private final double xMultiplier = 1, yMultiplier = 1;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
     //starting position
