@@ -18,17 +18,17 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
-    public static FollowerConstants followerConstants = new FollowerConstants().mass(11.8)
-            .forwardZeroPowerAcceleration(-35.0)
-            .lateralZeroPowerAcceleration(-74.4)
+    public static FollowerConstants followerConstants = new FollowerConstants().mass(12)
+            .forwardZeroPowerAcceleration(-41)
+            .lateralZeroPowerAcceleration(-84)
             .useSecondaryTranslationalPIDF(true)
             .useSecondaryHeadingPIDF(true)
             .useSecondaryDrivePIDF(true)
 
             //Change values of below
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0, 0))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.5, 0, 0.00001, 0))
             //above was good enough to be consistent
-//            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.06, 0, 0.00005, 0.01));
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.7, 0, 0.00001, 0.2))
 
             .headingPIDFCoefficients(new PIDFCoefficients(1,0,0,0.01))
 //            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.0005,0.02))
@@ -49,8 +49,8 @@ public class Constants {
     }
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(5.5)
-            .strafePodX(2.5)
+            .forwardPodY(3)
+            .strafePodX(5.5)
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("pinpoint")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
@@ -69,6 +69,6 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(91.55)
-            .yVelocity(74.49);
+            .xVelocity(89.67235559)
+            .yVelocity(74.82374537);
 }
