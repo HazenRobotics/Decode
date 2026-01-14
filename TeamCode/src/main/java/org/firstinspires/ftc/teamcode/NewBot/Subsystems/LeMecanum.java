@@ -26,13 +26,15 @@ public class LeMecanum {
 
     public LeMecanum(HardwareMap hw)
     {
-        leftTop = hw.get(DcMotorEx.class, leftTopName);
+        leftTop = hw.get(DcMotorEx.class,  leftTopName);
         rightTop = hw.get(DcMotorEx.class, rightTopName);
         leftBottom = hw.get(DcMotorEx.class, leftBottomName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
-        leftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBottom.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        resetEncoders();
 
         imu = hw.get(IMU.class, imuName);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -60,8 +62,8 @@ public class LeMecanum {
 
         imu = hw.get(IMU.class, imuName);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
+                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
     }
 
@@ -89,8 +91,8 @@ public class LeMecanum {
 
     //Formula's copied from gmZero
     public void fieldCentricDrive(double forward, double strafe, double rotate) {
-        double y = forward; // Remember, Y stick value is reversed
-        double x = strafe; // Counteract imperfect strafing
+        double x = forward; // Remember, Y stick value is reversed
+        double y = strafe; // Counteract imperfect strafing
         double rx = rotate;
 
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
@@ -137,7 +139,8 @@ public class LeMecanum {
         leftBottom.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         rightBottom.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
-    public void enableDriveUsingEncoders() {
+    public void enableDriveUsingEncoders()
+    {
         if (leftTop != null && rightTop != null && leftBottom != null && rightBottom != null) {
             leftTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

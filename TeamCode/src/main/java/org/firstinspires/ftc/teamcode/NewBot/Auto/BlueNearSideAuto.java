@@ -27,7 +27,7 @@ public class BlueNearSideAuto extends LinearOpMode {
     private final double max = 1075;
     private final double min = 1025;
     private final double current = 2;
-    private final double breakingStrength = 2.0;
+    private final double breakingStrength = 0.5;
     LeTransfer transfer;
     LeOutake flywheel;
     LeIntake intake;
@@ -36,24 +36,25 @@ public class BlueNearSideAuto extends LinearOpMode {
     private Follower follower;
     //The Multipliers are there becasue I may have made a mistake in pedro pathing,
     //retune the robot and prob set X and Y multipliers to 1, and see if the path is accurate
-    private final double xMultiplier = 1, yMultiplier = 1;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
     //starting position
+    private double xMultiplier = 1, yMultiplier = 1.1;
     private final Pose startPose = new Pose(19.617391304347827* xMultiplier,122.71304347826086 *yMultiplier,Math.toRadians(135));
     //Shooting position
     private final Pose shootingPose = new Pose(46.33043478260869 * xMultiplier,96.83478260869565 *yMultiplier,Math.toRadians(135));
     //Near side 3 balls
+    //IDEA Potenially move x back
     private final Pose firstLine = new Pose(40.48695652173913 * xMultiplier,84.31304347826088 *yMultiplier,Math.toRadians(0));
-    private final Pose firstPush = new Pose(15.026086956521738 * xMultiplier,84.10434782608695 *yMultiplier,Math.toRadians(0));
+    private final Pose firstPush = new Pose(8.026086956521738 * xMultiplier,84.10434782608695 *yMultiplier,Math.toRadians(0));
     private final Pose firstControl = new Pose(51.547826086956526 * xMultiplier,80.76521739130435 *yMultiplier);
     //Middle 3 balls
     private final Pose secondLine = new Pose(40.904347826086955 * xMultiplier,60.313043478260866 *yMultiplier,Math.toRadians(0));
-    private final Pose secondPush = new Pose(15.026086956521738 * xMultiplier,60.104347826086965 *yMultiplier,Math.toRadians(0));
+    private final Pose secondPush = new Pose(5.026086956521738 * xMultiplier,60.104347826086965 *yMultiplier,Math.toRadians(0));
     private final Pose secondControl = new Pose(61.982608695652175 * xMultiplier,54.469565217391306 *yMultiplier);
     //Last three balls
     private final Pose thirdLine = new Pose(41.321739130434786 * xMultiplier,35.686956521739134 *yMultiplier,Math.toRadians(0));
-    private final Pose thirdPush = new Pose(15.026086956521738 * xMultiplier,35.686956521739134 *yMultiplier,Math.toRadians(0));
+    private final Pose thirdPush = new Pose(5.026086956521738 * xMultiplier,35.686956521739134 *yMultiplier,Math.toRadians(0));
     private final Pose thirdControl = new Pose(63.02608695652174 * xMultiplier,28.382608695652173 *yMultiplier);
     private PathChain shoot, firstBall, push1, back1, secondBall, push2, back2, thirdBall, push3, back3;
 
@@ -68,39 +69,40 @@ public class BlueNearSideAuto extends LinearOpMode {
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(0))
                 .addPath(new BezierLine(firstLine,firstPush))
                 //Test constraining the speed
-//                .setBrakingStrength(10.0)
+                .setBrakingStrength(breakingStrength)
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
         back1 = follower.pathBuilder()
                 .addPath(new BezierLine(firstPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(135))
+                //Default for Backs was 135
+                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(90))
                 .build();
 
         secondBall = follower.pathBuilder()
                 .addPath(new BezierLine(shootingPose, secondLine))
                 .setLinearHeadingInterpolation(Math.toRadians(13),Math.toRadians(0))
                 .addPath(new BezierLine(secondLine,secondPush))
-//                .setBrakingStrength(10.0)
+                .setBrakingStrength(breakingStrength)
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
         back2 = follower.pathBuilder()
                 .addPath(new BezierLine(secondPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(135))
+                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(90))
                 .build();
 
         thirdBall = follower.pathBuilder()
                 .addPath(new BezierLine(shootingPose, thirdLine))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(0))
                 .addPath(new BezierLine(thirdLine,thirdPush))
-//                .setBrakingStrength(breakingStrength)
+                .setBrakingStrength(breakingStrength)
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
         back3 = follower.pathBuilder()
                 .addPath(new BezierLine(thirdPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(135))
+                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(90))
                 .build();
     }
 
@@ -160,7 +162,8 @@ public class BlueNearSideAuto extends LinearOpMode {
 
             case 0: // START: spin shooter & reverse feeder
                 stopper.block();
-                transfer.stop();
+                transfer.setPower();
+                intake.feed();
                 flywheel.setVelocity(v);
                 follower.followPath(shoot);
                 shootState = 0;
@@ -172,7 +175,8 @@ public class BlueNearSideAuto extends LinearOpMode {
                     if (pathTimer.getElapsedTime() < 200) break;
 
                     stopper.lift();
-                    transfer.setPower();
+                    intake.feed();
+                    transfer.setMaxPower();
                     flywheel.setVelocity(v);
 //                    if (shootThreeBallVelocity()) {
 //                        setPathState(10);
@@ -185,7 +189,7 @@ public class BlueNearSideAuto extends LinearOpMode {
 
             case 10: // DRIVE TO LINE 1
                 intake.feed();
-                transfer.setPower();
+                transfer.setMaxPower();
                 stopper.block();
                 if (!follower.isBusy()) {
                     follower.followPath(firstBall);
@@ -196,9 +200,7 @@ public class BlueNearSideAuto extends LinearOpMode {
             case 11: // RETURN FROM LINE 1
                 if (!follower.isBusy()) {
                     stopper.block();
-                    transfer.stop();
-                    intake.stop();
-
+                    transfer.setPower();
                     follower.followPath(back1);
                     shootState = 0;
                     setPathState(12);
@@ -209,7 +211,7 @@ public class BlueNearSideAuto extends LinearOpMode {
                 if (!follower.isBusy()) {
                     if (pathTimer.getElapsedTime() < 200) break;
                     stopper.lift();
-                    transfer.setPower();
+                    transfer.setMaxPower();
                     flywheel.setVelocity(v);
 
                     sleep(2000);
@@ -221,7 +223,7 @@ public class BlueNearSideAuto extends LinearOpMode {
             case 20: // DRIVE TO LINE 2
                 intake.feed();
                 stopper.block();
-                transfer.stop();
+                transfer.setPower();
                 if (!follower.isBusy()) {
                     follower.followPath(secondBall);
                     setPathState(21);
@@ -230,9 +232,8 @@ public class BlueNearSideAuto extends LinearOpMode {
 
             case 21: // RETURN FROM LINE 2
                 if (!follower.isBusy()) {
-                    intake.stop();
                    stopper.block();
-                    transfer.stop();
+                    transfer.setPower();
                     follower.followPath(back2);
                     shootState = 0;
                     setPathState(22);
@@ -243,7 +244,7 @@ public class BlueNearSideAuto extends LinearOpMode {
                 if (!follower.isBusy()) {
                     if (pathTimer.getElapsedTime() < 200) break;
                     stopper.lift();
-                    transfer.setPower();
+                    transfer.setMaxPower();
                     flywheel.setVelocity(v);
 
                     sleep(2000);
@@ -254,7 +255,7 @@ public class BlueNearSideAuto extends LinearOpMode {
             case 30: // DRIVE TO LINE 3
                 stopper.block();
                 intake.feed();
-                transfer.setPower();
+                transfer.setMaxPower();
                 if (!follower.isBusy()) {
                     follower.followPath(thirdBall);
                     setPathState(31);
@@ -263,8 +264,7 @@ public class BlueNearSideAuto extends LinearOpMode {
 
             case 31: // RETURN FROM LINE 3
                 if (!follower.isBusy()) {
-                    intake.stop();
-                    transfer.stop();
+                    transfer.setPower();
                     stopper.block();
                     follower.followPath(back3);
                     shootState = 0;
@@ -276,7 +276,7 @@ public class BlueNearSideAuto extends LinearOpMode {
                 if (!follower.isBusy()) {
                     if (pathTimer.getElapsedTime() < 200) break;
                     stopper.lift();
-                    transfer.setPower();
+                    transfer.setMaxPower();
                     flywheel.setVelocity(v);
 
                     sleep(2000);
