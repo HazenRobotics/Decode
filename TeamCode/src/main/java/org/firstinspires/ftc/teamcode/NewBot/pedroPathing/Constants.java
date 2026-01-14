@@ -19,24 +19,24 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants().mass(12)
-            .forwardZeroPowerAcceleration(-41)
-            .lateralZeroPowerAcceleration(-84)
+            .forwardZeroPowerAcceleration(-34.3463614)
+            .lateralZeroPowerAcceleration(-62)
             .useSecondaryTranslationalPIDF(true)
             .useSecondaryHeadingPIDF(true)
             .useSecondaryDrivePIDF(true)
 
             //Change values of below
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.5, 0, 0.00001, 0))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.15, 0, 0.00001, 0))
             //Secondary PIDF for translational having issues
-//            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.7, 0, 0.00001, 0.2))
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.0001, 0.01))
 
-            .headingPIDFCoefficients(new PIDFCoefficients(1,0,0,0.01))
-//            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.0005,0.02))
+            .headingPIDFCoefficients(new PIDFCoefficients(1,0,0.0001,0))
+            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(2.5, 0, 0.0005,0.02))
             //above was good enough to be consistent
             .centripetalScaling(0.0005)
             //NOTE: Breaking Strength is 0.1
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(1, 0, 0.1, 0.6,0));
-
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(1, 0, 0.1, 0.6,0))
+            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.05, 0, 0.000005, 0.6, 0.02));
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1.0, 1);
 
     public static Follower createFollower(HardwareMap hardwareMap)
@@ -69,6 +69,6 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(89.67235559)
-            .yVelocity(74.82374537);
+            .xVelocity(63.533128)
+            .yVelocity(51.4026);
 }
