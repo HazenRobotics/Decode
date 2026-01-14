@@ -16,8 +16,6 @@ public class LeCameraServo {
         cameraServo = hw.get(Servo.class, name);
     }
 
-    //Abstration: Have get and set Position be private
-    //Then wrapper math class for figuring out the math
     public void setPositon(double pos)
     {
         cameraServo.setPosition(pos);
@@ -25,11 +23,6 @@ public class LeCameraServo {
     public double getPositon()
     {
         return cameraServo.getPosition();
-    }
-
-    public String getData()
-    {
-        return "Servo Position: " + getPositon();
     }
 
 }

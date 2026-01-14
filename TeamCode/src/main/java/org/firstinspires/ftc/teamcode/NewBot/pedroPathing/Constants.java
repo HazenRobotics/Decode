@@ -27,14 +27,14 @@ public class Constants {
 
             //Change values of below
             .translationalPIDFCoefficients(new PIDFCoefficients(0.5, 0, 0.00001, 0))
-            //above was good enough to be consistent
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.7, 0, 0.00001, 0.2))
+            //Secondary PIDF for translational having issues
+//            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.7, 0, 0.00001, 0.2))
 
             .headingPIDFCoefficients(new PIDFCoefficients(1,0,0,0.01))
 //            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.0005,0.02))
-                //above was good enough to be consistent
+            //above was good enough to be consistent
             .centripetalScaling(0.0005)
-            //Note braking strength was 0.7
+            //NOTE: Breaking Strength is 0.1
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(1, 0, 0.1, 0.6,0));
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1.0, 1);
