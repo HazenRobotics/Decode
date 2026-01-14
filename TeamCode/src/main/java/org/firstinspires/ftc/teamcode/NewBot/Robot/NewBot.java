@@ -57,7 +57,7 @@ public class NewBot {
 
     public void drive(double x, double y, double r)
     {
-        drive.fieldCentricDrive(-x, y, r);
+        drive.fieldCentricDrive(-y, x, r);
     }
 
     public void runShooter()

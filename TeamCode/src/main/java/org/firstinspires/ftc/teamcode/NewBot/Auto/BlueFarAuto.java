@@ -17,7 +17,6 @@ import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 public class BlueFarAuto extends LinearOpMode {
     private int pathState;
     private Follower follower;
-    private double v = 1550;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
     //starting position
@@ -32,10 +31,6 @@ public class BlueFarAuto extends LinearOpMode {
     private final Pose thirdPush = new Pose(15.026086956521738,35.686956521739134,Math.toRadians(0));
     private final Pose park = new Pose(62.400000000000006,39.8608695652174, Math.toRadians(90));
     private PathChain shoot, firstBall, push1, back1, secondBall, push2, back2, parking;
-    LeTransfer transfer;
-    LeOutake flywheel;
-    LeIntake intake;
-    LeStopper stopper;
     public void buildPaths(){
         shoot = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, shootingPose))
@@ -74,17 +69,12 @@ public class BlueFarAuto extends LinearOpMode {
     }
 
     @Override
-    public void runOpMode()
-    {
-        flywheel = new LeOutake(hardwareMap);
-        stopper = new LeStopper(hardwareMap);
-        transfer = new LeTransfer(hardwareMap);
-        intake = new LeIntake(hardwareMap);
+    public void runOpMode() {
         pathTimer = new Timer();
         actionTimer = new Timer();
         opmodeTimer = new Timer();
 
-        follower = Constants.createFollower(hardwareMap);
+        //        follower = Constants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(startPose);
 
@@ -121,16 +111,7 @@ public class BlueFarAuto extends LinearOpMode {
         switch (pathState){
             case 0:
                 follower.followPath(shoot);
-                sleep(2000);
-                stopper.lift();
-                flywheel.setVelocity(v);
-                sleep(1000);
-                stopper.lift();
-                intake.feed();
-                flywheel.setVelocity(v);
-                transfer.setPower();
-                sleep(4000);
-                setPathState(100);
+                setPathState(1);
                 break;
             case 1:
                 if (!follower.isBusy())
@@ -182,12 +163,6 @@ public class BlueFarAuto extends LinearOpMode {
                     follower.followPath(parking);
                     setPathState(8);
                 }
-                break;
-            case 100:
-                intake.stop();
-                flywheel.setVelocity(0);
-                stopper.block();
-                transfer.stop();
                 break;
         }
     }
