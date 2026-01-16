@@ -23,6 +23,11 @@ public class LeTransfer {
         transfer.setPower(downPow);
     }
 
+    public void setMaxPower()
+    {
+        transfer.setPower(1);
+    }
+
     public void setPower(double pow)
     {
         transfer.setPower(pow);

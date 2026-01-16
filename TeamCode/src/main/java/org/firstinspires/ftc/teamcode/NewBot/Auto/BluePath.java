@@ -92,7 +92,7 @@ public class BluePath extends LinearOpMode {
         follower.setStartingPose(startPose);
 
         telemetry.addData("Status", "Initialization Complete");
-        telemetry.addData("Start Pose", startPose);
+        telemetry.addData("Start Pose", shootingPose);
         telemetry.update();
 
         // Standard LinearOpMode method to wait for the Start button
@@ -168,7 +168,6 @@ public class BluePath extends LinearOpMode {
                     setPathState(7);
                 }
                 break;
-
         }
     }
 

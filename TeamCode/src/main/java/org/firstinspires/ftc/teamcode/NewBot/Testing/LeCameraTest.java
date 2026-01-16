@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeOutake;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeStopper;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeTransfer;
 import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
-import org.firstinspires.ftc.teamcode.OldBots.Testing.VelocityCalculator2;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @TeleOp(name = "LeCameraTester", group = "1 TungTungTungTesting")
@@ -66,22 +66,22 @@ public class LeCameraTest extends LinearOpMode {
 
             if(targetTag != null)
             {
-               telemetry.addLine("Found AprilTag");
-                led.setColor(LeLED.PINK_WEIGHT);
+                telemetry.addLine("Found AprilTag");
+                led.setColor(LeLED.Colors.PINK);
             }else {
                 telemetry.addLine("Nothing Found :(");
-                led.setColor(LeLED.BLUE_WEIGHT);
+                led.setColor(LeLED.Colors.BLUE);
             }
 
 
-            drive.drive(controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
+            drive.drive(-controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
 
             if(controller.x.onPress())
             {
                 transfer.reverseMotor();
             }
 
-            if(controller.y.onPress())
+            if(controller.right_bumper.onPress())
             {
                 canShoot = !canShoot;
             }
@@ -99,13 +99,13 @@ public class LeCameraTest extends LinearOpMode {
 
             telemetry.addLine("Left bumper to toggle transfer and feed");
             telemetry.addLine("Press X to reverse transfer");
-            telemetry.addLine("Press Y to toggle shooting");
+            telemetry.addLine("Press Right Bumper to toggle shooting");
             telemetry.addLine("Press B to toggle stopper");
             telemetry.addLine("DPAD UP to increase velocity\nDPAD DOWN to decrease velocity");
             telemetry.addData("Estimated Velocity: ", calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
             telemetry.addData("Horizontal Distance: ", camera.getHorizontalData(targetTag));
             telemetry.addData("Velocity: ", flywheel.getVelocity());
-            telemetry.addData("Transfer Power: ", transfer.getPower());
+            telemetry.addData("Transfer Power: ", transfer.getData());
 
             telemetry.update();
             controller.update();

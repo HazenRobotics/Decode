@@ -46,15 +46,15 @@ public class BlueNearSideAuto extends LinearOpMode {
     //Near side 3 balls
     //IDEA Potenially move x back
     private final Pose firstLine = new Pose(40.48695652173913 * xMultiplier,84.31304347826088 *yMultiplier,Math.toRadians(0));
-    private final Pose firstPush = new Pose(8.026086956521738 * xMultiplier,84.10434782608695 *yMultiplier,Math.toRadians(0));
+    private final Pose firstPush = new Pose(2 * xMultiplier,84.10434782608695 *yMultiplier,Math.toRadians(0));
     private final Pose firstControl = new Pose(51.547826086956526 * xMultiplier,80.76521739130435 *yMultiplier);
     //Middle 3 balls
     private final Pose secondLine = new Pose(40.904347826086955 * xMultiplier,60.313043478260866 *yMultiplier,Math.toRadians(0));
-    private final Pose secondPush = new Pose(5.026086956521738 * xMultiplier,60.104347826086965 *yMultiplier,Math.toRadians(0));
+    private final Pose secondPush = new Pose(0 * xMultiplier,60.104347826086965 *yMultiplier,Math.toRadians(0));
     private final Pose secondControl = new Pose(61.982608695652175 * xMultiplier,54.469565217391306 *yMultiplier);
     //Last three balls
-    private final Pose thirdLine = new Pose(41.321739130434786 * xMultiplier,35.686956521739134 *yMultiplier,Math.toRadians(0));
-    private final Pose thirdPush = new Pose(5.026086956521738 * xMultiplier,35.686956521739134 *yMultiplier,Math.toRadians(0));
+    private final Pose thirdLine = new Pose(40.16521739130434 * xMultiplier,38.60869565217391 *yMultiplier,Math.toRadians(0));
+    private final Pose thirdPush = new Pose(0 * xMultiplier,38.60869565217391 *yMultiplier,Math.toRadians(0));
     private final Pose thirdControl = new Pose(63.02608695652174 * xMultiplier,28.382608695652173 *yMultiplier);
     private PathChain shoot, firstBall, push1, back1, secondBall, push2, back2, thirdBall, push3, back3;
 
@@ -76,7 +76,7 @@ public class BlueNearSideAuto extends LinearOpMode {
         back1 = follower.pathBuilder()
                 .addPath(new BezierLine(firstPush, shootingPose))
                 //Default for Backs was 135
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(130))
                 .build();
 
         secondBall = follower.pathBuilder()
@@ -89,7 +89,7 @@ public class BlueNearSideAuto extends LinearOpMode {
 
         back2 = follower.pathBuilder()
                 .addPath(new BezierLine(secondPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(130))
                 .build();
 
         thirdBall = follower.pathBuilder()
@@ -102,7 +102,7 @@ public class BlueNearSideAuto extends LinearOpMode {
 
         back3 = follower.pathBuilder()
                 .addPath(new BezierLine(thirdPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(130))
                 .build();
     }
 
@@ -122,7 +122,7 @@ public class BlueNearSideAuto extends LinearOpMode {
         follower.setStartingPose(startPose);
 
         telemetry.addData("Status", "Initialization Complete");
-        telemetry.addData("Start Pose", startPose);
+        telemetry.addData("Start Pose", shootingPose);
         telemetry.update();
 
         // Standard LinearOpMode method to wait for the Start button
@@ -232,7 +232,7 @@ public class BlueNearSideAuto extends LinearOpMode {
 
             case 21: // RETURN FROM LINE 2
                 if (!follower.isBusy()) {
-                   stopper.block();
+                    stopper.block();
                     transfer.setPower();
                     follower.followPath(back2);
                     shootState = 0;

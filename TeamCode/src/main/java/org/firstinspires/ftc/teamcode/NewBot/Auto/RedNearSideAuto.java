@@ -154,7 +154,8 @@ public class RedNearSideAuto extends LinearOpMode {
 
             case 0: // START: spin shooter & reverse feeder
                 stopper.block();
-                transfer.stop();
+                transfer.setPower();
+                intake.feed();
                 flywheel.setVelocity(v);
                 follower.followPath(shoot);
                 shootState = 0;
@@ -166,7 +167,8 @@ public class RedNearSideAuto extends LinearOpMode {
                     if (pathTimer.getElapsedTime() < 200) break;
 
                     stopper.lift();
-                    transfer.setPower();
+                    intake.feed();
+                    transfer.setMaxPower();
                     flywheel.setVelocity(v);
 //                    if (shootThreeBallVelocity()) {
 //                        setPathState(10);
@@ -179,7 +181,7 @@ public class RedNearSideAuto extends LinearOpMode {
 
             case 10: // DRIVE TO LINE 1
                 intake.feed();
-                transfer.setPower();
+                transfer.setMaxPower();
                 stopper.block();
                 if (!follower.isBusy()) {
                     follower.followPath(firstBall);
@@ -190,9 +192,7 @@ public class RedNearSideAuto extends LinearOpMode {
             case 11: // RETURN FROM LINE 1
                 if (!follower.isBusy()) {
                     stopper.block();
-                    transfer.stop();
-                    intake.stop();
-
+                    transfer.setPower();
                     follower.followPath(back1);
                     shootState = 0;
                     setPathState(12);
@@ -203,7 +203,7 @@ public class RedNearSideAuto extends LinearOpMode {
                 if (!follower.isBusy()) {
                     if (pathTimer.getElapsedTime() < 200) break;
                     stopper.lift();
-                    transfer.setPower();
+                    transfer.setMaxPower();
                     flywheel.setVelocity(v);
 
                     sleep(2000);
@@ -215,7 +215,7 @@ public class RedNearSideAuto extends LinearOpMode {
             case 20: // DRIVE TO LINE 2
                 intake.feed();
                 stopper.block();
-                transfer.stop();
+                transfer.setPower();
                 if (!follower.isBusy()) {
                     follower.followPath(secondBall);
                     setPathState(21);
@@ -224,9 +224,8 @@ public class RedNearSideAuto extends LinearOpMode {
 
             case 21: // RETURN FROM LINE 2
                 if (!follower.isBusy()) {
-                    intake.stop();
                     stopper.block();
-                    transfer.stop();
+                    transfer.setPower();
                     follower.followPath(back2);
                     shootState = 0;
                     setPathState(22);
@@ -237,7 +236,7 @@ public class RedNearSideAuto extends LinearOpMode {
                 if (!follower.isBusy()) {
                     if (pathTimer.getElapsedTime() < 200) break;
                     stopper.lift();
-                    transfer.setPower();
+                    transfer.setMaxPower();
                     flywheel.setVelocity(v);
 
                     sleep(2000);
@@ -248,7 +247,7 @@ public class RedNearSideAuto extends LinearOpMode {
             case 30: // DRIVE TO LINE 3
                 stopper.block();
                 intake.feed();
-                transfer.setPower();
+                transfer.setMaxPower();
                 if (!follower.isBusy()) {
                     follower.followPath(thirdBall);
                     setPathState(31);
@@ -257,8 +256,7 @@ public class RedNearSideAuto extends LinearOpMode {
 
             case 31: // RETURN FROM LINE 3
                 if (!follower.isBusy()) {
-                    intake.stop();
-                    transfer.stop();
+                    transfer.setPower();
                     stopper.block();
                     follower.followPath(back3);
                     shootState = 0;
@@ -270,7 +268,7 @@ public class RedNearSideAuto extends LinearOpMode {
                 if (!follower.isBusy()) {
                     if (pathTimer.getElapsedTime() < 200) break;
                     stopper.lift();
-                    transfer.setPower();
+                    transfer.setMaxPower();
                     flywheel.setVelocity(v);
 
                     sleep(2000);

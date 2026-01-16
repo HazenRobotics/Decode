@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -19,6 +20,8 @@ public class LeOutake {
     private double nominalVoltage = 12.0;
     private VoltageSensor voltageSensor;
     private static final double TICKS_PER_REV = 537.6;
+    private final double P = 290;
+    private final double F = 15.821;
 
     public LeOutake(HardwareMap hw)
     {
@@ -33,6 +36,9 @@ public class LeOutake {
         leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        PIDFCoefficients pidf = new PIDFCoefficients(P, 0, 0, F);
+        leftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidf);
+        rightMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidf);
     }
 
     //This method is redundant

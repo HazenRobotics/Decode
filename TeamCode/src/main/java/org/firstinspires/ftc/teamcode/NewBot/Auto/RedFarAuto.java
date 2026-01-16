@@ -23,13 +23,13 @@ public class RedFarAuto extends LinearOpMode {
     //starting position
     private final Pose startPose = new Pose(63.23478260869565,8.13913043478261,Math.toRadians(90));
     //Shooting position
-    private final Pose shootingPose = new Pose(64.608695652173914,23.79130434782609,-Math.toRadians(112));
+    private final Pose shootingPose = new Pose(84.5217391304348,8.13913043478261,-Math.toRadians(68));
     //Near side 3 balls
-    private final Pose squareZone = new Pose(121.2521739,23.37391304347826,Math.toRadians(90));
-    private final Pose squareZonePush = new Pose(121.6695652,5.008695652173916,Math.toRadians(90));
+    private final Pose squareZone = new Pose(137.53043478260867,25.460869565217383,Math.toRadians(90));
+    private final Pose squareZonePush = new Pose(137.53043478260867,5.008695652173916,Math.toRadians(90));
     //Last three balls
-    private final Pose thirdLine = new Pose(158.6086956,35.686956521739134,Math.toRadians(0));
-    private final Pose thirdPush = new Pose(184.9043478,35.686956521739134,Math.toRadians(0));
+    private final Pose thirdLine = new Pose(99.13043478260869,35.686956521739134,Math.toRadians(180));
+    private final Pose thirdPush = new Pose(130.43478260869566,35.686956521739134,Math.toRadians(180));
     private final Pose park = new Pose(137.5304348,39.8608695652174, Math.toRadians(90));
     private PathChain shoot, firstBall, push1, back1, secondBall, push2, back2, parking;
     LeTransfer transfer;
