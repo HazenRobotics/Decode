@@ -26,7 +26,7 @@ public class LeIntake {
 
     public void feed()
     {
-        intake.setPower(0.9);
+        intake.setPower(1);
     }
 
     public void stop()

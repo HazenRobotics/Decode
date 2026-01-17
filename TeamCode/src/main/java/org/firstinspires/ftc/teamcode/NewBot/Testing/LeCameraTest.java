@@ -95,7 +95,7 @@ public class LeCameraTest extends LinearOpMode {
             {
                 stopper.toggle();
             }
-
+            camera.disPlayDetectionTelementry(targetTag);
 
             telemetry.addLine("Left bumper to toggle transfer and feed");
             telemetry.addLine("Press X to reverse transfer");
@@ -106,6 +106,12 @@ public class LeCameraTest extends LinearOpMode {
             telemetry.addData("Horizontal Distance: ", camera.getHorizontalData(targetTag));
             telemetry.addData("Velocity: ", flywheel.getVelocity());
             telemetry.addData("Transfer Power: ", transfer.getData());
+            if(targetTag!=null)
+            {
+                telemetry.addData("Bearing", camera.getBearing(targetTag));
+            }
+
+
 
             telemetry.update();
             controller.update();

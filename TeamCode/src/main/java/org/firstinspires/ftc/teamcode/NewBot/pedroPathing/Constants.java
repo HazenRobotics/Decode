@@ -26,11 +26,11 @@ public class Constants {
             .useSecondaryDrivePIDF(true)
 
             //Change values of below
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.15, 0, 0.00001, 0))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.9, 0, 0.00001, 0.25))
             //Secondary PIDF for translational having issues
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.0001, 0.01))
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.0001, 0.01))
 
-            .headingPIDFCoefficients(new PIDFCoefficients(1,0,0.0001,0))
+            .headingPIDFCoefficients(new PIDFCoefficients(0.7,0,0.0001,0.2))
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(2.5, 0, 0.0005,0.02))
             //above was good enough to be consistent
             .centripetalScaling(0.0005)

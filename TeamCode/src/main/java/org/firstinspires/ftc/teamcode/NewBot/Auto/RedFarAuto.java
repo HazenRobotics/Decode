@@ -17,21 +17,24 @@ import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 public class RedFarAuto extends LinearOpMode {
     private int pathState;
     private Follower follower;
-    private double v = 1550;
+    private double v = 1450;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
-    //starting position
-    private final Pose startPose = new Pose(63.23478260869565,8.13913043478261,Math.toRadians(90));
+    private final Pose startPose = new Pose(78.67,8.13913043478261,Math.toRadians(90));
     //Shooting position
-    private final Pose shootingPose = new Pose(84.5217391304348,8.13913043478261,-Math.toRadians(68));
-    //Near side 3 balls
-    private final Pose squareZone = new Pose(137.53043478260867,25.460869565217383,Math.toRadians(90));
-    private final Pose squareZonePush = new Pose(137.53043478260867,5.008695652173916,Math.toRadians(90));
-    //Last three balls
-    private final Pose thirdLine = new Pose(99.13043478260869,35.686956521739134,Math.toRadians(180));
-    private final Pose thirdPush = new Pose(130.43478260869566,35.686956521739134,Math.toRadians(180));
-    private final Pose park = new Pose(137.5304348,39.8608695652174, Math.toRadians(90));
-    private PathChain shoot, firstBall, push1, back1, secondBall, push2, back2, parking;
+    private final Pose shootingPose = new Pose(78.67826686956522,18.365217391304338,Math.toRadians(66));
+    private final Pose squareZone = new Pose(132.3,23.37391304347826,Math.toRadians(90));
+    private final Pose squareZonePush = new Pose(132.3,8.5,Math.toRadians(90));
+    private final Pose squareZone2 = new Pose(131,22,Math.toRadians(135));
+    private final Pose squareZone2Push = new Pose(131,12.7,Math.toRadians(135));
+    private final Pose squareZone2Control = new Pose(130,12, Math.toRadians(180));
+    private final Pose squareZone2Control2 = new Pose(128.5,12, Math.toRadians(180));
+
+
+    private final Pose thirdLine = new Pose(99.58,40,Math.toRadians(180));
+    private final Pose thirdPush = new Pose(131,40,Math.toRadians(180));
+    private final Pose park = new Pose(78.67,39.8668695652174, Math.toRadians(90));
+    private PathChain shoot, firstBall2, push1, back1, secondBall, push2, back2, parking;
     LeTransfer transfer;
     LeOutake flywheel;
     LeIntake intake;
@@ -39,38 +42,44 @@ public class RedFarAuto extends LinearOpMode {
     public void buildPaths(){
         shoot = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(90),Math.toRadians(112))
+                .setLinearHeadingInterpolation(Math.toRadians(90),Math.toRadians(66))
                 .build();
 
-        firstBall = follower.pathBuilder()
-                .addPath(new BezierLine(shootingPose, squareZone))
-                .setLinearHeadingInterpolation(Math.toRadians(112),Math.toRadians(90))
-                .addPath(new BezierLine(squareZone,squareZonePush))
-                .setConstantHeadingInterpolation(Math.toRadians(0))
+
+        firstBall2 = follower.pathBuilder()
+                .addPath(new BezierLine(shootingPose, squareZone2))
+                .setLinearHeadingInterpolation(Math.toRadians(66),Math.toRadians(135))
+                .addPath(new BezierLine(squareZone2,squareZone2Push))
+                .setConstantHeadingInterpolation(Math.toRadians(135))
+                .addPath(new BezierLine(squareZone2Push,squareZone2Control))
+                .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
+                .addPath(new BezierLine(squareZone2Control,squareZone2Control2))
+                .setConstantHeadingInterpolation(Math.toRadians(180))
+                .addPath(new BezierLine(squareZone2Control2,squareZone2Control))
+                .setConstantHeadingInterpolation(Math.toRadians(180))
                 .build();
 
         back1 = follower.pathBuilder()
-                .addPath(new BezierLine(squareZonePush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(90),Math.toRadians(112))
+                .addPath(new BezierLine(squareZone2Control, shootingPose))
+                .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(66))
                 .build();
 
         secondBall = follower.pathBuilder()
                 .addPath(new BezierLine(shootingPose, thirdLine))
-                .setLinearHeadingInterpolation(Math.toRadians(112),Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(66),Math.toRadians(180))
                 .addPath(new BezierLine(thirdLine,thirdPush))
-                .setConstantHeadingInterpolation(Math.toRadians(0))
+                .setConstantHeadingInterpolation(Math.toRadians(180))
                 .build();
 
         back2 = follower.pathBuilder()
                 .addPath(new BezierLine(thirdPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(112))
+                .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(66))
                 .build();
 
         parking = follower.pathBuilder()
                 .addPath(new BezierLine(shootingPose, park))
-                .setLinearHeadingInterpolation(Math.toRadians(112),Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(66),Math.toRadians(90))
                 .build();
-
     }
 
     @Override
@@ -116,78 +125,108 @@ public class RedFarAuto extends LinearOpMode {
 
 
     }
-    public void autonomousPathupdate(){
-        switch (pathState){
+    public void autonomousPathupdate() {
+        switch (pathState) {
+
             case 0:
-                follower.followPath(shoot);
-                sleep(2000);
-                stopper.lift();
-                flywheel.setVelocity(v);
-                sleep(1000);
-                stopper.lift();
-                intake.feed();
-                flywheel.setVelocity(v);
-                transfer.setPower();
-                sleep(4000);
                 stopper.block();
-                setPathState(100);
+                flywheel.setVelocity(v);
+                follower.followPath(shoot);
+                transfer.stop();
+                intake.feed();
+                stopper.block();
+                actionTimer.resetTimer();
+                setPathState(1);
                 break;
+
+
             case 1:
-                if (!follower.isBusy())
-                {
-                    follower.followPath(firstBall);
+                if (actionTimer.getElapsedTimeSeconds() > 1.5) {
+                    stopper.lift();
+                    transfer.setPower();
+                    setPathState(13);
+                }
+                break;
+
+            case 13:
+                if (actionTimer.getElapsedTimeSeconds() > 3.4) {
+                    stopper.block();
                     setPathState(2);
                 }
                 break;
+
             case 2:
-                if (!follower.isBusy())
-                {
-                    follower.followPath(back1);
+                if (!follower.isBusy()) {
+                    stopper.block();
+                    follower.followPath(firstBall2);
+                    follower.setMaxPower(0.5);
                     setPathState(3);
                 }
                 break;
-            // Case 3 and 4 depends on the alliance if they need the third line intake
+
             case 3:
-                if (!follower.isBusy())
-                {
-                    follower.followPath(secondBall);
+                if (!follower.isBusy()) {
+                    follower.followPath(back1);
+                    follower.setMaxPower(1);
                     setPathState(4);
                 }
                 break;
+
             case 4:
-                if (!follower.isBusy())
-                {
-                    follower.followPath(back2);
+                if (!follower.isBusy()) {
+                    stopper.lift();
+                    actionTimer.resetTimer();
+                    setPathState(14);
+                }
+                break;
+
+            case 14:
+                if (actionTimer.getElapsedTimeSeconds() > 2.0) {
+                    stopper.block();
                     setPathState(5);
                 }
                 break;
+
             case 5:
-                if (!follower.isBusy())
-                {
-                    follower.followPath(firstBall);
+                if (!follower.isBusy()) {
+                    follower.followPath(secondBall);
+                    follower.setMaxPower(0.5);
                     setPathState(6);
                 }
                 break;
+
             case 6:
-                if (!follower.isBusy())
-                {
-                    follower.followPath(back1);
+                if (!follower.isBusy()) {
+                    follower.followPath(back2);
+                    follower.setMaxPower(1);
                     setPathState(7);
                 }
                 break;
 
             case 7:
-                if (!follower.isBusy())
-                {
-                    follower.followPath(parking);
-                    setPathState(100);
+                if (!follower.isBusy()) {
+                    stopper.lift();
+                    actionTimer.resetTimer();
+                    setPathState(15);
                 }
                 break;
-            case 100:
-                intake.stop();
-                flywheel.setVelocity(0);
-                stopper.block();
-                transfer.stop();
+
+            case 15:
+                if (actionTimer.getElapsedTimeSeconds() > 2.0) {
+                    stopper.block();
+                    setPathState(8);
+                }
+                break;
+
+            case 8:
+                if (!follower.isBusy()) {
+                    flywheel.setVelocity(0);
+                    intake.stop();
+                    transfer.stop();
+                    follower.followPath(parking);
+                    follower.setMaxPower(1);
+                    setPathState(9);
+                }
                 break;
         }
     }
