@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeMecanum;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeOutake;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeStopper;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeTransfer;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator3;
 import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -23,7 +24,7 @@ public class LeCameraTest extends LinearOpMode {
     LeIntake intake;
     LeStopper stopper;
     GamepadEvents controller;
-    VelocityCalculator2 calculator;
+    VelocityCalculator3 calculator;
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
     double WEB_CAM_OFFSET = 6.0;
@@ -42,7 +43,7 @@ public class LeCameraTest extends LinearOpMode {
         flywheel = new LeOutake(hardwareMap);
         stopper = new LeStopper(hardwareMap);
         drive = new LeMecanum(hardwareMap);
-        calculator = new VelocityCalculator2();
+        calculator = new VelocityCalculator3();
         camera = new LogitechCam();
         camera.init(hardwareMap,telemetry);
         led = new LeLED(hardwareMap);
@@ -68,11 +69,11 @@ public class LeCameraTest extends LinearOpMode {
             {
                telemetry.addLine("Found AprilTag");
                 led.setColor(LeLED.Colors.PINK);
-            }else {
+            }else
+            {
                 telemetry.addLine("Nothing Found :(");
                 led.setColor(LeLED.Colors.BLUE);
             }
-
 
             drive.drive(-controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
 
@@ -88,7 +89,7 @@ public class LeCameraTest extends LinearOpMode {
 
             if(canShoot)
             {
-                flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+                flywheel.setVelocity(calculator.calculateAngularVelocityForTarget(camera.getHorizontalData(targetTag)));
             }
 
             if(controller.b.onPress())
@@ -96,13 +97,12 @@ public class LeCameraTest extends LinearOpMode {
                 stopper.toggle();
             }
 
-
             telemetry.addLine("Left bumper to toggle transfer and feed");
             telemetry.addLine("Press X to reverse transfer");
             telemetry.addLine("Press Right Bumper to toggle shooting");
             telemetry.addLine("Press B to toggle stopper");
             telemetry.addLine("DPAD UP to increase velocity\nDPAD DOWN to decrease velocity");
-            telemetry.addData("Estimated Velocity: ", calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+            telemetry.addData("Estimated Velocity: ", calculator.calculateAngularVelocityForTarget(camera.getHorizontalData(targetTag)));
             telemetry.addData("Horizontal Distance: ", camera.getHorizontalData(targetTag));
             telemetry.addData("Velocity: ", flywheel.getVelocity());
             telemetry.addData("Transfer Power: ", transfer.getData());

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.NewBot.Robot.NewBot;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 
-@TeleOp(name = "Blue Scrim TeleOP", group = "1")
+@TeleOp(name = "Blue TeleOP", group = "1")
 public class LeBlueTeleOP extends LinearOpMode {
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
@@ -31,8 +31,8 @@ public class LeBlueTeleOP extends LinearOpMode {
         {
 
             robot.drive(controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
-            robot.runShooter();
-            robot.leftLEDIndicator();
+//            robot.runShooter();
+//            robot.leftLEDIndicator();
             robot.rightLEDIndicator();
             robot.getData();
             robot.adJustFlywheel(controller2);
@@ -62,6 +62,12 @@ public class LeBlueTeleOP extends LinearOpMode {
                 robot.reverseShooter();
             }
 
+            if(controller1.y.onPress())
+            {
+                canAlign = !canAlign;
+            }
+
+            robot.AutoAlign(canAlign);
 
             telemetry.addLine(robot.getData());
             telemetry.update();

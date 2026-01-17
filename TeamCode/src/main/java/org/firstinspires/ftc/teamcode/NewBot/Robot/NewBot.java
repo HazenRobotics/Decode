@@ -30,8 +30,10 @@ public class NewBot {
     LeOutake flywheel;
     VelocityCalculator2 calculator;
     LeStopper stopper;
+    double bearingDeg;
     int TARGET_TAG_ID = 20;
     LeTransfer transfer;
+    double rotation = 1;
     public enum STATES
     {
         SHOOT, STORE, INTAKE
@@ -57,9 +59,9 @@ public class NewBot {
 
     public void drive(double x, double y, double r)
     {
-        drive.fieldCentricDrive(-y, x, r);
+        drive.fieldCentricDrive(-y, x, r * rotation);
     }
-
+    //Uncomment Potentially
     public void runShooter()
     {
         AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
@@ -81,21 +83,22 @@ public class NewBot {
         transfer.setPower();
     }
 
-    public void leftLEDIndicator()
-    {
-        camera.update();
-        AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
-        if(targetTag != null)
-        {
-
-            led.setleftLEDColor(LeLED.Colors.PINK);
-        }else {
-            led.setleftLEDColor(LeLED.Colors.BLUE);
-        }
-    }
+//    public void leftLEDIndicator()
+//    {
+//        camera.update();
+//        AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
+//        if(targetTag != null)
+//        {
+//
+//            led.setleftLEDColor(LeLED.Colors.PINK);
+//        }else {
+//            led.setleftLEDColor(LeLED.Colors.BLUE);
+//        }
+//    }
 
     public void rightLEDIndicator()
     {
+        //Pseudo Code
         if(calculator.checkIfDefaultValue())
         {
             led.setRightLEDColor(LeLED.Colors.ORANGE);
@@ -110,6 +113,7 @@ public class NewBot {
     {
         state = STATES.SHOOT;
         runShooter();
+        AutoAlign(false);
         transfer.setPower();
         intake.feed();
         stopper.lift();
@@ -149,6 +153,49 @@ public class NewBot {
         flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
     }
 
+    public void AutoAlign(boolean canAlign)
+    {
+        camera.update();
+        AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
+        if (canAlign)
+        {
+
+            // April Tag Notice
+            if (targetTag != null)
+            {
+                flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+                led.setleftLEDColor(LeLED.Colors.PINK);
+                bearingDeg = camera.getBearing(targetTag);
+
+                // Rotatating toward AprilTag while driver drives or strafes
+                if (bearingDeg > 5)
+                {
+
+                    drive.drive(0,0, 0.3);
+
+                }
+                else if (bearingDeg < 4)
+                {
+                    drive.drive(0,0, -0.3);
+
+                }
+                rotation = 0;
+
+
+            }else if(targetTag == null)
+            {
+                flywheel.setVelocity(calculator.setVelocityWhenItDoesNotSeeAPRIlTag());
+                led.setleftLEDColor(LeLED.Colors.YELLOW);
+            }
+
+        }else
+        {
+            flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+            rotation = 1;
+            led.setleftLEDColor(LeLED.Colors.BLUE);
+        }
+    }
+
     public void reverseShooter()
     {
         camera.update();
@@ -176,8 +223,10 @@ public class NewBot {
                 + "\nPress Right Bumper to toggle shooting and storing"
                 + "\n\"Press B to Reverse shooter"
                 + "\nDPAD UP to increase velocity\nDPAD DOWN to decrease velocity"
+                +"\nPress Y to AutoAlign"
                 + "\nVelocity: " + flywheel.getVelocity()
                 + "\nTransfer Power: " + transfer.getData()
+                +"\n Bearing Tag: "+ bearingDeg
                 +"\n Controller 2 Controls: "
                 +"\n Adjust FLywheel speed using up and down dpads";
     }

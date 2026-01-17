@@ -48,7 +48,8 @@ class ColorRangefinder {
      * Multiple thresholds can be added to the same pin by calling this function repeatedly.
      * For colors, bounds should be from 0-255, and for distance, bounds should be from 0-100 (mm).
      */
-    public void setPin0Digital(DigitalMode digitalMode, double lowerBound, double higherBound) {
+    public void setPin0Digital(DigitalMode digitalMode, double lowerBound, double higherBound)
+    {
         setDigital(PinNum.PIN0, digitalMode, lowerBound, higherBound);
     }
 
@@ -57,7 +58,8 @@ class ColorRangefinder {
      * Multiple thresholds can be added to the same pin by calling this function repeatedly.
      * For colors, bounds should be from 0-255, and for distance, bounds should be from 0-100 (mm).
      */
-    public void setPin1Digital(DigitalMode digitalMode, double lowerBound, double higherBound) {
+    public void setPin1Digital(DigitalMode digitalMode, double lowerBound, double higherBound)
+    {
         setDigital(PinNum.PIN1, digitalMode, lowerBound, higherBound);
     }
 
@@ -65,7 +67,8 @@ class ColorRangefinder {
      * Sets the maximum distance (in millimeters) within which an object must be located for Pin 0's thresholds to trigger.
      * This is most useful when we want to know if an object is both close and the correct color.
      */
-    public void setPin0DigitalMaxDistance(DigitalMode digitalMode, double mmRequirement) {
+    public void setPin0DigitalMaxDistance(DigitalMode digitalMode, double mmRequirement)
+    {
         setPin0Digital(digitalMode, mmRequirement, mmRequirement);
     }
 

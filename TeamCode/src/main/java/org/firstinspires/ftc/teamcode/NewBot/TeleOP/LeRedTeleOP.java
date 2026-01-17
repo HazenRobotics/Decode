@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@TeleOp(name = "Red Scrim TeleOP", group = "1 TungTungTungTesting")
+@TeleOp(name = "Red Scrim TeleOP", group = "1")
 public class LeRedTeleOP extends LinearOpMode {
 
     private Follower follower;
@@ -41,8 +41,8 @@ public class LeRedTeleOP extends LinearOpMode {
         while(opModeIsActive())
         {
            robot.drive(controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
-            robot.runShooter();
-            robot.leftLEDIndicator();
+//            robot.runShooter();
+//            robot.leftLEDIndicator();
             robot.rightLEDIndicator();
             robot.getData();
 
@@ -75,6 +75,13 @@ public class LeRedTeleOP extends LinearOpMode {
             {
                 robot.reverseShooter();
             }
+
+            if(controller.y.onPress())
+            {
+                canAlign = !canAlign;
+            }
+
+            robot.AutoAlign(canAlign);
 
             telemetry.addLine(robot.getData());
             telemetry.update();

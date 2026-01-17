@@ -9,6 +9,7 @@ public class LEDLights {
 
 
 
+    public static final double RED_WEIGHT = 0.25;
     public static final double ORANGE_WEIGHT = 0.3;
     public static final double YELLOW_WEIGHT = 0.35;
     public static final double LIME_WEIGHT = 0.5;

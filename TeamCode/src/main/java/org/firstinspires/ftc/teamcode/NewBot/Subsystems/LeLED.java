@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class LeLED {
     //TODO: One LED For Distance(First get the camera based distance better working)
     public enum Colors {
+        RED(0.25),
         ORANGE(0.3),
         YELLOW(0.35),
         LIME(0.5),
