@@ -6,10 +6,10 @@ public class VelocityCalculator {
     private static double targetHeight = 0.984; //target height in meters
     private static double offsetDistance = 0.15;//Combined offset distance of camera and from edge of goal (meters)
     private static double relativeHeight = targetHeight - launchHeight;
-
     private static double g = 9.81;//accelertaion due to gravity
 
-    public static double calculateInitialVelocity(double x) {
+    public static double calculateInitialVelocity(double x)
+    {
         // Convert theta from degrees to radians
         double thetaRad = Math.toRadians(launchAngle);
         double xDist = x+offsetDistance;
@@ -54,7 +54,6 @@ public class VelocityCalculator {
     {
         //using unit multiplication it should be (m/s)/m * 28 ticks/rev * 1 rev / 2pi
         //Issue with code is probably because our currently bot has a lot of friction
-
         return (calculateVelocityForTarget(horizontalDistance) / 0.043) * 28/ (Math.PI * 2);
     }
 

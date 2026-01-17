@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.NewBot.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeLED;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeOutake;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeStopper;
@@ -12,12 +13,14 @@ public class LeOutakeTester extends LinearOpMode {
     LeOutake flywheel;
     GamepadEvents controller;
     LeStopper stopper;
+    LeLED led;
     int velocity = 1200;
     @Override
     public void runOpMode() throws InterruptedException {
         flywheel = new LeOutake(hardwareMap);
         controller = new GamepadEvents(gamepad1);
         stopper = new LeStopper(hardwareMap);
+        led = new LeLED(hardwareMap);
 
         waitForStart();
         while(opModeIsActive())

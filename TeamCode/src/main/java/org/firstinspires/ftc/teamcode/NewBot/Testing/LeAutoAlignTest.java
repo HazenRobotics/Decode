@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@TeleOp(name = "LeAutoAlignTester", group = "1 TungTungTungTesting")
+@TeleOp(name = "LeAutoAlignOHIOTester", group = "1 TungTungTungTesting")
 public class LeAutoAlignTest extends LinearOpMode {
     LeTransfer transfer;
     LeOutake flywheel;
@@ -28,12 +28,13 @@ public class LeAutoAlignTest extends LinearOpMode {
     VelocityCalculator2 calculator;
     private Follower follower;
     private Pose pose = new Pose(0,0,0);
-    double WEB_CAM_OFFSET = 6.0;
+    double WEB_CAM_OFFSET = -6.0;
     boolean canAlign = false;
     boolean autoAlignLocked = false;
     double lockedX = 0;
     double lockedY = 0;
     double lockedHeading = 0;
+    double rotation = 0;
     Pose lockedPose = pose;
     LeLED led;
     LogitechCam camera;
@@ -56,15 +57,16 @@ public class LeAutoAlignTest extends LinearOpMode {
         led = new LeLED(hardwareMap);
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(pose);
+        follower.pathBuilder().build();
 
         waitForStart();
+        follower.startTeleopDrive();
+        follower.setPose(new Pose(0, 0, 0));
         while(opModeIsActive())
         {
 
-            follower.update();
             camera.update();
             AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
-
 
             if(controller.left_bumper.onPress())
             {
@@ -86,94 +88,89 @@ public class LeAutoAlignTest extends LinearOpMode {
             //(if Aligning & not see April Tag)
             //Read Dead Wheel Data and Adjust
 
-            // AUTO ALIGN
-            if (canAlign) {
+
+
+
+            if (canAlign)
+            {
 
                 // April Tag Notice
-                if (targetTag != null) {
-
-                    if (!autoAlignLocked)
-                    {
-                        Pose current = follower.getPose();
-
-                        follower.setPose(new Pose(
-                                current.getX(),
-                                current.getY(),
-                                0));
-
-                        lockedPose = follower.getPose();
-
-                        autoAlignLocked = true;
-                    }
+                if (targetTag != null)
+                {
 
                     led.setColor(LeLED.Colors.PINK);
-
                     double bearingDeg = camera.getBearing(targetTag);
 
                     // Rotatating toward AprilTag while driver drives or strafes
-                    if (bearingDeg > 1) {
-                        follower.turn(
-                                Math.toRadians(bearingDeg) + WEB_CAM_OFFSET,
-                                false
-                        );
+                    if (bearingDeg > 5)
+                    {
+
+                        drive.drive(0,0, -0.3);
+//                        follower.turn(
+//                                Math.toRadians(bearingDeg) + WEB_CAM_OFFSET,
+//                                false
+//                        );
                     }
-                    else if (bearingDeg < -1) {
-                        follower.turn(
-                                Math.toRadians(-bearingDeg) - WEB_CAM_OFFSET,
-                                true
-                        );
+                    else if (bearingDeg < 4)
+                    {
+                        drive.drive(0,0, 0.3);
+//                        follower.turn(
+//                                Math.toRadians(-bearingDeg) - WEB_CAM_OFFSET,
+//                                true
+//                        );
                     }
+                        rotation = 0;
 
                     telemetry.addData("AutoAlign", "TAG LOCKED");
                     telemetry.addData("Bearing", bearingDeg);
-                }
 
-                // Do not see AprilTag
-                else if (autoAlignLocked == false)
-                {
+
+                }else {
 
                     led.setColor(LeLED.Colors.YELLOW);
-
-                    //Null pointer exception in this
-                    double currentHeading = follower.getPose().getHeading();
-                    double targetHeading = lockedPose.getHeading();
-                    double headingError = targetHeading - currentHeading;
-
-                    //idk, I will try toRadians, as normal degrees had issues with the previous auto-Align
-                    if (headingError > Math.toRadians(1)) {
-                        follower.turn(Math.toRadians(headingError), false);
-                    }
-                    else if (headingError < -Math.toRadians(1)) {
-                        follower.turn(Math.toRadians(-headingError), true);
-                    }
-
-                    telemetry.addData("AutoAlign", "RECOVERING VIA DEAD WHEELS");
-                    telemetry.addData("Heading Error", headingError);
                 }
 
-                // Auto Align is disabeled
-                else {
-                    autoAlignLocked = false;
-                    follower.breakFollowing();
-                    led.setColor(LeLED.Colors.BLUE);
-                }
+            }else
+            {
+                rotation = 1;
+                led.setColor(LeLED.Colors.BLUE);
             }
 
-            //Driver Controls
-            if (canAlign && autoAlignLocked) {
-                follower.setTeleOpDrive(
-                        -controller.left_stick_y,
-                        controller.left_stick_x,
-                        0,
-                        false);
-            } else {
-                follower.setTeleOpDrive(
-                        -controller.left_stick_y,
-                        controller.left_stick_x,
-                        controller.right_stick_x,
-                        false
-                );
-            }
+
+//            else if (targetTag == null)
+//            //Not see April Ta
+//            {
+//
+//                led.setColor(LeLED.Colors.YELLOW);
+//
+//                //Null pointer exception in this
+//                double currentHeading = follower.getPose().getHeading();
+//                double targetHeading = lockedPose.getHeading();
+//                double headingError = targetHeading - currentHeading;
+//
+//                //idk, I will try toRadians, as normal degrees had issues with the previous auto-Align
+//                if (headingError > Math.toRadians(1))
+//                {
+//                    follower.turn(Math.toRadians(headingError), false);
+//                }
+//                else if (headingError < Math.toRadians(1))
+//                {
+//                    follower.turn(Math.toRadians(-headingError), true);
+//                }
+//
+//                telemetry.addData("AutoAlign", "RECOVERING VIA DEAD WHEELS");
+//                telemetry.addData("Heading Error", headingError);
+//            }// Auto Align is disabeled
+//            else
+//            {
+//                autoAlignLocked = false;
+//                follower.breakFollowing();
+//                led.setColor(LeLED.Colors.BLUE);
+//            }
+
+
+
+            drive.drive(-controller.left_stick_y, controller.left_stick_x, controller.right_stick_x * rotation);
 
 
 
@@ -219,7 +216,11 @@ public class LeAutoAlignTest extends LinearOpMode {
             telemetry.addData("Horizontal Distance: ", camera.getHorizontalData(targetTag));
             telemetry.addData("Velocity: ", flywheel.getVelocity());
             telemetry.addData("Transfer Power: ", transfer.getData());
+            if (targetTag != null) {
+                telemetry.addData("Camera rotation", camera.getBearing(targetTag));
+            }
 
+            follower.update();
             telemetry.update();
             controller.update();
         }

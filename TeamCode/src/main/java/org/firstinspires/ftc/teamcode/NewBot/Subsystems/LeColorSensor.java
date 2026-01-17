@@ -30,11 +30,11 @@ public class LeColorSensor {
 // pin1 = green
         if (col0)
         {
-            return ColorSensor.Color.Purple;
+            return ColorSensor.Color.BLUE;
         }
         else if(col1)
         {
-            return ColorSensor.Color.Green;
+            return ColorSensor.Color.RED;
         }
         return ColorSensor.Color.None;
     }
