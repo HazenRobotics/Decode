@@ -8,7 +8,7 @@ public class VelocityCalculator2 {
     public enum Quadrant {
         DEFAULT, NEAR, FAR
     }
-    public static double[] distances = {900, 975, 1125, 1300};
+    public double[] distances = {1080, 1080, 1080, 1450};
     private boolean isDefaultValue = false;
 
     public Quadrant state = Quadrant.DEFAULT;

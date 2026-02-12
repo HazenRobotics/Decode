@@ -13,6 +13,7 @@ public class LeIntake {
 
     private String name = "intake";
     private boolean isFeed = true;
+    private double reverse = 1;
 
     public LeIntake(HardwareMap hw)
     {
@@ -26,7 +27,12 @@ public class LeIntake {
 
     public void feed()
     {
-        intake.setPower(0.9);
+        intake.setPower(0.9 * reverse);
+    }
+
+    public void reverse()
+    {
+        reverse *= -1;
     }
 
     public void stop()

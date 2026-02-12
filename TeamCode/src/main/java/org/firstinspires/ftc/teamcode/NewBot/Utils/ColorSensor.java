@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class ColorSensor
 {
     private final ElapsedTime detectionTimer = new ElapsedTime();
-    private static final double DELAY_IN_SECONDS = 1.0;
+    private static final double DELAY_IN_SECONDS = 0.05;
     public enum Color
     {
         RED,
@@ -21,7 +21,6 @@ public class ColorSensor
     public ColorSensor(HardwareMap hw)
     {
         this(hw, "color0", "color1", "Color", "color2", "color3", "Color2");
-
     }
 
     public ColorSensor(HardwareMap hw, String pin0Name, String pin1Name, String crfName, String pin2Name, String pin3Name, String crf2Name)
@@ -48,12 +47,12 @@ public class ColorSensor
         if (col0)
         {
             detectionTimer.reset();
-            return Color.BLUE;
+            return Color.RED;
         }
         else if(col1)
         {
             detectionTimer.reset();
-            return Color.RED;
+            return Color.BLUE;
         }
         return Color.None;
     }
@@ -69,12 +68,12 @@ public class ColorSensor
         {
             return Color.None;
         }
-        if (col0)
+        if (col1)
         {
             detectionTimer.reset();
             return Color.BLUE;
         }
-        else if(col1)
+        else if(col0)
         {
             detectionTimer.reset();
             return Color.RED;

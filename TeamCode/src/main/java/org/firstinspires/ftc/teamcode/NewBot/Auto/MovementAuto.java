@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeMecanum;
 
-@Autonomous(name = "Just Move")
+//@Autonomous(name = "Just Move")
 public class MovementAuto extends LinearOpMode {
     LeMecanum drive;
     @Override

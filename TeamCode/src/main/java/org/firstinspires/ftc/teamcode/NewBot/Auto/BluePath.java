@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
-@Autonomous(name = "BluePathTest")
+//@Autonomous(name = "BluePathTest")
 public class BluePath extends LinearOpMode {
     private int pathState;
     private Follower follower;

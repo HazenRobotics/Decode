@@ -32,6 +32,11 @@ public class LeLED {
         leftLed = hw.get(Servo.class, leftName);
         rightLed = hw.get(Servo.class, rightName);
     }
+    //A bit lazy, will improve code quality later
+    public void setColor(double weight) {
+        leftLed.setPosition(weight);
+        rightLed.setPosition(weight);
+    }
 
     public void setColor(Colors color) {
         leftLed.setPosition(color.weight);

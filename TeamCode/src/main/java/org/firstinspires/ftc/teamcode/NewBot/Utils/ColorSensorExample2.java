@@ -12,25 +12,37 @@ public class ColorSensorExample2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ColorRangefinder crf = new ColorRangefinder(hardwareMap.get(RevColorSensorV3.class, "Color"));
-        //      ColorSensor colorSensor = new ColorSensor(hardwareMap);
+        ColorSensor colorSensor = new ColorSensor(hardwareMap);
         waitForStart();
         /* Using this example configuration, you can detect both artifact colors based on which pin is reading true:
             pin0 --> purple
             pin1 --> green */
 
         // Changed to 20 instead of 10
-        crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 160 / 360.0 * 255, 190 / 360.0 * 255); // purple
-        crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 30); // 10mm or closer requirement
-        crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 110 / 360.0 * 255, 140 / 360.0 * 255); // green
-        crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 30); // 10mm or closer requirement
 
+        // Pin 0: Red
+// Red is at 0 degrees (can also wrap around to 360).
+// Range: 350 to 10 degrees (translated to 0-255 scale)
+        // Red low side: 0° → 10°
+        crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, -15, 0);
+        crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 30);
 
-//        while(opModeIsActive()) {
-//            telemetry.addData("Color Enum", colorSensor.getColor());
-//        }
-//        stop();
+// Pin 1: Blue
+// Blue is centered around 240 degrees.
+// Range: 220 to 260 degrees
+        crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 180, 270);
+        crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 30);
+        while(opModeIsActive()) {
+            telemetry.addData("Color Enum", colorSensor.getColor());
+        }
+        stop();
     }
 }
+//Purple and Green
+//        crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 160 / 360.0 * 255, 190 / 360.0 * 255);purple
+//        crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 30); // 10mm or closer requirement
+//        crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 110 / 360.0 * 255, 140 / 360.0 * 255); // green
+//        crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 30); // 10mm or closer requirement
 /**
  * Helper class for configuring the Brushland Labs Color Rangefinder.
  * Online documentation: <a href="https://docs.brushlandlabs.com">...</a>
