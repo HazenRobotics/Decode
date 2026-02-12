@@ -37,34 +37,46 @@ public class ParkColorSensorTest extends LinearOpMode {
                 park = !park;
             }
 
-            if(park)
+            if(color == ColorSensor.Color.RED && color2 == ColorSensor.Color.RED)
             {
-                if(color == ColorSensor.Color.None && color2 == ColorSensor.Color.None)
-                {
-                    drive.drive(0.1, -0.1, 0);
-                    led.setColor(LeLED.Colors.PURPLE);
-                }else if(color == ColorSensor.Color.None)
-                {
-                    drive.drive(0, -0.1, 0);
-                    led.setColor(LeLED.Colors.PURPLE);
-                }else if(color2 == ColorSensor.Color.None)
-                {
-                    led.setColor(LeLED.Colors.PURPLE);
-                    drive.drive(0.1, 0, 0);
-                }else {
-                    led.setColor(LeLED.Colors.RED);
-                    drive.drive(0, 0, 0);
-                }
+                led.setColor(LeLED.Colors.ORANGE);
+            }else if(color == ColorSensor.Color.RED)
+            {
+                led.setColor(LeLED.Colors.YELLOW);
             }else {
-                drive.drive(
-                        -controller.left_stick_y,
-                        controller.left_stick_x,
-                        controller.right_stick_x
-                );
+                led.setColor(LeLED.Colors.GREEN);
             }
+
+
+//            if(park)
+//            {
+//                if(color == ColorSensor.Color.None && color2 == ColorSensor.Color.None)
+//                {
+////                    drive.drive(0.1, -0.1, 0);
+//                    led.setColor(LeLED.Colors.PURPLE);
+//                }else if(color == ColorSensor.Color.None)
+//                {
+////                    drive.drive(0, -0.1, 0);
+//                    led.setColor(LeLED.Colors.PURPLE);
+//                }else if(color2 == ColorSensor.Color.None)
+//                {
+//                    led.setColor(LeLED.Colors.PURPLE);
+////                    drive.drive(0.1, 0, 0);
+//                }else if(color == ColorSensor.Color.RED){
+//                    led.setColor(LeLED.Colors.RED);
+////                    drive.drive(0, 0, 0);
+//                }
+//            }else {
+////                drive.drive(
+////                        -controller.left_stick_y,
+////                        controller.left_stick_x,
+////                        controller.right_stick_x
+////                );
+//            }
 
             telemetry.addLine("Press left bumper to Park");
             telemetry.addData("Color Sensor Color:", colorSensor.getColor());
+            telemetry.addData("Secondary Color:", colorSensor.getSecondaryColor());
             controller.update();
 //            follower.update();
             telemetry.update();

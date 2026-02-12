@@ -48,8 +48,7 @@ public class ColorSensorTester extends LinearOpMode {
                     break;
             }
 
-
-            telemetry.addData("Color", colorSensor.getColor());
+            telemetry.addData("Color", colorSensor.getSecondaryColor());
             telemetry.addData("Pin0", colorSensor.getPin0().getState());
             telemetry.addData("Pin1", colorSensor.getPin1().getState());
             telemetry.addData("Count: ", count);

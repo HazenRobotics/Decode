@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@TeleOp(name = "Red Scrim TeleOP", group = "1")
+@TeleOp(name = "Red Comp TeleOP", group = "2")
 public class LeRedTeleOP extends LinearOpMode {
 
     private Follower follower;
@@ -26,47 +26,48 @@ public class LeRedTeleOP extends LinearOpMode {
     double WEB_CAM_OFFSET = 6.0;
     boolean canAlign = false;
     boolean isShooterReversed = false;
-    GamepadEvents controller;
+    GamepadEvents controller1, controller2;
     @Override
     public void runOpMode() throws InterruptedException
     {
-        controller = new GamepadEvents(gamepad1);
+        controller1 = new GamepadEvents(gamepad1);
+        controller2 = new GamepadEvents(gamepad1);
         NewBot robot = new NewBot(hardwareMap, telemetry, 24);
 //        follower = Constants.createFollower(hardwareMap);
 //        follower.setStartingPose(startPose);
-
+        robot.adJustFlywheel(controller2);
 
         waitForStart();
         robot.store();
         while(opModeIsActive())
         {
-           robot.drive(controller.left_stick_y, controller.left_stick_x, controller.right_stick_x);
+           robot.drive(controller1.left_stick_y, controller1.left_stick_x, -controller1.right_stick_x);
 //            robot.runShooter();
 //            robot.leftLEDIndicator();
             robot.rightLEDIndicator();
             robot.getData();
+            robot.adJustFlywheel(controller2);
 
-            if(controller.left_bumper.onPress())
+            if(controller1.left_bumper.onPress())
             {
                 robot.intake();
             }
 
-            if(controller.right_bumper.onPress())
+            if(controller1.right_bumper.onPress())
             {
                 robot.shoot();
             }
 
-            if(controller.y.onPress())
-            {
-                robot.store();
-            }
-
-            if(controller.x.onPress())
+            if(controller2.y.onPress())
             {
                 robot.reverseTransfer();
             }
+            if(controller2.y.onPress())
+            {
+                robot.reverseIntake();
+            }
 
-            if(controller.b.onPress())
+            if(controller1.b.onPress())
             {
                 isShooterReversed = !isShooterReversed;
             }
@@ -76,7 +77,7 @@ public class LeRedTeleOP extends LinearOpMode {
                 robot.reverseShooter();
             }
 
-            if(controller.y.onPress())
+            if(controller1.y.onPress())
             {
                 canAlign = !canAlign;
             }
@@ -85,7 +86,7 @@ public class LeRedTeleOP extends LinearOpMode {
 
             telemetry.addLine(robot.getData());
             telemetry.update();
-            controller.update();
+            controller1.update();
         }
     }
 }

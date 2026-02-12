@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeCameraServo;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeMecanum;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeOutake;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeStopper;
 import org.firstinspires.ftc.teamcode.NewBot.Subsystems.LeTransfer;
+import org.firstinspires.ftc.teamcode.NewBot.Utils.ColorSensor;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.GamepadEvents;
 import org.firstinspires.ftc.teamcode.NewBot.Utils.VelocityCalculator2;
 import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
@@ -34,6 +36,8 @@ public class NewBot {
     int TARGET_TAG_ID = 20;
     LeTransfer transfer;
     double rotation = 1;
+    double weight = 0.25;
+    double velocity = 1200;
     public enum STATES
     {
         SHOOT, STORE, INTAKE
@@ -57,20 +61,23 @@ public class NewBot {
         controller2 = new GamepadEvents(gamepad2);
     }
 
+
     public void drive(double x, double y, double r)
     {
-        drive.fieldCentricDrive(-y, x, r * rotation);
+        drive.drive(x, -y, -r * rotation);
     }
-    //Uncomment Potentially
+
     public void runShooter()
     {
         AprilTagDetection targetTag = camera.getTagBySpecificId(TARGET_TAG_ID);
         if(targetTag == null)
         {
-            flywheel.setVelocity(calculator.setVelocityWhenItDoesNotSeeAPRIlTag());
+//            flywheel.setVelocity(calculator.setVelocityWhenItDoesNotSeeAPRIlTag());
+            flywheel.setVelocity(velocity);
         }else
         {
-            flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+//            flywheel.setVelocity(calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
+            flywheel.setVelocity(velocity);
         }
 
     }
@@ -79,6 +86,7 @@ public class NewBot {
     {
         state = STATES.INTAKE;
         intake.feed();
+        flywheel.setVelocity(velocity);
         stopper.block();
         transfer.setPower();
     }
@@ -99,13 +107,7 @@ public class NewBot {
     public void rightLEDIndicator()
     {
         //Pseudo Code
-        if(calculator.checkIfDefaultValue())
-        {
-            led.setRightLEDColor(LeLED.Colors.ORANGE);
-        }else
-        {
-            led.setRightLEDColor(LeLED.Colors.GREEN);
-        }
+        led.setRightLEDColor(LeLED.Colors.ORANGE);
     }
 
 
@@ -113,7 +115,7 @@ public class NewBot {
     {
         state = STATES.SHOOT;
         runShooter();
-        AutoAlign(false);
+//        AutoAlign(false);
         transfer.setPower();
         intake.feed();
         stopper.lift();
@@ -123,25 +125,74 @@ public class NewBot {
     {
         if(state == STATES.INTAKE)
         {
-            store();
+            shoot();
         }else if(state == STATES.SHOOT)
         {
-            intake();
-        }else if(state == STATES.STORE)
+            store();
+        }
+        else if(state == STATES.STORE)
         {
             intake();
         }
     }
 
+    //May have to move ElapsedTIme to TeleOP to fix LED issue
+    public void ledCrazy()
+    {
+
+        if(weight <= 0.8)
+        {
+
+                weight += 0.05;
+                led.setColor(weight);
+        }else {
+            weight = 0.25;
+            led.setColor(weight);
+        }
+
+    }
+
+    public void toggleLED()
+    {
+        if(state == STATES.INTAKE)
+        {
+            led.setColor(LeLED.Colors.BLUE);
+        }else if(state == STATES.SHOOT)
+        {
+            led.setColor(LeLED.Colors.PINK);
+        }
+        else if(state == STATES.STORE)
+        {
+            led.setColor(LeLED.Colors.GREEN);
+        }
+    }
+
+    public void parkLed(LeLED.Colors color)
+    {
+        led.setColor(color);
+        led.setRightLEDColor(color);
+        led.setleftLEDColor(color);
+    }
+
+    public void greenLed()
+    {
+        led.setRightLEDColor(LeLED.Colors.GREEN);
+    }
     public void reverseTransfer()
     {
         transfer.reverseMotor();
+    }
+
+    public void reverseIntake()
+    {
+        intake.reverse();
     }
 
     public void store()
     {
         state = STATES.STORE;
         intake.stop();
+        flywheel.setVelocity(0);
         transfer.stop();
         stopper.block();
     }
@@ -203,17 +254,23 @@ public class NewBot {
         flywheel.setVelocity(-calculator.calculateVelocityForTarget(camera.getHorizontalData(targetTag)));
     }
 
+    public void adJustFlywheel(double value)
+    {
+//        calculator.adjustDistance(value);
+        velocity += value;
 
+    }
+    //No workie now :(
     public void adJustFlywheel(GamepadEvents controller)
     {
         if(controller.dpad_up.onPress())
         {
-            calculator.adjustDistance(5);
+            calculator.adjustDistance(50);
         }
 
         if(controller.dpad_down.onPress())
         {
-            calculator.adjustDistance(-5);
+            calculator.adjustDistance(-50);
         }
     }
 
@@ -228,7 +285,10 @@ public class NewBot {
                 + "\nTransfer Power: " + transfer.getData()
                 +"\n Bearing Tag: "+ bearingDeg
                 +"\n Controller 2 Controls: "
-                +"\n Adjust FLywheel speed using up and down dpads";
+                +"\n Right Bumper to toggle Green and Orange: "
+                +"\n Adjust FLywheel speed using up and down dpads"
+        +"\n X to Reverse Transfer"
+        +"\n Y to Reverse Intake";
     }
 
 

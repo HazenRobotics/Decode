@@ -20,9 +20,9 @@ import org.firstinspires.ftc.teamcode.NewBot.Vision.LogitechCam;
 import org.firstinspires.ftc.teamcode.NewBot.pedroPathing.Constants;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@Autonomous(name = "Blue Far Auto")
-public class BlueFarAuto extends LinearOpMode {
-    private final double v = 1450;
+@Autonomous(name = "Six Blue Far Auto")
+public class SixBlueFarAuto extends LinearOpMode {
+    private final double v = 1400;
     int TARGET_TAG_ID = 20;
     LeMecanum drive;
     LogitechCam camera;
@@ -40,35 +40,35 @@ public class BlueFarAuto extends LinearOpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private final Pose startPose = new Pose(63.23478260869565,8.13913043478261,Math.toRadians(90));
     //Shooting position
-    private final Pose shootingPose = new Pose(63.23478260869565,18.365217391304338,Math.toRadians(112));
-    private final Pose squareZone = new Pose(9.6,23.37391304347826,Math.toRadians(90));
-    private final Pose squareZonePush = new Pose(9.6,8.5,Math.toRadians(90));
+    private final Pose shootingPose = new Pose(63.23478260869565,18.365217391304338,Math.toRadians(106));
+    private final Pose squareZone = new Pose(8.5,23.37391304347826,Math.toRadians(90));
+    private final Pose squareZonePush = new Pose(8.5,8.1,Math.toRadians(90));
     private final Pose squareZone2 = new Pose(8.5,21,Math.toRadians(45));
-    private final Pose squareZone2Push = new Pose(8.5,9.7,Math.toRadians(45));
-    private final Pose squareZone2Control = new Pose(8.5,8.2, Math.toRadians(0));
-    private final Pose squareZone2Control2 = new Pose(10,8.2, Math.toRadians(0));
+    private final Pose squareZone2Push = new Pose(8.2,9.5,Math.toRadians(45));
+    private final Pose squareZone2Control = new Pose(8.2,8.0, Math.toRadians(0));
+    private final Pose squareZone2Control2 = new Pose(10,8.0, Math.toRadians(0));
 
 
     private final Pose thirdLine = new Pose(42.321739130434786,33,Math.toRadians(0));
     private final Pose thirdPush = new Pose(7.6,33,Math.toRadians(0));
-    private final Pose park = new Pose(57.04347826086956,39.8608695652174, Math.toRadians(90));
+    private final Pose park = new Pose(30,8.13913043478261, Math.toRadians(90));
     private PathChain shoot, firstBall, firstBall2, back1, secondBall, push2, back2, parking;
     public void buildPaths(){
         shoot = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(90),Math.toRadians(112))
+                .setLinearHeadingInterpolation(Math.toRadians(90),Math.toRadians(106))
                 .build();
 
         firstBall = follower.pathBuilder()
                 .addPath(new BezierLine(shootingPose, squareZone))
-                .setLinearHeadingInterpolation(Math.toRadians(112),Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(106),Math.toRadians(90))
                 .addPath(new BezierLine(squareZone,squareZonePush))
                 .setConstantHeadingInterpolation(Math.toRadians(90))
                 .build();
 
         firstBall2 = follower.pathBuilder()
                 .addPath(new BezierLine(shootingPose, squareZone2))
-                .setLinearHeadingInterpolation(Math.toRadians(112),Math.toRadians(45))
+                .setLinearHeadingInterpolation(Math.toRadians(106),Math.toRadians(45))
                 .addPath(new BezierLine(squareZone2,squareZone2Push))
                 .setConstantHeadingInterpolation(Math.toRadians(45))
                 .addPath(new BezierLine(squareZone2Push,squareZone2Control))
@@ -81,24 +81,24 @@ public class BlueFarAuto extends LinearOpMode {
 
         back1 = follower.pathBuilder()
                 .addPath(new BezierLine(squareZone2Control, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(90),Math.toRadians(112))
+                .setLinearHeadingInterpolation(Math.toRadians(90),Math.toRadians(106))
                 .build();
 
         secondBall = follower.pathBuilder()
                 .addPath(new BezierLine(shootingPose, thirdLine))
-                .setLinearHeadingInterpolation(Math.toRadians(112),Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(106),Math.toRadians(0))
                 .addPath(new BezierLine(thirdLine,thirdPush))
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
         back2 = follower.pathBuilder()
                 .addPath(new BezierLine(thirdPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(112))
+                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(106))
                 .build();
 
         parking = follower.pathBuilder()
                 .addPath(new BezierLine(shootingPose, park))
-                .setLinearHeadingInterpolation(Math.toRadians(112),Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(106),Math.toRadians(90))
                 .build();
 
     }
@@ -167,27 +167,30 @@ public class BlueFarAuto extends LinearOpMode {
 
 
             case 1:
-                if (actionTimer.getElapsedTimeSeconds() > 1.5) {
+                if(!follower.isBusy()) {
+                    sleep(2000);
                     stopper.lift();
+                    intake.feed();
                     transfer.setPower();
+                    sleep(3000);
                     setPathState(13);
                 }
                 break;
 
             case 13:
-                if (!follower.isBusy()) {
+                if(!follower.isBusy()) {
                     stopper.block();
                     setPathState(2);
                 }
                 break;
 
             case 2:
-                    if (!follower.isBusy()) {
-                            stopper.block();
-                            follower.followPath(firstBall2);
-                            follower.setMaxPower(0.5);
-                        setPathState(3);
-                    }
+                if (!follower.isBusy()) {
+                        stopper.block();
+                        follower.followPath(firstBall);
+                        follower.setMaxPower(0.6);
+                    setPathState(3);
+                }
                 break;
 
             case 3:
@@ -201,48 +204,33 @@ public class BlueFarAuto extends LinearOpMode {
             case 4:
                 if (!follower.isBusy()) {
                     stopper.lift();
-                    actionTimer.resetTimer();
-                    setPathState(14);
+                    sleep(2000);
+                    setPathState(8);
                 }
                 break;
 
             case 14:
-                if (actionTimer.getElapsedTimeSeconds() > 2.0) {
+                if(!follower.isBusy()) {
                     stopper.block();
-                    setPathState(5);
-                }
-                break;
-
-            case 5:
-                if (!follower.isBusy()) {
-                    follower.followPath(secondBall);
+                    follower.followPath(firstBall);
                     follower.setMaxPower(0.5);
-                    setPathState(6);
+                    setPathState(19);
                 }
                 break;
 
-            case 6:
-                if (!follower.isBusy()) {
-                    follower.followPath(back2);
+            case 19:
+                if(!follower.isBusy()){
+                    follower.followPath(back1);
                     follower.setMaxPower(1);
-                    setPathState(7);
+                    setPathState(17);
                 }
-                break;
 
-            case 7:
-                if (!follower.isBusy()) {
+            case 17:
+                if(!follower.isBusy()){
                     stopper.lift();
-                    actionTimer.resetTimer();
-                    setPathState(15);
-                }
-                break;
-
-            case 15:
-                if (actionTimer.getElapsedTimeSeconds() > 2.0) {
-                    stopper.block();
+                    sleep(2000);
                     setPathState(8);
                 }
-                break;
 
             case 8:
                 if (!follower.isBusy()) {
